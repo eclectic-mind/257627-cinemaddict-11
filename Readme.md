@@ -1,7 +1,7 @@
 # Личный проект «Киноман» [![Build status][travis-image]][travis-url]
 
 * Студент: [Мария Королькова](https://up.htmlacademy.ru/ecmascript/11/user/257627).
-* Наставник: `Неизвестно`.
+* Наставник: [Семён Якушев](https://up.htmlacademy.ru/ecmascript/11/user1118791).
 
 ---
 

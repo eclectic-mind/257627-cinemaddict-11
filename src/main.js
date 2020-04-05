@@ -247,15 +247,15 @@ const render = (container, markup, place) => {
 
 const addNode = (tagName, classes, parent) => {
   let node = document.createElement(tagName);
-  node.classList.add(classes.join(''));
+  node.classList.add(classes.join(``));
   return parent.appendChild(node);
 };
 
-const addNodeBefore = (tagName, classes, parent, place) => {
+/* const addNodeBefore = (tagName, classes, parent) => {
   let node = document.createElement(tagName);
-  node.classList.add(classes.join(''));
+  node.classList.add(classes.join(``));
   return parent.prepend(node);
-};
+}; */
 
 const userRank = makeUserRank();
 const menu = makeMenu();
@@ -273,7 +273,7 @@ render(header, userRank, `beforeend`);
 render(pageMain, menu, `afterbegin`);
 render(pageMain, sort, `beforeend`);
 render(statsContainer, stats, `afterbegin`);
-// render(pageMain, details, `afterend`);
+render(pageMain, details, `afterend`);
 
 let films = addNode(`section`, [`films`], pageMain);
 let filmsList = addNode(`section`, [`films-list`], films);

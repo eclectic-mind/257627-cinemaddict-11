@@ -2,9 +2,6 @@
 
 const CARDS_QUANTITY = 5;
 const CARDS_QUANTITY_RATINGS = 2;
-const FILMS_TITLE = `All movies. Upcoming`;
-const MOST_TITLE = `Most commented`;
-const TOP_TITLE = `Top rated`;
 
 const makeUserRank = () => {
   return (
@@ -275,18 +272,6 @@ const makeMostFilmsContent = () => {
 const render = (container, markup, place) => {
   container.insertAdjacentHTML(place, markup);
 };
-
-/* const addNode = (tagName, classes, parent) => {
-  let node = document.createElement(tagName);
-  node.classList.add(classes.join(``));
-  return parent.appendChild(node);
-}; */
-
-/* const addNodeBefore = (tagName, classes, parent) => {
-  let node = document.createElement(tagName);
-  node.classList.add(classes.join(``));
-  return parent.prepend(node);
-}; */
 
 const userRank = makeUserRank();
 const menu = makeMenu();

@@ -2,9 +2,6 @@
 
 const CARDS_QUANTITY = 5;
 const CARDS_QUANTITY_RATINGS = 2;
-const FILMS_TITLE = `All movies. Upcoming`;
-const MOST_TITLE = `Most commented`;
-const TOP_TITLE = `Top rated`;
 
 const makeUserRank = () => {
   return (
@@ -241,21 +238,40 @@ const makeStats = () => {
   );
 };
 
+const makeFilmsContent = () => {
+  return (
+    `<section class="films-list">
+      <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
+      <div class="films-list__container">
+      </div>
+    </section>`
+  );
+};
+
+
+const makeTopFilmsContent = () => {
+  return (
+    `<section class="films-list--extra">
+      <h2 class="films-list__title">Top rated</h2>
+      <div class="films-list__container">
+      </div>
+    </section>`
+  );
+};
+
+const makeMostFilmsContent = () => {
+  return (
+    `<section class="films-list--extra">
+      <h2 class="films-list__title">Most commented</h2>
+      <div class="films-list__container">
+      </div>
+    </section>`
+  );
+};
+
 const render = (container, markup, place) => {
   container.insertAdjacentHTML(place, markup);
 };
-
-const addNode = (tagName, classes, parent) => {
-  let node = document.createElement(tagName);
-  node.classList.add(classes.join(``));
-  return parent.appendChild(node);
-};
-
-/* const addNodeBefore = (tagName, classes, parent) => {
-  let node = document.createElement(tagName);
-  node.classList.add(classes.join(``));
-  return parent.prepend(node);
-}; */
 
 const userRank = makeUserRank();
 const menu = makeMenu();
@@ -275,26 +291,30 @@ render(pageMain, sort, `beforeend`);
 render(statsContainer, stats, `afterbegin`);
 render(pageMain, details, `afterend`);
 
-let films = addNode(`section`, [`films`], pageMain);
-let filmsList = addNode(`section`, [`films-list`], films);
-let filmsTitle = addNode(`h2`, [`films-list__title`, `visually-hidden`], filmsList);
-filmsTitle.innerHTML = FILMS_TITLE;
-let filmsContainer = addNode(`div`, [`films-list__container`], filmsList);
+let films = document.createElement(`section`);
+films.classList.add(`films`);
+pageMain.appendChild(films);
+
+let filmsContent = makeFilmsContent();
+let filmsTopContent = makeTopFilmsContent();
+let filmsMostContent = makeMostFilmsContent();
+
+render(films, filmsContent, `afterbegin`);
+
+const filmsContainer = document.querySelectorAll(`.films-list__container`)[0];
 for (let i = 0; i < CARDS_QUANTITY; i += 1) {
   render(filmsContainer, card, `afterbegin`);
 }
-render(filmsList, button, `beforeend`);
+render(filmsContainer, button, `afterend`);
 
-const topRated = addNode(`section`, [`films-list--extra`], filmsList);
-const topContainer = addNode(`div`, [`films-list__container`], topRated);
-let topTitle = addNode(`h2`, [`films-list__title`], topRated);
-topTitle.textContent = TOP_TITLE;
+render(films, filmsTopContent, `beforeend`);
+const filmsTopContainer = document.querySelectorAll(`.films-list__container`)[1];
 for (let i = 0; i < CARDS_QUANTITY_RATINGS; i += 1) {
-  render(topContainer, card, `beforeend`);
+  render(filmsTopContainer, card, `beforeend`);
 }
 
-const mostCommented = topRated.cloneNode(true);
-filmsList.appendChild(mostCommented);
-
-let mostTitle = document.querySelectorAll(`.films-list__title`)[1];
-mostTitle.innerHTML = MOST_TITLE;
+render(films, filmsMostContent, `beforeend`);
+const filmsMostContainer = document.querySelectorAll(`.films-list__container`)[2];
+for (let i = 0; i < CARDS_QUANTITY_RATINGS; i += 1) {
+  render(filmsMostContainer, card, `beforeend`);
+}

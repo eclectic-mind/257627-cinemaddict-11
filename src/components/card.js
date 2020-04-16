@@ -3,12 +3,12 @@ import {BRIEF_MAX} from './constants.js';
 
 export const makeCard = (movie) => {
   const {title, original, description, poster, genre, duration, date, comments, country, producer, screenwriters, cast, rating, age} = movie;
-  const year = 1980; // date.getFullYear();
+  const year = date.getFullYear();
   const durationFormatted = formatDuration(duration);
   const brief = description > BRIEF_MAX ? cutText(description, BRIEF_MAX) : description;
 
   return (
-    ` <article class="film-card">
+    `<article class="film-card">
           <h3 class="film-card__title">${title}</h3>
           <p class="film-card__rating">${rating}</p>
           <p class="film-card__info">

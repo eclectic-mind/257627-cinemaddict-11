@@ -12,8 +12,7 @@ import {makeDetails} from './components/details.js';
 import {makeStats} from './components/stats.js';
 import {makeTopFilmsContent} from './components/top.js';
 import {makeMostFilmsContent} from './components/most.js';
-
-import {generateMovie, generateMovies} from "./mock/data.js";
+import {generateMovie, generateMovies} from './mock/data.js';
 
 const userRank = makeUserRank();
 const menu = makeMenu();
@@ -24,12 +23,14 @@ const sort = makeSort();
 const stats = makeStats();
 const films = makeFilms();
 const filmsContent = makeFilmsContent();
-// const filmsTopContent = makeTopFilmsContent();
-// const filmsMostContent = makeMostFilmsContent();
+const filmsTopContent = makeTopFilmsContent();
+const filmsMostContent = makeMostFilmsContent();
 
 const moviesData = generateMovie();
 const movies = generateMovies(CARDS_QUANTITY);
+const moviesRated = generateMovies(CARDS_QUANTITY_RATINGS);
 const cards = movies.map(item => makeCard(item));
+const cardsRated = moviesRated.map(item => makeCard(item));
 
 const pageMain = document.querySelector(`main`);
 const header = document.querySelector(`header`);
@@ -44,22 +45,17 @@ render(pageMain, films, `beforeend`);
 const filmsDiv = document.querySelector(`.films`);
 
 render(filmsDiv, filmsContent, `afterbegin`);
-// render(filmsDiv, filmsTopContent, `beforeend`);
-// render(filmsDiv, filmsMostContent, `beforeend`);
+render(filmsDiv, filmsTopContent, `beforeend`);
+render(filmsDiv, filmsMostContent, `beforeend`);
 
 const filmsContainer = document.querySelectorAll(`.films-list__container`)[0];
-for (let i = 0; i < CARDS_QUANTITY; i += 1) {
-  render(filmsContainer, cards, `afterbegin`);
-}
+render(filmsContainer, cards, `afterbegin`);
 render(filmsContainer, button, `afterend`);
 
-/* const filmsTopContainer = document.querySelectorAll(`.films-list__container`)[1];
-for (let i = 0; i < CARDS_QUANTITY_RATINGS; i += 1) {
-  render(filmsTopContainer, cards, `beforeend`);
-}
+const filmsTopContainer = document.querySelectorAll(`.films-list__container`)[1];
+render(filmsTopContainer, cardsRated, `beforeend`);
+
 const filmsMostContainer = document.querySelectorAll(`.films-list__container`)[2];
-for (let i = 0; i < CARDS_QUANTITY_RATINGS; i += 1) {
-  render(filmsMostContainer, cards, `beforeend`);
-} */
+render(filmsMostContainer, cardsRated, `beforeend`);
 
 // render(pageMain, details, `afterend`);

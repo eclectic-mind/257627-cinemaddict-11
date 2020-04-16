@@ -1,24 +1,22 @@
 export const getRandomNumber = (min, max) => {
   return min + Math.floor(Math.random() * (max - min));
-}
+};
 
 export const getRandomArrayItem = (array) => {
   const randomIndex = getRandomNumber(0, array.length);
   return array[randomIndex];
-}
+};
 
 export const getRandomFloat = (min, max) => {
   let number = Math.random() * (max - min) + min;
   return number.toFixed(1);
-}
+};
 
-export const getRandomDate = () => {
-  const targetDate = new Date();
-  const sign = Math.random() > 0.5 ? 1 : -1;
-  const diffValue = sign * getRandomNumber(0, 8);
-  targetDate.setDate(targetDate.getDate() + diffValue);
-  return targetDate;
-}
+export const getRandomTime = () => {
+  const start = new Date(1900, 0, 1);
+  const end = new Date();
+  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+};
 
 export const createFishText = (min, max, array) => {
   const length = getRandomNumber(min, max);
@@ -28,8 +26,8 @@ export const createFishText = (min, max, array) => {
     let j = getRandomNumber(0, count);
     result.push(array[j]);
   }
-  return result.join(' ');
-}
+  return result.join(` `);
+};
 
 export const cutText = (text, max) => {
   let result = text.split(``).slice(0, max).join(``);
@@ -37,5 +35,8 @@ export const cutText = (text, max) => {
 };
 
 export const formatDuration = (time) => {
-
-}
+  const hours = Math.floor(time / 60);
+  const minutes = time % 60;
+  const text = hours != 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
+  return text;
+};

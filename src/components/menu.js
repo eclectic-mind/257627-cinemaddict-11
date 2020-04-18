@@ -9,16 +9,26 @@ const makeMenuLink = (name) => {
 
 const menuLinks = MENU_ITEMS.map(item => makeMenuLink(item));
 
-export const makeMenu = () => {
+export const makeFilter = (filter, isChecked) => {
+  const {title, count} = filter;
+  const className = makeMenuLink(title);
+  return (
+    `<a href="#${className}" class="main-navigation__item">${title} <span class="main-navigation__item-count">${count}</span></a>`
+  );
+};
+
+export const makeMenuMarkup = (filters) => {
+  const filterAll = `<a href="#${menuLinks[0]}" class="main-navigation__item main-navigation__item--active">${MENU_ITEMS[0]}</a>`;
+  const aloneLink = `<a href="#${menuLinks[4]}" class="main-navigation__additional">${MENU_ITEMS[4]}</a>`;
+  const filtersVisible = filters.slice(1);
+  const menuMarkup = filtersVisible.map((item, i) => makeFilter(item, i === 0)).join(`\n`);
   return (
     `<nav class="main-navigation">
     <div class="main-navigation__items">
-      <a href="#${menuLinks[0]}" class="main-navigation__item main-navigation__item--active">${MENU_ITEMS[0]}</a>
-      <a href="#${menuLinks[1]}" class="main-navigation__item">${MENU_ITEMS[1]} <span class="main-navigation__item-count">${getRandomNumber(0, 20)}</span></a>
-      <a href="#${menuLinks[2]}" class="main-navigation__item">${MENU_ITEMS[2]} <span class="main-navigation__item-count">${getRandomNumber(0, 20)}</span></a>
-      <a href="#${menuLinks[3]}" class="main-navigation__item">${MENU_ITEMS[3]} <span class="main-navigation__item-count">${getRandomNumber(0, 20)}</span></a>
+    ${filterAll}
+    ${menuMarkup}
     </div>
-    <a href="#${menuLinks[4]}" class="main-navigation__additional">${MENU_ITEMS[4]}</a>
-  </nav>`
+    ${aloneLink}
+    </nav>`
   );
 };

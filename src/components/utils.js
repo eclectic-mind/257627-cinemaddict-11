@@ -18,6 +18,10 @@ export const getRandomTime = () => {
   return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 };
 
+export const getRandomBoolean = () => {
+  return Math.random() >= 0.5;
+};
+
 export const createFishText = (min, max, array) => {
   const length = getRandomNumber(min, max);
   const count = array.length - 1;

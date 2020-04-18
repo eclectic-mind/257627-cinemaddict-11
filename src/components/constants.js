@@ -1,5 +1,7 @@
 // export const CARDS_QUANTITY = 5;
 export const CARDS_QUANTITY = 20;
+export const CARDS_QUANTITY_ON_START = 5;
+export const CARDS_QUANTITY_MORE = 5;
 export const CARDS_QUANTITY_RATINGS = 2;
 export const BUTTON_NAME = `Show more`;
 export const SORT_BY = [`default`, `date`, `rating`];
@@ -50,5 +52,5 @@ export const COUNTRIES = [`Finland`, `UK`, `Germany`, `Italy`, `USA`, `France`, 
 export const AGES = [0, 6, 12, 16, 18];
 export const RATING_MAX = 10;
 export const DURATION_MAX = 240; // 240 минут, или 4 часа
-export const DURATION_MIN = 15;
+export const DURATION_MIN = 15; // 15 минут - самый короткий фильм
 export const BRIEF_MAX = 140;

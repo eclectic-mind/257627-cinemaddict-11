@@ -1,5 +1,7 @@
+import {STATS_ALL} from './constants.js';
+
 export const makeStats = () => {
   return (
-    `<p>130 291 movies inside</p>`
+    `<p>${STATS_ALL} movies inside</p>`
   );
 };

@@ -3,7 +3,7 @@ export const makeFilms = () => {
     `<section class="films">
     </section>`
   );
-}
+};
 
 export const makeFilmsContent = () => {
   return (

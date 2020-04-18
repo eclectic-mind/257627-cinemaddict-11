@@ -2,10 +2,11 @@ import {cutText, formatDuration} from './utils.js';
 import {BRIEF_MAX} from './constants.js';
 
 export const makeCard = (movie) => {
-  const {title, original, description, poster, genre, duration, date, comments, country, producer, screenwriters, cast, rating, age} = movie;
+  const {title, original, description, poster, genres, duration, date, comments, country, producer, writers, cast, rating, age} = movie;
   const year = date.getFullYear();
   const durationFormatted = formatDuration(duration);
   const brief = description > BRIEF_MAX ? cutText(description, BRIEF_MAX) : description;
+  const genreMain = genres[0];
 
   return (
     `<article class="film-card">
@@ -14,7 +15,7 @@ export const makeCard = (movie) => {
           <p class="film-card__info">
             <span class="film-card__year">${year}</span>
             <span class="film-card__duration">${durationFormatted}</span>
-            <span class="film-card__genre">${genre}</span>
+            <span class="film-card__genre">${genreMain}</span>
           </p>
           <img src="./images/posters/${poster}" alt="" class="film-card__poster">
           <p class="film-card__description">${brief}</p>

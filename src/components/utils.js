@@ -13,7 +13,7 @@ export const getRandomFloat = (min, max) => {
 };
 
 export const getRandomTime = () => {
-  const start = new Date(1900, 0, 1);
+  const start = new Date("January 01 1900");
   const end = new Date();
   return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 };

@@ -55,3 +55,8 @@ export const formatDuration = (time) => {
   const text = hours != 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
   return text;
 };
+
+export const makeControlLink = (name) => {
+  let array = name.split(` `);
+  return name === `Add to favorites` ? `favorite` : array[array.length - 1].toLowerCase();
+};

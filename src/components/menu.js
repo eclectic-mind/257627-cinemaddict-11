@@ -1,5 +1,5 @@
-import {MENU_ITEMS} from './constants.js';
-import {getRandomNumber} from './utils.js';
+import {MENU_ITEMS} from '../constants.js';
+import {getRandomNumber} from '../utils.js';
 
 const makeMenuLink = (name) => {
   let array = name.split(` `);

@@ -1,4 +1,4 @@
-import {SORT_BY} from './constants.js';
+import {SORT_BY} from '../constants.js';
 
 const makeSortLink = (name) => {
   return (
@@ -16,7 +16,8 @@ export const makeSortMarkup = () => {
   );
 };
 
-export const doSorting = (data, param) => {
+export const doSorting = (array, param) => {
+  const data = array.slice(0);
   if (param === `date`) {
     return data.sort((prev, next) => next.date - prev.date);
   }

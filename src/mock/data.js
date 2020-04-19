@@ -1,6 +1,25 @@
-import {FILM_TITLES, GENRES, GENRE_MIN, GENRE_MAX, POSTER_FILES, DESCR_SENTENCES, DESCR_MAX, DESCR_MIN, COMMENTS_MAX, COUNTRIES} from '../components/constants.js';
-import {AGES, RATING_MAX, DURATION_MIN, DURATION_MAX, CAST, WRITERS, PRODUCER} from '../components/constants.js';
-import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, getSomeItems} from '../components/utils.js';
+import {FILM_TITLES, GENRES, GENRE_MIN, GENRE_MAX, POSTER_FILES, DESCR_SENTENCES, DESCR_MAX, DESCR_MIN, COMMENTS_MAX, COUNTRIES} from '../constants.js';
+import {AGES, RATING_MAX, DURATION_MIN, DURATION_MAX, CAST, WRITERS, PRODUCER, TEXTS, EMOTIONS, AUTHORS} from '../constants.js';
+import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, getSomeItems} from '../utils.js';
+
+const generateComment = () => {
+  return {
+    text: getRandomArrayItem(TEXTS),
+    emotion: getRandomArrayItem(EMOTIONS),
+    author: getRandomArrayItem(AUTHORS),
+    dateComment: getRandomTime()
+  };
+};
+
+const generateCommentsArray = () => {
+  const count = getRandomNumber(0, COMMENTS_MAX);
+  let comments = [];
+  for (let i = 0; i <= count; i += 1) {
+    let item = generateComment();
+    comments.push(item);
+  }
+  return comments;
+};
 
 export const generateMovie = () => {
   return {
@@ -11,7 +30,7 @@ export const generateMovie = () => {
     genres: getSomeItems(GENRE_MAX, GENRE_MAX, GENRES),
     duration: getRandomNumber(DURATION_MIN, DURATION_MAX),
     date: getRandomTime(),
-    comments: getRandomNumber(0, COMMENTS_MAX),
+    comments: generateCommentsArray(),
     country: getRandomArrayItem(COUNTRIES),
     producer: PRODUCER,
     writers: WRITERS.join(`, `),

@@ -1,4 +1,4 @@
-import {CARDS_QUANTITY, CARDS_QUANTITY_ON_START, CARDS_QUANTITY_RATINGS, CARDS_QUANTITY_MORE, STATS_ALL} from './components/constants.js';
+import {CARDS_QUANTITY, CARDS_QUANTITY_ON_START, CARDS_QUANTITY_RATINGS, CARDS_QUANTITY_MORE, STATS_ALL} from './constants.js';
 import {render} from './components/render.js';
 import {makeButton} from './components/button.js';
 import {makeUserRank} from './components/rank.js';
@@ -31,7 +31,7 @@ const statsContainer = document.querySelector(`.footer__statistics`);
 const moviesData = generateMovie();
 const movies = generateMovies(CARDS_QUANTITY);
 const moviesSorted = doSorting(movies, `date`);
-const moviesTopRated = doSorting(movies, `rated`).slice(0, CARDS_QUANTITY_RATINGS);
+const moviesTopRated = doSorting(movies, `rating`).slice(0, CARDS_QUANTITY_RATINGS);
 const moviesMostComment = doSorting(movies, `comments`).slice(0, CARDS_QUANTITY_RATINGS);
 
 const cards = moviesSorted.map(item => makeCard(item));
@@ -59,7 +59,7 @@ render(filmsDiv, filmsMostContent, `beforeend`);
 const filmsContainer = document.querySelectorAll(`.films-list__container`)[0];
 
 let showingMoviesCount = CARDS_QUANTITY_ON_START;
-cards.slice(0, showingMoviesCount).forEach((item) => render(filmsContainer, item, `afterbegin`));
+cards.slice(0, showingMoviesCount).forEach((item) => render(filmsContainer, item, `beforeend`));
 
 if (cards.length > CARDS_QUANTITY_ON_START) {
   render(filmsContainer, button, `afterend`);

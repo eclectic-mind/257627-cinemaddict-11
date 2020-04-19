@@ -1,4 +1,4 @@
-import {STATS_ALL} from './constants.js';
+import {STATS_ALL} from '../constants.js';
 
 export const makeStats = () => {
   return (

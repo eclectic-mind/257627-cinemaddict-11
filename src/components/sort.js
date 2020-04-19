@@ -18,10 +18,13 @@ export const makeSortMarkup = () => {
 
 export const doSorting = (data, param) => {
   if (param === `date`) {
-    return data.sort((prev, next) => prev.date - next.date);
+    return data.sort((prev, next) => next.date - prev.date);
   }
   if (param === `rating`) {
-    return data.sort((prev, next) => prev.rating - next.rating);
+    return data.sort((prev, next) => next.rating - prev.rating);
+  }
+  if (param === `comments`) {
+    return data.sort((prev, next) => next.comments - prev.comments);
   }
   else return data;
 };

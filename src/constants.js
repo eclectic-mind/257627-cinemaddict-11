@@ -10,7 +10,8 @@ export const MENU_ITEMS = [`All movies`, `Watchlist`, `History`, `Favorites`, `S
 export const STATS_ALL = 130291;
 
 // films data
-
+export const CONTROLS_DETAILS = [`Add to watchlist`, `Already watched`, `Add to favorites`];
+export const CONTROLS_CARD = [`Add to watchlist`, `Mark as watched`, `Mark as favorite`];
 export const FILM_TITLES = [
   `The Dance of Life`,
   `Sagebrush Trail`,
@@ -59,3 +60,6 @@ export const BRIEF_MAX = 140;
 export const CAST = [`Erich von Stroheim`, `Mary Beth Hughes`, `Dan Duryea`];
 export const WRITERS = [`Anne Wigton`, `Heinz Herald`, `Richard Weil`];
 export const PRODUCER = `Anthony Mann`;
+export const AUTHORS = [`John Doe`, `Tim Macoveev`];
+export const TEXTS = [`Interesting setting and a good cast`, `Booooooooooring`, `Very very old. Meh`, `Almost two hours? Seriously?`];
+export const EMOTIONS = [`smile`, `sleeping`, `puke`, `angry`];

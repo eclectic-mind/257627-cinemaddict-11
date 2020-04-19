@@ -1,4 +1,4 @@
-import {USER_RANKS} from './constants.js';
+import {USER_RANKS} from '../constants.js';
 
 export const makeUserRank = () => {
   return (

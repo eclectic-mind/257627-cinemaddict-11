@@ -1,4 +1,4 @@
-import {SORT_BY} from './constants.js';
+import {SORT_BY} from '../constants.js';
 
 const makeSortLink = (name) => {
   return (
@@ -24,7 +24,7 @@ export const doSorting = (data, param) => {
     return data.sort((prev, next) => next.rating - prev.rating);
   }
   if (param === `comments`) {
-    return data.sort((prev, next) => next.comments - prev.comments);
+    return data.sort((prev, next) => next.comments.length - prev.comments.length);
   }
   else return data;
 };

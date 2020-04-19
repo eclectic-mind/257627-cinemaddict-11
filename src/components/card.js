@@ -1,5 +1,15 @@
-import {cutText, formatDuration} from './utils.js';
-import {BRIEF_MAX} from './constants.js';
+import {cutText, formatDuration, makeControlLink} from '../utils.js';
+import {BRIEF_MAX, CONTROLS_CARD} from '../constants.js';
+
+const makeControlsCard = () => {
+  const names = CONTROLS_CARD;
+  const shorts = names.map(item => makeControlLink(item));
+  return (
+    `<button class="film-card__controls-item button film-card__controls-item--add-to-${shorts[0]}">${names[0]}</button>
+    <button class="film-card__controls-item button film-card__controls-item--mark-as-${shorts[1]}">${names[1]}</button>
+    <button class="film-card__controls-item button film-card__controls-item--${shorts[2]}">${names[2]}</button>`
+  );
+}
 
 export const makeCard = (movie) => {
   const {title, original, description, poster, genres, duration, date, comments, country, producer, writers, cast, rating, age} = movie;
@@ -7,6 +17,8 @@ export const makeCard = (movie) => {
   const durationFormatted = formatDuration(duration);
   const brief = description > BRIEF_MAX ? cutText(description, BRIEF_MAX) : description;
   const genreMain = genres[0];
+  const commentsQuantity = comments.length;
+  const controlsAll = makeControlsCard();
 
   return (
     `<article class="film-card">
@@ -19,12 +31,18 @@ export const makeCard = (movie) => {
           </p>
           <img src="./images/posters/${poster}" alt="" class="film-card__poster">
           <p class="film-card__description">${brief}</p>
-          <a class="film-card__comments">${comments} comments</a>
+
+
+<a class="film-card__comments">${commentsQuantity}  comments</a>
+
+
           <form class="film-card__controls">
-            <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist">Add to watchlist</button>
-            <button class="film-card__controls-item button film-card__controls-item--mark-as-watched">Mark as watched</button>
-            <button class="film-card__controls-item button film-card__controls-item--favorite">Mark as favorite</button>
+
+${controlsAll}
           </form>
         </article>`
   );
 };
+
+
+

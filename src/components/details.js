@@ -1,12 +1,49 @@
-import {FILM_TITLES, GENRES, GENRE_MIN, GENRE_MAX, POSTER_FILES, DESCR_SENTENCES, DESCR_MAX, DESCR_MIN, COMMENTS_MAX, COUNTRIES} from '../components/constants.js';
-import {AGES, RATING_MAX, DURATION_MIN, DURATION_MAX, CAST, WRITERS, PRODUCER} from '../components/constants.js';
-import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, formatDuration} from '../components/utils.js';
+import {FILM_TITLES, GENRES, GENRE_MIN, GENRE_MAX, POSTER_FILES, DESCR_SENTENCES, DESCR_MAX, DESCR_MIN, COMMENTS_MAX, COUNTRIES} from '../constants.js';
+import {AGES, RATING_MAX, DURATION_MIN, DURATION_MAX, CAST, WRITERS, PRODUCER, CONTROLS_DETAILS} from '../constants.js';
+import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, formatDuration, makeControlLink} from '../utils.js';
+
+const makeComment = (comment) => {
+  const {text, emotion, author, dateComment} = comment;
+  const dateFormatted = dateComment.toLocaleDateString();
+  return (
+  `<li class="film-details__comment">
+    <span class="film-details__comment-emoji">
+    <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-smile">
+    </span>
+    <div>
+    <p class="film-details__comment-text">${text}</p>
+    <p class="film-details__comment-info">
+    <span class="film-details__comment-author">${author}</span>
+    <span class="film-details__comment-day">${dateFormatted}</span>
+    <button class="film-details__comment-delete">Delete</button>
+    </p>
+    </div>
+    </li>`
+  );
+};
+
+const makeControl = (name) => {
+  const short = makeControlLink(name);
+  return (
+    `<input type="checkbox" class="film-details__control-input visually-hidden" id="${short}" name="${short}">
+     <label for="watchlist" class="film-details__control-label film-details__control-label--${short}">${name}</label>`
+  );
+};
+
+const makeControlsDetails = () => {
+  const names = CONTROLS_DETAILS;
+  let controlsAll = names.map(item => makeControl(item));
+  return controlsAll.join(``);
+}
 
 export const makeDetails = (movie) => {
   const {title, original, description, poster, genres, duration, date, comments, country, producer, writers, cast, rating, age} = movie;
-  // const year = date.getFullYear();
   const durationFormatted = formatDuration(duration);
   const genresAll = genres.join(`, `);
+  const dateFull = date.toDateString().slice(3);
+  const commentsAll = comments.map(item => makeComment(item)).join(``);
+  const commentsQuantity = comments.length;
+  const controls = makeControlsDetails();
 
   return (
     `<section class="film-details">
@@ -49,7 +86,7 @@ export const makeDetails = (movie) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
-              <td class="film-details__cell">${date}</td>
+              <td class="film-details__cell">${dateFull}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>
@@ -70,76 +107,21 @@ export const makeDetails = (movie) => {
       </div>
 
       <section class="film-details__controls">
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
-        <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
-        <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
+ ${controls}
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
-        <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
+
       </section>
     </div>
 
     <div class="form-details__bottom-container">
       <section class="film-details__comments-wrap">
-        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">4</span></h3>
-
+        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">
+${commentsQuantity}
+        </span></h3>
         <ul class="film-details__comments-list">
-          <li class="film-details__comment">
-            <span class="film-details__comment-emoji">
-              <img src="./images/emoji/smile.png" width="55" height="55" alt="emoji-smile">
-            </span>
-            <div>
-              <p class="film-details__comment-text">Interesting setting and a good cast</p>
-              <p class="film-details__comment-info">
-                <span class="film-details__comment-author">Tim Macoveev</span>
-                <span class="film-details__comment-day">2019/12/31 23:59</span>
-                <button class="film-details__comment-delete">Delete</button>
-              </p>
-            </div>
-          </li>
-          <li class="film-details__comment">
-            <span class="film-details__comment-emoji">
-              <img src="./images/emoji/sleeping.png" width="55" height="55" alt="emoji-sleeping">
-            </span>
-            <div>
-              <p class="film-details__comment-text">Booooooooooring</p>
-              <p class="film-details__comment-info">
-                <span class="film-details__comment-author">John Doe</span>
-                <span class="film-details__comment-day">2 days ago</span>
-                <button class="film-details__comment-delete">Delete</button>
-              </p>
-            </div>
-          </li>
-          <li class="film-details__comment">
-            <span class="film-details__comment-emoji">
-              <img src="./images/emoji/puke.png" width="55" height="55" alt="emoji-puke">
-            </span>
-            <div>
-              <p class="film-details__comment-text">Very very old. Meh</p>
-              <p class="film-details__comment-info">
-                <span class="film-details__comment-author">John Doe</span>
-                <span class="film-details__comment-day">2 days ago</span>
-                <button class="film-details__comment-delete">Delete</button>
-              </p>
-            </div>
-          </li>
-          <li class="film-details__comment">
-            <span class="film-details__comment-emoji">
-              <img src="./images/emoji/angry.png" width="55" height="55" alt="emoji-angry">
-            </span>
-            <div>
-              <p class="film-details__comment-text">Almost two hours? Seriously?</p>
-              <p class="film-details__comment-info">
-                <span class="film-details__comment-author">John Doe</span>
-                <span class="film-details__comment-day">Today</span>
-                <button class="film-details__comment-delete">Delete</button>
-              </p>
-            </div>
-          </li>
+${commentsAll}
         </ul>
-
         <div class="film-details__new-comment">
           <div for="add-emoji" class="film-details__add-emoji-label"></div>
 

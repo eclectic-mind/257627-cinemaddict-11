@@ -6,7 +6,7 @@ export const makeDetails = (movie) => {
   const {title, original, description, poster, genres, duration, date, comments, country, producer, writers, cast, rating, age} = movie;
   // const year = date.getFullYear();
   const durationFormatted = formatDuration(duration);
-
+  const genresAll = genres.join(`, `);
 
   return (
     `<section class="film-details">
@@ -61,7 +61,7 @@ export const makeDetails = (movie) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Genres</td>
-              <td class="film-details__cell">${genres}</td>
+              <td class="film-details__cell">${genresAll}</td>
             </tr>
           </table>
 

@@ -1,6 +1,6 @@
 import {FILM_TITLES, GENRES, GENRE_MIN, GENRE_MAX, POSTER_FILES, DESCR_SENTENCES, DESCR_MAX, DESCR_MIN, COMMENTS_MAX, COUNTRIES} from '../components/constants.js';
 import {AGES, RATING_MAX, DURATION_MIN, DURATION_MAX, CAST, WRITERS, PRODUCER} from '../components/constants.js';
-import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText} from '../components/utils.js';
+import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, getSomeItems} from '../components/utils.js';
 
 export const generateMovie = () => {
   return {
@@ -8,8 +8,7 @@ export const generateMovie = () => {
     original: getRandomArrayItem(FILM_TITLES),
     description: createFishText(DESCR_MIN, DESCR_MAX, DESCR_SENTENCES),
     poster: getRandomArrayItem(POSTER_FILES),
-    genres: createFishText(GENRE_MIN, GENRE_MAX, GENRES),
-    // getRandomArrayItem(GENRES),
+    genres: getSomeItems(GENRE_MAX, GENRE_MAX, GENRES),
     duration: getRandomNumber(DURATION_MIN, DURATION_MAX),
     date: getRandomTime(),
     comments: getRandomNumber(0, COMMENTS_MAX),

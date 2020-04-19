@@ -22,6 +22,17 @@ export const getRandomBoolean = () => {
   return Math.random() >= 0.5;
 };
 
+export const getSomeItems = (min, max, array) => {
+  const length = getRandomNumber(min, max);
+  const count = array.length - 1;
+  let result = [];
+  for (let i = 0; i < length; i += 1) {
+    let j = getRandomNumber(0, count);
+    result.push(array[j]);
+  }
+  return result;
+};
+
 export const createFishText = (min, max, array) => {
   const length = getRandomNumber(min, max);
   const count = array.length - 1;

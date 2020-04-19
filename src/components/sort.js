@@ -15,3 +15,13 @@ export const makeSortMarkup = () => {
     </ul>`
   );
 };
+
+export const doSorting = (data, param) => {
+  if (param === `date`) {
+    return data.sort((prev, next) => prev.date - next.date);
+  }
+  if (param === `rating`) {
+    return data.sort((prev, next) => prev.rating - next.rating);
+  }
+  else return data;
+};

@@ -3,7 +3,7 @@ import {render} from './components/render.js';
 import {makeButton} from './components/button.js';
 import {makeUserRank} from './components/rank.js';
 import {makeCard} from './components/card.js';
-import {makeSortMarkup} from './components/sort.js';
+import {makeSortMarkup, doSorting} from './components/sort.js';
 import {makeFilms} from './components/films.js';
 import {makeFilmsContent} from './components/films.js';
 import {makeMenuMarkup} from './components/menu.js';
@@ -22,19 +22,21 @@ const films = makeFilms();
 const filmsContent = makeFilmsContent();
 const filmsTopContent = makeTopFilmsContent();
 const filmsMostContent = makeMostFilmsContent();
-
-const moviesData = generateMovie();
-const movies = generateMovies(CARDS_QUANTITY);
-const moviesRated = generateMovies(CARDS_QUANTITY_RATINGS);
-const cards = movies.map(item => makeCard(item));
-const cardsRated = moviesRated.map(item => makeCard(item));
+const sort = makeSortMarkup();
 
 const pageMain = document.querySelector(`main`);
 const header = document.querySelector(`header`);
 const statsContainer = document.querySelector(`.footer__statistics`);
 
-const details = makeDetails(movies[0]);
-const sort = makeSortMarkup();
+const moviesData = generateMovie();
+const movies = generateMovies(CARDS_QUANTITY);
+const moviesRated = generateMovies(CARDS_QUANTITY_RATINGS);
+
+const moviesSorted = doSorting(movies, `rating`);
+
+const cards = moviesSorted.map(item => makeCard(item));
+const cardsRated = moviesRated.map(item => makeCard(item));
+const details = makeDetails(moviesSorted[0]);
 
 render(header, userRank, `beforeend`);
 render(statsContainer, stats, `afterbegin`);
@@ -42,7 +44,7 @@ render(statsContainer, stats, `afterbegin`);
 render(pageMain, sort, `beforeend`);
 render(pageMain, films, `beforeend`);
 
-const filters = generateFilters(movies);
+const filters = generateFilters(moviesSorted);
 const menu = makeMenuMarkup(filters);
 render(pageMain, menu, `afterbegin`);
 

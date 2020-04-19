@@ -30,9 +30,10 @@ const statsContainer = document.querySelector(`.footer__statistics`);
 
 const moviesData = generateMovie();
 const movies = generateMovies(CARDS_QUANTITY);
-const moviesSorted = doSorting(movies, `date`);
-const moviesTopRated = doSorting(movies, `rating`).slice(0, CARDS_QUANTITY_RATINGS);
-const moviesMostComment = doSorting(movies, `comments`).slice(0, CARDS_QUANTITY_RATINGS);
+
+const moviesSorted = doSorting(movies.slice(0), `date`);
+const moviesTopRated = doSorting(movies.slice(0), `rating`).slice(0, CARDS_QUANTITY_RATINGS);
+const moviesMostComment = doSorting(movies.slice(0), `comments`).slice(0, CARDS_QUANTITY_RATINGS);
 
 const cards = moviesSorted.map(item => makeCard(item));
 const cardsTopRated = moviesTopRated.map(item => makeCard(item));
@@ -84,4 +85,4 @@ render(filmsTopContainer, cardsTopRated.join(``), `beforeend`);
 const filmsMostContainer = document.querySelectorAll(`.films-list__container`)[2];
 render(filmsMostContainer, cardsMostComment.join(``), `beforeend`);
 
-render(pageMain, details, `afterend`);
+//render(pageMain, details, `afterend`);

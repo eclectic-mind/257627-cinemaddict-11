@@ -16,8 +16,7 @@ export const makeSortMarkup = () => {
   );
 };
 
-export const doSorting = (array, param) => {
-  const data = array.slice(0);
+export const doSorting = (data, param) => {
   if (param === `date`) {
     return data.sort((prev, next) => next.date - prev.date);
   }
@@ -25,7 +24,7 @@ export const doSorting = (array, param) => {
     return data.sort((prev, next) => next.rating - prev.rating);
   }
   if (param === `comments`) {
-    return data.sort((prev, next) => next.comments - prev.comments);
+    return data.sort((prev, next) => next.comments.length - prev.comments.length);
   }
   else return data;
 };

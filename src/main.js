@@ -84,4 +84,4 @@ render(filmsTopContainer, cardsTopRated.join(``), `beforeend`);
 const filmsMostContainer = document.querySelectorAll(`.films-list__container`)[2];
 render(filmsMostContainer, cardsMostComment.join(``), `beforeend`);
 
-// render(pageMain, details, `afterend`);
+render(pageMain, details, `afterend`);

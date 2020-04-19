@@ -1,11 +1,30 @@
 import {SORT_BY} from './constants.js';
 
-export const makeSort = () => {
+const makeSortLink = (name) => {
+  return (
+    `<li><a href="#" class="sort__button">Sort by ${name}</a></li>`
+  );
+};
+
+export const makeSortMarkup = () => {
+  const names = SORT_BY;
+  const links = names.map((item) => makeSortLink(item)).join(``);;
   return (
     `<ul class="sort">
-    <li><a href="#" class="sort__button sort__button--active">Sort by ${SORT_BY[0]}</a></li>
-    <li><a href="#" class="sort__button">Sort by ${SORT_BY[1]}</a></li>
-    <li><a href="#" class="sort__button">Sort by ${SORT_BY[2]}</a></li>
-  </ul>`
+    ${links}
+    </ul>`
   );
+};
+
+export const doSorting = (data, param) => {
+  if (param === `date`) {
+    return data.sort((prev, next) => next.date - prev.date);
+  }
+  if (param === `rating`) {
+    return data.sort((prev, next) => next.rating - prev.rating);
+  }
+  if (param === `comments`) {
+    return data.sort((prev, next) => next.comments - prev.comments);
+  }
+  else return data;
 };

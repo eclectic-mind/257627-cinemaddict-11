@@ -32,6 +32,8 @@ export const POSTER_FILES = [
   `the-man-with-the-golden-arm.jpg`
 ];
 export const GENRES = [`Musical`, `Western`, `Drama`, `Comedy`, `Cartoon`, `Mystery`];
+export const GENRE_MIN = 1;
+export const GENRE_MAX = 3;
 export const COMMENTS_MAX = 5;
 export const DESCR_SENTENCES = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
@@ -54,3 +56,6 @@ export const RATING_MAX = 10;
 export const DURATION_MAX = 240; // 240 минут, или 4 часа
 export const DURATION_MIN = 15; // 15 минут - самый короткий фильм
 export const BRIEF_MAX = 140;
+export const CAST = [`Erich von Stroheim`, `Mary Beth Hughes`, `Dan Duryea`];
+export const WRITERS = [`Anne Wigton`, `Heinz Herald`, `Richard Weil`];
+export const PRODUCER = `Anthony Mann`;

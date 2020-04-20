@@ -1,6 +1,5 @@
 import {CARDS_QUANTITY, CARDS_QUANTITY_ON_START, CARDS_QUANTITY_RATINGS, CARDS_QUANTITY_MORE, STATS_ALL} from './constants.js';
-import {render} from './components/render.js';
-import {makeButton} from './components/button.js';
+import {render, renderN, RenderPosition} from './components/render.js';
 import {makeUserRank} from './components/rank.js';
 import {makeCard} from './components/card.js';
 import {makeSortMarkup, doSorting} from './components/sort.js';
@@ -14,10 +13,15 @@ import {makeMostFilmsContent} from './components/most.js';
 import {generateMovie, generateMovies} from './mock/data.js';
 import {generateFilters} from './mock/menu.js';
 
-const userRank = makeUserRank();
-const button = makeButton();
+import LoadMoreButtonComponent from './components/button.js';
+import StatsComponent from './components/stats.js';
 
-const stats = makeStats();
+const userRank = makeUserRank();
+
+const button = new LoadMoreButtonComponent();
+const stats = new StatsComponent();
+
+
 const films = makeFilms();
 const filmsContent = makeFilmsContent();
 const filmsTopContent = makeTopFilmsContent();
@@ -42,7 +46,8 @@ const cardsMostComment = moviesMostComment.map(item => makeCard(item));
 const details = makeDetails(moviesSorted[0]);
 
 render(header, userRank, `beforeend`);
-render(statsContainer, stats, `afterbegin`);
+//render(statsContainer, stats, `afterbegin`);
+renderN(statsContainer, stats.getElement(), RenderPosition.AFTERBEGIN);
 
 render(pageMain, sort, `beforeend`);
 render(pageMain, films, `beforeend`);
@@ -58,23 +63,24 @@ render(filmsDiv, filmsTopContent, `beforeend`);
 render(filmsDiv, filmsMostContent, `beforeend`);
 
 const filmsContainer = document.querySelectorAll(`.films-list__container`)[0];
+const filmsList = document.querySelectorAll(`.films-list`)[0];
 
 let showingMoviesCount = CARDS_QUANTITY_ON_START;
 cards.slice(0, showingMoviesCount).forEach((item) => render(filmsContainer, item, `beforeend`));
 
 if (cards.length > CARDS_QUANTITY_ON_START) {
-  render(filmsContainer, button, `afterend`);
+  renderN(filmsList, button.getElement(), RenderPosition.BEFOREEND);
 }
 
-const buttonMore = document.querySelector(`.films-list__show-more`);
-  if (buttonMore) {
-    buttonMore.addEventListener(`click`, () => {
+if (button.getElement()) {
+    button.getElement().addEventListener(`click`, () => {
       const prevMoviesCount = showingMoviesCount;
       showingMoviesCount += CARDS_QUANTITY_MORE;
       cards.slice(prevMoviesCount, showingMoviesCount).forEach((cards) => render(filmsContainer, cards, `beforeend`));
 
       if (showingMoviesCount >= cards.length) {
-        buttonMore.remove();
+        button.getElement().remove();
+        button.removeElement();
       }
   });
 };
@@ -85,4 +91,4 @@ render(filmsTopContainer, cardsTopRated.join(``), `beforeend`);
 const filmsMostContainer = document.querySelectorAll(`.films-list__container`)[2];
 render(filmsMostContainer, cardsMostComment.join(``), `beforeend`);
 
-//render(pageMain, details, `afterend`);
+// render(pageMain, details, `afterend`);

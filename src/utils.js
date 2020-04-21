@@ -66,3 +66,16 @@ export const createElement = (template) => {
   newElement.innerHTML = template;
   return newElement.firstChild;
 };
+
+export const doSorting = (data, param) => {
+  if (param === `date`) {
+    return data.sort((prev, next) => next.date - prev.date);
+  }
+  if (param === `rating`) {
+    return data.sort((prev, next) => next.rating - prev.rating);
+  }
+  if (param === `comments`) {
+    return data.sort((prev, next) => next.comments.length - prev.comments.length);
+  }
+  else return data;
+};

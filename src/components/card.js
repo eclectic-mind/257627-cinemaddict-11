@@ -44,5 +44,21 @@ ${controlsAll}
   );
 };
 
-
-
+export default class Card {
+  constructor(movie) {
+    this._movie = movie;
+    this._element = null;
+  }
+  getTemplate() {
+    return makeCard(this._movie);
+  }
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+  removeElement() {
+    this._element = null;
+  }
+};

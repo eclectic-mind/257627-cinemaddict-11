@@ -1,4 +1,5 @@
 import {SORT_BY} from '../constants.js';
+import {createElement} from '../utils.js';
 
 const makeSortLink = (name) => {
   return (
@@ -16,15 +17,21 @@ export const makeSortMarkup = () => {
   );
 };
 
-export const doSorting = (data, param) => {
-  if (param === `date`) {
-    return data.sort((prev, next) => next.date - prev.date);
+export default class Sorting {
+  constructor() {
+    this._element = null;
   }
-  if (param === `rating`) {
-    return data.sort((prev, next) => next.rating - prev.rating);
+  getTemplate() {
+    return makeSortMarkup();
   }
-  if (param === `comments`) {
-    return data.sort((prev, next) => next.comments.length - prev.comments.length);
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
   }
-  else return data;
+  removeElement() {
+    this._element = null;
+  }
 };
+

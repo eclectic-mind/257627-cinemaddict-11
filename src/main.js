@@ -2,7 +2,6 @@ import {CARDS_QUANTITY, CARDS_QUANTITY_ON_START, CARDS_QUANTITY_RATINGS, CARDS_Q
 import {render, renderN, RenderPosition} from './components/render.js';
 import {doSorting} from './utils.js';
 
-import {makeDetails} from './components/details.js';
 import {makeTopFilmsContent} from './components/top.js';
 import {makeMostFilmsContent} from './components/most.js';
 import {generateMovie, generateMovies} from './mock/data.js';
@@ -17,6 +16,7 @@ import FilmsListComponent from './components/list.js';
 import FilmsContainerComponent from './components/films.js';
 import SortingComponent from './components/sort.js';
 import CardComponent from './components/card.js';
+import DetailsComponent from './components/details.js';
 
 const userRank = new RankComponent();
 const button = new LoadMoreButtonComponent();
@@ -45,7 +45,7 @@ console.log(cards);
 const cardsTopRated = moviesTopRated.map(item => new CardComponent(item));
 const cardsMostComment = moviesMostComment.map(item => new CardComponent(item));
 
-const details = makeDetails(moviesSorted[0]);
+const details = new DetailsComponent(moviesSorted[0]);
 
 renderN(header, userRank.getElement(), RenderPosition.BEFOREEND);
 renderN(statsContainer, stats.getElement(), RenderPosition.AFTERBEGIN);
@@ -85,4 +85,4 @@ if (button.getElement()) {
 // const filmsMostContainer = document.querySelectorAll(`.films-list__container`)[2];
 // render(filmsMostContainer, cardsMostComment.join(``), `beforeend`);
 
-// render(pageMain, details, `afterend`);
+// renderN(pageMain, details.getElement(), RenderPosition.BEFOREEND);

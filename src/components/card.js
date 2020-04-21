@@ -1,4 +1,4 @@
-import {cutText, formatDuration, makeControlLink} from '../utils.js';
+import {cutText, formatDuration, makeControlLink, createElement} from '../utils.js';
 import {BRIEF_MAX, CONTROLS_CARD} from '../constants.js';
 
 const makeControlsCard = () => {

@@ -1,6 +1,6 @@
 import {FILM_TITLES, GENRES, GENRE_MIN, GENRE_MAX, POSTER_FILES, DESCR_SENTENCES, DESCR_MAX, DESCR_MIN, COMMENTS_MAX, COUNTRIES} from '../constants.js';
 import {AGES, RATING_MAX, DURATION_MIN, DURATION_MAX, CAST, WRITERS, PRODUCER, CONTROLS_DETAILS} from '../constants.js';
-import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, formatDuration, makeControlLink} from '../utils.js';
+import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, formatDuration, makeControlLink, createElement} from '../utils.js';
 
 const makeComment = (comment) => {
   const {text, emotion, author, dateComment} = comment;
@@ -107,20 +107,17 @@ export const makeDetails = (movie) => {
       </div>
 
       <section class="film-details__controls">
-
- ${controls}
-
-
+      ${controls}
       </section>
     </div>
 
     <div class="form-details__bottom-container">
       <section class="film-details__comments-wrap">
         <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">
-${commentsQuantity}
+        ${commentsQuantity}
         </span></h3>
         <ul class="film-details__comments-list">
-${commentsAll}
+        ${commentsAll}
         </ul>
         <div class="film-details__new-comment">
           <div for="add-emoji" class="film-details__add-emoji-label"></div>
@@ -156,4 +153,23 @@ ${commentsAll}
   </form>
 </section>`
   );
+};
+
+export default class Details {
+  constructor(movie) {
+    this._movie = movie;
+    this._element = null;
+  }
+  getTemplate() {
+    return makeDetails(this._movie);
+  }
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+  removeElement() {
+    this._element = null;
+  }
 };

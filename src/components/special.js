@@ -1,21 +1,22 @@
 import {createElement} from '../utils.js';
 
-export const makeTopFilmsContent = () => {
+export const makeSpecialFilms = (subtitle) => {
   return (
     `<section class="films-list--extra">
-      <h2 class="films-list__title">Top rated</h2>
+      <h2 class="films-list__title">${subtitle}</h2>
       <div class="films-list__container">
       </div>
     </section>`
   );
 };
 
-export default class TopFilms {
-  constructor() {
+export default class SpecialFilms {
+  constructor(subtitle) {
+    this._subtitle = subtitle;
     this._element = null;
   }
   getTemplate() {
-    return makeTopFilmsContent();
+    return makeSpecialFilms(this._subtitle);
   }
   getElement() {
     if (!this._element) {

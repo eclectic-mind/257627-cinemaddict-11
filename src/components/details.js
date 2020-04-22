@@ -34,7 +34,13 @@ const makeControlsDetails = () => {
   const names = CONTROLS_DETAILS;
   let controlsAll = names.map(item => makeControl(item));
   return controlsAll.join(``);
-}
+};
+
+const makeCloseButton = () => {
+  return (
+  `<button class="film-details__close-btn" type="button">close</button>`
+  );
+};
 
 export const makeDetails = (movie) => {
   const {title, original, description, poster, genres, duration, date, comments, country, producer, writers, cast, rating, age} = movie;
@@ -44,13 +50,14 @@ export const makeDetails = (movie) => {
   const commentsAll = comments.map(item => makeComment(item)).join(``);
   const commentsQuantity = comments.length;
   const controls = makeControlsDetails();
+  const button = makeCloseButton();
 
   return (
     `<section class="film-details">
     <form class="film-details__inner" action="" method="get">
     <div class="form-details__top-container">
       <div class="film-details__close">
-        <button class="film-details__close-btn" type="button">close</button>
+      ${button}
       </div>
       <div class="film-details__info-wrap">
         <div class="film-details__poster">

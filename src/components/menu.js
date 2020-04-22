@@ -1,5 +1,5 @@
 import {MENU_ITEMS} from '../constants.js';
-import {getRandomNumber} from '../utils.js';
+import {getRandomNumber, createElement} from '../utils.js';
 
 const makeMenuLink = (name) => {
   let array = name.split(` `);
@@ -31,4 +31,23 @@ export const makeMenuMarkup = (filters) => {
     ${aloneLink}
     </nav>`
   );
+};
+
+export default class Menu {
+  constructor(filters) {
+    this._filters = filters;
+    this._element = null;
+  }
+  getTemplate() {
+    return makeMenuMarkup(this._filters);
+  }
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+  removeElement() {
+    this._element = null;
+  }
 };

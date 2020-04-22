@@ -1,18 +1,17 @@
-import {STATS_ALL} from '../constants.js';
 import {createElement} from '../utils.js';
 
-export const makeStats = () => {
+export const makeBoard = () => {
   return (
-    `<p>${STATS_ALL} movies inside</p>`
+    `<section class="films"></section>`
   );
 };
 
-export default class Stats {
+export default class Board {
   constructor() {
     this._element = null;
   }
   getTemplate() {
-    return makeStats();
+    return makeBoard();
   }
   getElement() {
     if (!this._element) {

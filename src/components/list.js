@@ -1,18 +1,20 @@
-import {STATS_ALL} from '../constants.js';
 import {createElement} from '../utils.js';
 
-export const makeStats = () => {
+export const makeFilmsList = () => {
   return (
-    `<p>${STATS_ALL} movies inside</p>`
+    `<section class="films-list">
+      <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
+
+    </section>`
   );
 };
 
-export default class Stats {
+export default class FilmsList {
   constructor() {
     this._element = null;
   }
   getTemplate() {
-    return makeStats();
+    return makeFilmsList();
   }
   getElement() {
     if (!this._element) {

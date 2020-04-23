@@ -1,4 +1,4 @@
-import {cutText, formatDuration, makeControlLink} from '../utils.js';
+import {cutText, formatDuration, makeControlLink, createElement} from '../utils.js';
 import {BRIEF_MAX, CONTROLS_CARD} from '../constants.js';
 
 const makeControlsCard = () => {
@@ -31,14 +31,9 @@ export const makeCard = (movie) => {
           </p>
           <img src="./images/posters/${poster}" alt="" class="film-card__poster">
           <p class="film-card__description">${brief}</p>
-
-
-<a class="film-card__comments">${commentsQuantity}  comments</a>
-
-
+          <a class="film-card__comments">${commentsQuantity}  comments</a>
           <form class="film-card__controls">
-
-${controlsAll}
+          ${controlsAll}
           </form>
         </article>`
   );

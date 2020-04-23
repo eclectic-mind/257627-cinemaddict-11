@@ -38,6 +38,9 @@ const moviesTopRated = doSorting(movies.slice(0), `rating`).slice(0, CARDS_QUANT
 const moviesMostComment = doSorting(movies.slice(0), `comments`).slice(0, CARDS_QUANTITY_RATINGS);
 
 const cards = moviesSorted.map(item => new CardComponent(item));
+const details = moviesSorted.map(item => new DetailsComponent(item));
+console.log(details);
+
 const cardsTopRated = moviesTopRated.map(item => new CardComponent(item));
 const cardsMostComment = moviesMostComment.map(item => new CardComponent(item));
 
@@ -75,20 +78,18 @@ if (button.getElement()) {
   });
 };
 
-// const filmsTopContainer = document.querySelectorAll(`.films-list__container`)[1];
-cardsTopRated.forEach(item => render(top.getElement(), item.getElement(), RenderPosition.BEFOREEND));
-// render(top.getElement(), cardsTopRated.getElement(), RenderPosition.BEFOREEND);
+const topContainer = top.getElement().querySelector(`.films-list__container`);
+cardsTopRated.forEach(item => render(topContainer, item.getElement(), RenderPosition.BEFOREEND));
 
-cardsMostComment.forEach(item => render(most.getElement(), item.getElement(), RenderPosition.BEFOREEND));
-// const filmsMostContainer = document.querySelectorAll(`.films-list__container`)[2];
-// render(filmsMostContainer, cardsMostComment.join(``), `beforeend`);
+const mostContainer = most.getElement().querySelector(`.films-list__container`);
+cardsMostComment.forEach(item => render(mostContainer, item.getElement(), RenderPosition.BEFOREEND));
 
 const closePopup = () => {
   pageMain.removeChild(details.getElement());
   return;
 };
 
-const details = new DetailsComponent(moviesSorted[0]);
-render(pageMain, details.getElement(), RenderPosition.BEFOREEND);
-let closeButton = document.querySelector(`.film-details__close-btn`);
-closeButton.addEventListener(`click`, closePopup);
+// const details = new DetailsComponent(moviesSorted[0]);
+// render(pageMain, details.getElement(), RenderPosition.BEFOREEND);
+// let closeButton = document.querySelector(`.film-details__close-btn`);
+// closeButton.addEventListener(`click`, closePopup);

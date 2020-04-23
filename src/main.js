@@ -9,7 +9,6 @@ import StatsComponent from './components/stats.js';
 import RankComponent from './components/rank.js';
 import MenuComponent from './components/menu.js';
 import BoardComponent from './components/board.js';
-import FilmsListComponent from './components/list.js';
 import FilmsContainerComponent from './components/films.js';
 import SortingComponent from './components/sort.js';
 import CardComponent from './components/card.js';
@@ -20,7 +19,6 @@ const userRank = new RankComponent();
 const button = new LoadMoreButtonComponent();
 const stats = new StatsComponent();
 const board = new BoardComponent();
-const filmsList = new FilmsListComponent();
 const films = new FilmsContainerComponent();
 const sort = new SortingComponent();
 const top = new SpecialFilmsComponent(SUBTITLES[0]);
@@ -72,8 +70,12 @@ const menu = new MenuComponent(filters);
 
 render(pageMain, menu.getElement(), RenderPosition.AFTERBEGIN);
 render(pageMain, board.getElement(), RenderPosition.BEFOREEND);
-render(board.getElement(), filmsList.getElement(), RenderPosition.BEFOREEND);
-render(filmsList.getElement(), films.getElement(), RenderPosition.AFTERBEGIN);
+
+const filmsList = board.getElement().querySelector(`.films-list`);
+
+render(board.getElement(), filmsList, RenderPosition.BEFOREEND);
+render(filmsList, films.getElement(), RenderPosition.AFTERBEGIN);
+
 render(board.getElement(), top.getElement(), RenderPosition.BEFOREEND);
 render(board.getElement(), most.getElement(), RenderPosition.BEFOREEND);
 
@@ -81,7 +83,7 @@ let showingMoviesCount = CARDS_QUANTITY_ON_START;
 moviesSorted.slice(0, showingMoviesCount).forEach(item => renderFilm(films.getElement(), item));
 
 if (moviesSorted.length > CARDS_QUANTITY_ON_START) {
-  render(filmsList.getElement(), button.getElement(), RenderPosition.BEFOREEND);
+  render(filmsList, button.getElement(), RenderPosition.BEFOREEND);
 }
 
 if (button.getElement()) {

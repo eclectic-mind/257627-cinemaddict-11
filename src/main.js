@@ -1,4 +1,4 @@
-import {CARDS_QUANTITY, CARDS_QUANTITY_ON_START, CARDS_QUANTITY_RATINGS, CARDS_QUANTITY_MORE, STATS_ALL, SUBTITLES} from './constants.js';
+import {CARDS_QUANTITY, CARDS_QUANTITY_ON_START, CARDS_QUANTITY_RATINGS, CARDS_QUANTITY_MORE, SUBTITLES} from './constants.js';
 import {generateMovie, generateMovies} from './mock/data.js';
 import {generateFilters} from './mock/menu.js';
 import {render, replace, remove, RenderPosition} from './utils/render.js';
@@ -7,41 +7,64 @@ import {doSorting} from './utils/common.js';
 import StatsComponent from './components/stats.js';
 import RankComponent from './components/rank.js';
 import MenuComponent from './components/menu.js';
-import FilmsContainerComponent from './components/films.js';
-import SpecialFilmsComponent from './components/special.js';
-import BoardComponent from './components/board.js';
-import NoFilmsComponent from './components/no-films.js';
-
-import {renderS, RenderPositionS} from './components/render.js'; // old
-
-
-import LoadMoreButtonComponent from './components/button.js';
 import SortingComponent from './components/sort.js';
-import CardComponent from './components/card.js';
-import DetailsComponent from './components/details.js';
+import BoardComponent from './components/board.js';
+import BoardController from './controllers/board.js'; // новое
 
+/*
+import {renderS, RenderPositionS} from './components/render.js'; // старое
 
-const userRank = new RankComponent();
-const stats = new StatsComponent();
-const board = new BoardComponent();
-const films = new FilmsContainerComponent();
-const top = new SpecialFilmsComponent(SUBTITLES[0]);
-const most = new SpecialFilmsComponent(SUBTITLES[1]);
+import LoadMoreButtonComponent from './components/button.js'; // не пригодится
+import CardComponent from './components/card.js'; // не пригодится
+import DetailsComponent from './components/details.js'; // не пригодится
+import FilmsContainerComponent from './components/films.js'; // не пригодится
+import SpecialFilmsComponent from './components/special.js'; // не пригодится
+import NoFilmsComponent from './components/no-films.js'; // не пригодится
+*/
 
-const sort = new SortingComponent();
+/* новое */
 
-const button = new LoadMoreButtonComponent();
 const pageMain = document.querySelector(`main`);
 const header = document.querySelector(`header`);
 const statsContainer = document.querySelector(`.footer__statistics`);
 
 const moviesData = generateMovie();
 const movies = generateMovies(CARDS_QUANTITY);
-
 const moviesSorted = doSorting(movies, `date`);
 const moviesTopRated = doSorting(movies, `rating`, 0, CARDS_QUANTITY_RATINGS);
 const moviesMostComment = doSorting(movies, `comments`, 0, CARDS_QUANTITY_RATINGS);
 
+const filters = generateFilters(moviesSorted);
+
+const userRank = new RankComponent();
+const stats = new StatsComponent();
+
+render(header, userRank, RenderPosition.BEFOREEND);
+render(statsContainer, stats, RenderPosition.AFTERBEGIN);
+
+const menu = new MenuComponent(filters);
+const sort = new SortingComponent();
+
+render(pageMain, sort, RenderPosition.BEFOREEND);
+render(pageMain, menu, RenderPosition.AFTERBEGIN);
+
+
+const board = new BoardComponent();
+const boardController = new BoardController(board);
+
+render(pageMain, board, RenderPosition.BEFOREEND);
+boardController.render(moviesSorted);
+
+
+/*
+
+const board = new BoardComponent();
+const films = new FilmsContainerComponent();
+const top = new SpecialFilmsComponent(SUBTITLES[0]);
+const most = new SpecialFilmsComponent(SUBTITLES[1]);
+const button = new LoadMoreButtonComponent();
+*/
+/*
 const renderFilm = (container, movie) => {
   const card = new CardComponent(movie);
   const popup = new DetailsComponent(movie);
@@ -67,15 +90,9 @@ const renderFilm = (container, movie) => {
 
   renderS(container, card.getElement(), RenderPositionS.BEFOREEND);
 };
+*/
 
-renderS(header, userRank.getElement(), RenderPositionS.BEFOREEND);
-renderS(statsContainer, stats.getElement(), RenderPositionS.AFTERBEGIN);
-renderS(pageMain, sort.getElement(), RenderPositionS.BEFOREEND);
-
-const filters = generateFilters(moviesSorted);
-const menu = new MenuComponent(filters);
-
-renderS(pageMain, menu.getElement(), RenderPositionS.AFTERBEGIN);
+/*
 renderS(pageMain, board.getElement(), RenderPositionS.BEFOREEND);
 
 const filmsList = board.getElement().querySelector(`.films-list`);
@@ -111,3 +128,4 @@ moviesTopRated.forEach(item => renderFilm(topContainer, item));
 
 const mostContainer = most.getElement().querySelector(`.films-list__container`);
 moviesMostComment.forEach(item => renderFilm(mostContainer, item));
+*/

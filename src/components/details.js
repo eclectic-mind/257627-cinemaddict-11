@@ -1,5 +1,4 @@
-import {FILM_TITLES, GENRES, GENRE_MIN, GENRE_MAX, POSTER_FILES, DESCR_SENTENCES, DESCR_MAX, DESCR_MIN, COMMENTS_MAX, COUNTRIES} from '../constants.js';
-import {AGES, RATING_MAX, DURATION_MIN, DURATION_MAX, CAST, WRITERS, PRODUCER, CONTROLS_DETAILS} from '../constants.js';
+import {CONTROLS_DETAILS} from '../constants.js';
 import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, formatDuration, makeControlLink} from '../utils/common.js';
 import AbstractComponent from './abstract-component.js';
 

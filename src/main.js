@@ -31,9 +31,9 @@ const statsContainer = document.querySelector(`.footer__statistics`);
 const moviesData = generateMovie();
 const movies = generateMovies(CARDS_QUANTITY);
 
-const moviesSorted = doSorting(movies.slice(0), `date`);
-const moviesTopRated = doSorting(movies.slice(0), `rating`).slice(0, CARDS_QUANTITY_RATINGS);
-const moviesMostComment = doSorting(movies.slice(0), `comments`).slice(0, CARDS_QUANTITY_RATINGS);
+const moviesSorted = doSorting(movies, `date`);
+const moviesTopRated = doSorting(movies, `rating`, 0, CARDS_QUANTITY_RATINGS);
+const moviesMostComment = doSorting(movies, `comments`, 0, CARDS_QUANTITY_RATINGS);
 
 const renderFilm = (container, movie) => {
   const card = new CardComponent(movie);

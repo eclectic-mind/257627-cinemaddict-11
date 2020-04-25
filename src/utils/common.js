@@ -67,15 +67,18 @@ export const createElement = (template) => {
   return newElement.firstChild;
 };
 
-export const doSorting = (data, param) => {
-  if (param === `date`) {
-    return data.sort((prev, next) => next.date - prev.date);
+export const doSorting = (data, param, from = 0, to = data.length) => {
+  let sorted = [];
+  switch (param) {
+    case `date`:
+      sorted = data.sort((prev, next) => next.date - prev.date);
+      break;
+    case `rating`:
+      sorted = data.sort((prev, next) => next.rating - prev.rating);
+      break;
+    case `comments`:
+      sorted = data.sort((prev, next) => next.comments.length - prev.comments.length);
+      break;
   }
-  if (param === `rating`) {
-    return data.sort((prev, next) => next.rating - prev.rating);
-  }
-  if (param === `comments`) {
-    return data.sort((prev, next) => next.comments.length - prev.comments.length);
-  }
-  else return data;
+  return sorted.slice(from, to);
 };

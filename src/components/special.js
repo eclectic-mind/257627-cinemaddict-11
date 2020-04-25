@@ -33,6 +33,10 @@ export default class SpecialFilms {
 */
 
 export default class SpecialFilms extends AbstractComponent {
+  constructor(subtitle) {
+    super();
+    this._subtitle = subtitle;
+  }
   getTemplate() {
     return makeSpecialFilms();
   }

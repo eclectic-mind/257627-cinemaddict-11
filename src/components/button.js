@@ -1,5 +1,6 @@
 import {BUTTON_NAME} from '../constants.js';
-import {createElement} from '../utils.js';
+// import {createElement} from '../utils.js';
+import AbstractComponent from './abstract-component.js';
 
 export const makeButton = () => {
   return (
@@ -7,7 +8,7 @@ export const makeButton = () => {
   );
 };
 
-export default class LoadMoreButton {
+/* export default class LoadMoreButton {
   constructor() {
     this._element = null;
   }
@@ -23,4 +24,13 @@ export default class LoadMoreButton {
   removeElement() {
     this._element = null;
   }
-};
+}; */
+
+export default class LoadMoreButton extends AbstractComponent {
+  getTemplate() {
+    return makeButton();
+  }
+  setClickHandler(handler) {
+    this.getElement().addEventListener(`click`, handler);
+  }
+}

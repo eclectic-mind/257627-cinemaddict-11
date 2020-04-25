@@ -1,4 +1,5 @@
 import {createElement} from '../utils.js';
+import AbstractComponent from './abstract-component.js';
 
 export const makeSpecialFilms = (subtitle) => {
   return (
@@ -10,6 +11,7 @@ export const makeSpecialFilms = (subtitle) => {
   );
 };
 
+/*
 export default class SpecialFilms {
   constructor(subtitle) {
     this._subtitle = subtitle;
@@ -28,3 +30,10 @@ export default class SpecialFilms {
     this._element = null;
   }
 };
+*/
+
+export default class SpecialFilms extends AbstractComponent {
+  getTemplate() {
+    return makeSpecialFilms();
+  }
+}

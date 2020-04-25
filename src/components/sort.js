@@ -1,5 +1,6 @@
 import {SORT_BY} from '../constants.js';
-import {createElement} from '../utils.js';
+// import {createElement} from '../utils.js';
+import AbstractComponent from './abstract-component.js';
 
 const makeSortLink = (name) => {
   return (
@@ -17,6 +18,7 @@ export const makeSortMarkup = () => {
   );
 };
 
+/*
 export default class Sorting {
   constructor() {
     this._element = null;
@@ -34,4 +36,10 @@ export default class Sorting {
     this._element = null;
   }
 };
+*/
 
+export default class Sorting extends AbstractComponent {
+  getTemplate() {
+    return makeSortMarkup();
+  }
+}

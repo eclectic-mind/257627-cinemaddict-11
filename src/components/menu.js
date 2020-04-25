@@ -1,5 +1,6 @@
 import {MENU_ITEMS} from '../constants.js';
-import {getRandomNumber, createElement} from '../utils.js';
+import {getRandomNumber} from '../utils/common.js';
+import AbstractComponent from './abstract-component.js';
 
 const makeMenuLink = (name) => {
   let array = name.split(` `);
@@ -33,6 +34,7 @@ export const makeMenuMarkup = (filters) => {
   );
 };
 
+/*
 export default class Menu {
   constructor(filters) {
     this._filters = filters;
@@ -51,3 +53,14 @@ export default class Menu {
     this._element = null;
   }
 };
+*/
+
+export default class Menu extends AbstractComponent {
+  constructor(filters) {
+    super();
+    this._filters = filters;
+  }
+  getTemplate() {
+    return makeMenuMarkup(this._filters);
+  }
+}

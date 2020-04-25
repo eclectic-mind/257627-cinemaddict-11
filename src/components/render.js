@@ -1,16 +1,16 @@
 import {createElement} from '../utils.js';
 
-export const RenderPosition = {
+export const RenderPositionS = {
   AFTERBEGIN: `afterbegin`,
   BEFOREEND: `beforeend`
 };
 
-export const render = (container, element, place) => {
+export const renderS = (container, element, place) => {
   switch (place) {
-    case RenderPosition.AFTERBEGIN:
+    case RenderPositionS.AFTERBEGIN:
       container.prepend(element);
       break;
-    case RenderPosition.BEFOREEND:
+    case RenderPositionS.BEFOREEND:
       container.append(element);
       break;
   }

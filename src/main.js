@@ -1,6 +1,6 @@
 import {CARDS_QUANTITY, CARDS_QUANTITY_ON_START, CARDS_QUANTITY_RATINGS, CARDS_QUANTITY_MORE, STATS_ALL, SUBTITLES} from './constants.js';
 import {render, RenderPosition} from './components/render.js';
-import {doSorting} from './utils.js';
+import {doSorting} from './utils/common.js';
 import {generateMovie, generateMovies} from './mock/data.js';
 import {generateFilters} from './mock/menu.js';
 

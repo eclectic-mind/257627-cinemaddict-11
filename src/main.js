@@ -22,11 +22,11 @@ render(statsContainer, stats, RenderPosition.AFTERBEGIN);
 
 const moviesData = generateMovie();
 const movies = generateMovies(CARDS_QUANTITY);
-const moviesSorted = doSorting(movies, `date`);
-const moviesTopRated = doSorting(movies, `rating`, 0, CARDS_QUANTITY_RATINGS);
-const moviesMostComment = doSorting(movies, `comments`, 0, CARDS_QUANTITY_RATINGS);
+// const moviesSorted = doSorting(movies, `date`);
+// const moviesTopRated = doSorting(movies, `rating`, 0, CARDS_QUANTITY_RATINGS);
+// const moviesMostComment = doSorting(movies, `comments`, 0, CARDS_QUANTITY_RATINGS);
 
-const filters = generateFilters(moviesSorted);
+const filters = generateFilters(movies);
 
 const menu = new MenuComponent(filters);
 const sort = new SortingComponent();
@@ -38,7 +38,7 @@ const board = new BoardComponent();
 const boardController = new BoardController(board);
 
 render(pageMain, board, RenderPosition.BEFOREEND);
-boardController.render(moviesSorted);
+boardController.render(movies);
 
 
 /*

@@ -70,21 +70,20 @@ export default class BoardController {
 
   render(movies) {
 
-    const renderButton = () => {
+    const renderButton = (filmsBox, filmsList) => {
       let showingMoviesCount = CARDS_QUANTITY_ON_START;
       if (movies.length > showingMoviesCount) {
-        render(container, this._button, RenderPosition.BEFOREEND);
+        render(filmsList, this._button, RenderPosition.BEFOREEND);
       }
 
       if (this._button) {
         this._button.setClickHandler(() => {
           const prevMoviesCount = showingMoviesCount;
           showingMoviesCount += CARDS_QUANTITY_MORE;
-
-          movies.slice(prevMoviesCount, showingMoviesCount).forEach(item => renderFilm(container, item));
+          movies.slice(prevMoviesCount, showingMoviesCount).forEach(item => renderFilm(filmsBox, item));
 
           if (showingMoviesCount >= movies.length) {
-            remove(this._button);
+            remove(this._button.getElement());
           }
 
         });
@@ -92,54 +91,28 @@ export default class BoardController {
     };
 
     const container = this._container.getElement();
-    const box = this._films.getElement();
-    // render(container, box, RenderPosition.BEFOREEND);
-    // render(container, this._films, RenderPosition.BEFOREEND);
+    const list = container.querySelector(`.films-list`);
 
     if (movies.length === 0) {
-      render(container, this._noFilms, RenderPosition.BEFOREEND);
+      const allFilmsTitle = list.querySelector(`h2`);
+      remove(allFilmsTitle);
+      render(list, this._noFilms, RenderPosition.AFTERBEGIN);
       return;
     }
 
-    movies.slice(0, CARDS_QUANTITY_ON_START).forEach(item => renderFilm(container, item));
-    renderButton();
+    if (movies.length > 0) {
+
+      render(list, this._films, RenderPosition.BEFOREEND);
+      const box = list.querySelector(`.films-list__container`);
+      render(container, this._top, RenderPosition.BEFOREEND);
+      render(container, this._most, RenderPosition.BEFOREEND);
+      const boxTop = this._top.getElement().querySelector(`.films-list__container`);
+      const boxMost = this._most.getElement().querySelector(`.films-list__container`);
+      movies.slice(0, CARDS_QUANTITY_ON_START).forEach(item => renderFilm(box, item));
+      renderButton(box, list);
+      movies.slice(0, CARDS_QUANTITY_RATINGS).forEach(item => renderFilm(boxTop, item));
+      movies.slice(0, CARDS_QUANTITY_RATINGS).forEach(item => renderFilm(boxMost, item));
+    }
+
   }
 }
-
-/*
-renderS(pageMain, board.getElement(), RenderPositionS.BEFOREEND);
-
-const filmsList = board.getElement().querySelector(`.films-list`);
-
-renderS(board.getElement(), filmsList, RenderPositionS.BEFOREEND);
-renderS(filmsList, films.getElement(), RenderPositionS.AFTERBEGIN);
-
-renderS(board.getElement(), top.getElement(), RenderPositionS.BEFOREEND);
-renderS(board.getElement(), most.getElement(), RenderPositionS.BEFOREEND);
-
-let showingMoviesCount = CARDS_QUANTITY_ON_START;
-moviesSorted.slice(0, showingMoviesCount).forEach(item => renderFilm(films.getElement(), item));
-
-if (moviesSorted.length > CARDS_QUANTITY_ON_START) {
-  renderS(filmsList, button.getElement(), RenderPositionS.BEFOREEND);
-}
-
-if (button.getElement()) {
-    button.getElement().addEventListener(`click`, () => {
-      const prevMoviesCount = showingMoviesCount;
-      showingMoviesCount += CARDS_QUANTITY_MORE;
-      moviesSorted.slice(prevMoviesCount, showingMoviesCount).forEach(item => renderFilm(films.getElement(), item));
-
-      if (showingMoviesCount >= moviesSorted.length) {
-        button.getElement().remove();
-        button.removeElement();
-      }
-  });
-};
-
-const topContainer = top.getElement().querySelector(`.films-list__container`);
-moviesTopRated.forEach(item => renderFilm(topContainer, item));
-
-const mostContainer = most.getElement().querySelector(`.films-list__container`);
-moviesMostComment.forEach(item => renderFilm(mostContainer, item));
-*/

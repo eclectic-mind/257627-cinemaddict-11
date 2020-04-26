@@ -1,5 +1,6 @@
-import {cutText, formatDuration, makeControlLink, createElement} from '../utils.js';
+import {cutText, formatDuration, makeControlLink} from '../utils/common.js'
 import {BRIEF_MAX, CONTROLS_CARD} from '../constants.js';
+import AbstractComponent from './abstract-component.js';
 
 const makeControlsCard = () => {
   const names = CONTROLS_CARD;
@@ -39,21 +40,12 @@ export const makeCard = (movie) => {
   );
 };
 
-export default class Card {
+export default class Card extends AbstractComponent {
   constructor(movie) {
+    super();
     this._movie = movie;
-    this._element = null;
   }
   getTemplate() {
     return makeCard(this._movie);
   }
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-  removeElement() {
-    this._element = null;
-  }
-};
+}

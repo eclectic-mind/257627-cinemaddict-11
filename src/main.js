@@ -9,24 +9,16 @@ import RankComponent from './components/rank.js';
 import MenuComponent from './components/menu.js';
 import SortingComponent from './components/sort.js';
 import BoardComponent from './components/board.js';
-import BoardController from './controllers/board.js'; // новое
-
-/*
-import {renderS, RenderPositionS} from './components/render.js'; // старое
-
-import LoadMoreButtonComponent from './components/button.js'; // не пригодится
-import CardComponent from './components/card.js'; // не пригодится
-import DetailsComponent from './components/details.js'; // не пригодится
-import FilmsContainerComponent from './components/films.js'; // не пригодится
-import SpecialFilmsComponent from './components/special.js'; // не пригодится
-import NoFilmsComponent from './components/no-films.js'; // не пригодится
-*/
-
-/* новое */
+import BoardController from './controllers/board.js';
 
 const pageMain = document.querySelector(`main`);
 const header = document.querySelector(`header`);
 const statsContainer = document.querySelector(`.footer__statistics`);
+
+const userRank = new RankComponent();
+const stats = new StatsComponent();
+render(header, userRank, RenderPosition.BEFOREEND);
+render(statsContainer, stats, RenderPosition.AFTERBEGIN);
 
 const moviesData = generateMovie();
 const movies = generateMovies(CARDS_QUANTITY);
@@ -36,15 +28,8 @@ const moviesMostComment = doSorting(movies, `comments`, 0, CARDS_QUANTITY_RATING
 
 const filters = generateFilters(moviesSorted);
 
-const userRank = new RankComponent();
-const stats = new StatsComponent();
-
-render(header, userRank, RenderPosition.BEFOREEND);
-render(statsContainer, stats, RenderPosition.AFTERBEGIN);
-
 const menu = new MenuComponent(filters);
 const sort = new SortingComponent();
-
 render(pageMain, sort, RenderPosition.BEFOREEND);
 render(pageMain, menu, RenderPosition.AFTERBEGIN);
 

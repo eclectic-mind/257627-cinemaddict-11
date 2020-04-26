@@ -10,11 +10,19 @@ import DetailsComponent from '../components/details.js';
 import SpecialFilmsComponent from '../components/special.js';
 import NoFilmsComponent from '../components/no-films.js';
 
+const body = document.querySelector(`body`);
+
 const renderFilm = (container, movie) => {
+  const card = new CardComponent(movie);
+  const popup = new DetailsComponent(movie);
 
-  /* const onEscKeyDown = (evt) => {
+  const picture = card.getElement().querySelector(`.film-card__poster`);
+  const title = card.getElement().querySelector(`.film-card__title`);
+  const comments = card.getElement().querySelector(`.film-card__comments`);
+  const closeButton = popup.getElement().querySelector(`.film-details__close-btn`);
+/*
+  const onEscKeyDown = (evt) => {
     const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
-
     if (isEscKey) {
       popup.getElement().remove();
       document.removeEventListener(`keydown`, onEscKeyDown);
@@ -22,75 +30,30 @@ const renderFilm = (container, movie) => {
   };
   */
 
-  const card = new CardComponent(movie);
-  const popup = new DetailsComponent(movie);
+  const showPopup = (evt) => {
+    evt.preventDefault();
+    render(body, popup, RenderPosition.BEFOREEND);
+  };
 
-  const picture = card.getElement().querySelector(`.film-card__poster`);
-  const title = card.getElement().querySelector(`.film-card__title`);
-  const comments = card.getElement().querySelector(`.film-card__comments`);
-  const closeButton = popup.getElement().querySelector(`.film-details__close-btn`);
-
-  /*
-  picture.showPopup(() => {
-    render(pageMain, popup.getElement(), RenderPosition.BEFOREEND);
-    document.addEventListener(`keydown`, onEscKeyDown);
-  });
-
-   title.showPopup(() => {
-    render(pageMain, popup.getElement(), RenderPosition.BEFOREEND);
-    document.addEventListener(`keydown`, onEscKeyDown);
-  });
-
-  comments.showPopup(() => {
-    render(pageMain, popup.getElement(), RenderPosition.BEFOREEND);
-    document.addEventListener(`keydown`, onEscKeyDown);
-  });
-
-
-  closeButton.closePopup((evt) => {
+  const closePopup = (evt) => {
     evt.preventDefault();
     popup.getElement().remove();
-    document.removeEventListener(`keydown`, onEscKeyDown);
-  });
-
-  render(container, card, RenderPosition.BEFOREEND);
-  */
-};
-
-/*
-const renderFilm = (container, movie) => {
-  const card = new CardComponent(movie);
-  const popup = new DetailsComponent(movie);
-
-  const closePopup = () => {
-    pageMain.removeChild(popup.getElement());
-  };
-  const showPopup = (movie) => {
-    render(pageMain, popup.getElement(), RenderPosition.BEFOREEND);
+    // document.removeEventListener(`keydown`, onEscKeyDown);
   };
 
-  const picture = card.getElement().querySelector(`.film-card__poster`);
   picture.addEventListener(`click`, showPopup);
-
-  const title = card.getElement().querySelector(`.film-card__title`);
   title.addEventListener(`click`, showPopup);
-
-  const comments = card.getElement().querySelector(`.film-card__comments`);
   comments.addEventListener(`click`, showPopup);
-
-  const closeButton = popup.getElement().querySelector(`.film-details__close-btn`);
   closeButton.addEventListener(`click`, closePopup);
 
-  render(container, card.getElement(), RenderPosition.BEFOREEND);
+  render(container, card, RenderPosition.BEFOREEND);
 };
-*/
 
 const renderFilms = (filmsListContainer, items) => {
   items.forEach((item) => {
     renderFilm(filmsListContainer, item);
   });
 };
-
 
 export default class BoardController {
   constructor(container) {
@@ -108,54 +71,38 @@ export default class BoardController {
   render(movies) {
 
     const renderButton = () => {
-      /* if (moviesSorted.length >= CARDS_QUANTITY_ON_START) {
-        return;
-      } */
+      let showingMoviesCount = CARDS_QUANTITY_ON_START;
+      if (movies.length > showingMoviesCount) {
+        render(container, this._button, RenderPosition.BEFOREEND);
+      }
 
-      render(container, this._button, RenderPosition.BEFOREEND);
+      if (this._button) {
+        this._button.setClickHandler(() => {
+          const prevMoviesCount = showingMoviesCount;
+          showingMoviesCount += CARDS_QUANTITY_MORE;
 
-      this._button.setClickHandler(() => {
-        const prevMoviesCount = showingMoviesCount;
-        showingMoviesCount += CARDS_QUANTITY_MORE;
+          movies.slice(prevMoviesCount, showingMoviesCount).forEach(item => renderFilm(container, item));
 
-        const moviesSorted = doSorting(movies, `date`, prevMoviesCount, showingMoviesCount);
-        moviesSorted.slice(prevMoviesCount, showingMoviesCount).forEach(item => renderFilm(films, item));
+          if (showingMoviesCount >= movies.length) {
+            remove(this._button);
+          }
 
-        if (showingMoviesCount >= moviesSorted.length) {
-          remove(this._buttonComponent);
-        }
-
-      });
+        });
+      }
     };
 
     const container = this._container.getElement();
+    const box = this._films.getElement();
+    // render(container, box, RenderPosition.BEFOREEND);
+    // render(container, this._films, RenderPosition.BEFOREEND);
 
     if (movies.length === 0) {
       render(container, this._noFilms, RenderPosition.BEFOREEND);
       return;
     }
 
-    // render(container, this._sort, RenderPosition.BEFOREEND);
-    render(container, this._films, RenderPosition.BEFOREEND);
-
-    // const taskListElement = this._tasksComponent.getElement();
-
-    // let showingTasksCount = TASKS_COUNT_ON_START;
-    renderFilms(this._films, movies.slice(0, CARDS_QUANTITY_ON_START));
-
+    movies.slice(0, CARDS_QUANTITY_ON_START).forEach(item => renderFilm(container, item));
     renderButton();
-
-    /*this._sortComponent.setSortTypeChangeHandler((sortType) => {
-      showingTasksCount = TASKS_COUNT_BY_BUTTON;
-      const sortedTasks = getSortedTasks(tasks, sortType, 0, showingTasksCount);
-
-      taskListElement.innerHTML = ``;
-
-      renderTasks(taskListElement, sortedTasks);
-
-      renderButton();
-    });
-    */
   }
 }
 

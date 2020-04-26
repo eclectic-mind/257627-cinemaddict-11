@@ -162,27 +162,6 @@ export const makeDetails = (movie) => {
   );
 };
 
-/*
-export default class Details {
-  constructor(movie) {
-    this._movie = movie;
-    this._element = null;
-  }
-  getTemplate() {
-    return makeDetails(this._movie);
-  }
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-  removeElement() {
-    this._element = null;
-  }
-};
-*/
-
 export default class Details extends AbstractComponent {
   constructor(movie) {
     super();

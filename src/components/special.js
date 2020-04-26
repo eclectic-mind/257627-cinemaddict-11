@@ -11,27 +11,6 @@ export const makeSpecialFilms = (subtitle) => {
   );
 };
 
-/*
-export default class SpecialFilms {
-  constructor(subtitle) {
-    this._subtitle = subtitle;
-    this._element = null;
-  }
-  getTemplate() {
-    return makeSpecialFilms(this._subtitle);
-  }
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-  removeElement() {
-    this._element = null;
-  }
-};
-*/
-
 export default class SpecialFilms extends AbstractComponent {
   constructor(subtitle) {
     super();

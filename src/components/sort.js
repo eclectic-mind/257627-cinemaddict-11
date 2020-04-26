@@ -1,5 +1,4 @@
-import {SORT_BY} from '../constants.js';
-// import {createElement} from '../utils.js';
+import {SORT_BY, SortType} from '../constants.js';
 import AbstractComponent from './abstract-component.js';
 
 const makeSortLink = (name) => {
@@ -18,28 +17,34 @@ export const makeSortMarkup = () => {
   );
 };
 
-/*
-export default class Sorting {
-  constructor() {
-    this._element = null;
-  }
-  getTemplate() {
-    return makeSortMarkup();
-  }
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-  removeElement() {
-    this._element = null;
-  }
-};
-*/
-
 export default class Sorting extends AbstractComponent {
+  constructor() {
+    super();
+    this._currentSortType = SortType.DEFAULT;
+  }
   getTemplate() {
     return makeSortMarkup();
+  }
+  getSortType() {
+    return this._currentSortType;
+  }
+
+  setSortTypeChangeHandler(handler) {
+    this.getElement().addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+
+      if (evt.target.tagName !== `A`) {
+        return;
+      }
+
+      const sortType = evt.target.dataset.sortType;
+
+      if (this._currentSortType === sortType) {
+        return;
+      }
+
+      this._currentSortType = sortType;
+      handler(this._currentSortType);
+    });
   }
 }

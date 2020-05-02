@@ -1,6 +1,6 @@
 import {CONTROLS_DETAILS} from '../constants.js';
 import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, formatDuration, makeControlLink} from '../utils/common.js';
-import AbstractComponent from './abstract-component.js';
+import AbstractSmartComponent from './abstract-smart-component.js';
 
 const makeComment = (comment) => {
   const {text, emotion, author, dateComment} = comment;
@@ -162,7 +162,7 @@ export const makeDetails = (movie) => {
   );
 };
 
-export default class Details extends AbstractComponent {
+export default class Details extends AbstractSmartComponent {
   constructor(movie) {
     super();
     this._movie = movie;

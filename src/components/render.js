@@ -1,4 +1,4 @@
-import {createElement} from '../utils.js';
+import {createElement} from '../utils/common.js';
 
 export const RenderPositionS = {
   AFTERBEGIN: `afterbegin`,

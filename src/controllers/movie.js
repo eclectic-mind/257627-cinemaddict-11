@@ -2,88 +2,93 @@ import CardComponent from "../components/card.js";
 import DetailsComponent from "../components/details.js";
 import {render, replace, RenderPosition} from "../utils/render.js";
 
-/* const Mode = {
-  DEFAULT: `default`,
-  EDIT: `edit`,
-};
-*/
-
 export default class MovieController {
-  /*
-  constructor(container, onDataChange, onViewChange) {
+
+  constructor(container, movie) {
     this._container = container;
-    this._taskComponent = null;
-    this._onDataChange = onDataChange;
-    this._onViewChange = onViewChange;
-    this._mode = Mode.DEFAULT;
-    this._formComponent = null;
-    this._onEscKeyDown = this._onEscKeyDown.bind(this);
+    this._card = new CardComponent(movie);
+    this._popup = new DetailsComponent(movie);
+    this._body = document.querySelector(`body`);
   }
 
-  render(task) {
-    const oldTaskComponent = this._taskComponent;
-    const oldFormComponent = this._formComponent;
-    this._taskComponent = new TaskComponent(task);
-    this._formComponent = new FormComponent(task);
+  render(movie) {
 
+    const card = this._card.getElement();
+    const popup = this._popup.getElement();
+
+    const picture = card.querySelector(`.film-card__poster`);
+    const title = card.querySelector(`.film-card__title`);
+    const comments = card.querySelector(`.film-card__comments`);
+    const closeButton = popup.querySelector(`.film-details__close-btn`);
+
+    /*
+    this._picture.setPopupOpener((evt) => {
+      this._showPopup();
+    });
+
+    this._title.setPopupOpener((evt) => {
+      this._showPopup();
+    });
+
+    this._comments.setPopupOpener((evt) => {
+      this._showPopup();
+    });
+
+    this._closeButton.setPopupCloser((evt) => {
+      this._closeButton();
+    });
+    */
+
+    render(this._container, this._card, RenderPosition.BEFOREEND);
+  }
+
+  _showPopup(evt) {
+    evt.preventDefault();
+    render(this._body, this._popup, RenderPosition.BEFOREEND);
+  };
+
+  _closePopup(evt) {
+    evt.preventDefault();
+    this._popup.getElement().remove();
+  };
+
+};
+
+/*
+export default class TaskController {
+
+  render(task) {
+    this._taskComponent = new TaskComponent(task);
+    this._taskEditComponent = new TaskEditComponent(task);
     this._taskComponent.setEditButtonClickHandler(() => {
-      this._replaceTaskToForm();
+      this._replaceTaskToEdit();
       document.addEventListener(`keydown`, this._onEscKeyDown);
     });
 
-    this._taskComponent.setArchiveButtonClickHandler(() => {
-      this._onDataChange(this, task, Object.assign({}, task, {
-        isArchive: !task.isArchive,
-      }));
-    });
-
-    this._taskComponent.setFavoritesButtonClickHandler(() => {
-      this._onDataChange(this, task, Object.assign({}, task, {
-        isFavorite: !task.isFavorite,
-      }));
-    });
-
-    this._formComponent.setSubmitHandler((evt) => {
+    this._taskEditComponent.setSubmitHandler((evt) => {
       evt.preventDefault();
-      this._replaceFormToTask();
+      this._replaceEditToTask();
     });
 
     render(this._container, this._taskComponent, RenderPosition.BEFOREEND);
-
-    if (oldFormComponent && oldTaskComponent) {
-      replace(this._taskComponent, oldTaskComponent);
-      replace(this._formComponent, oldFormComponent);
-    } else {
-      render(this._container, this._taskComponent, RenderPosition.BEFOREEND);
-    }
   }
 
-  setDefaultView() {
-    if (this._mode !== Mode.DEFAULT) {
-      this._replaceFormToTask();
-    }
-  }
-
-  _replaceFormToTask() {
+  _replaceEditToTask() {
     document.removeEventListener(`keydown`, this._onEscKeyDown);
-    this._formComponent.reset();
-    replace(this._taskComponent, this._formComponent);
-    this._mode = Mode.DEFAULT;
+    replace(this._taskComponent, this._taskEditComponent);
   }
 
-  _replaceTaskToForm() {
-    this._onViewChange();
-    replace(this._formComponent, this._taskComponent);
-    this._mode = Mode.EDIT;
+  _replaceTaskToEdit() {
+    replace(this._taskEditComponent, this._taskComponent);
   }
 
   _onEscKeyDown(evt) {
     const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
 
     if (isEscKey) {
-      this._replaceFormToTask();
+      this._replaceEditToTask();
       document.removeEventListener(`keydown`, this._onEscKeyDown);
     }
   }
-  */
 }
+*/

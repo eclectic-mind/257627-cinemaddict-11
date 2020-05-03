@@ -7,7 +7,7 @@ import {doSorting} from './utils/common.js';
 import StatsComponent from './components/stats.js';
 import RankComponent from './components/rank.js';
 import MenuComponent from './components/menu.js';
-import SortingComponent from './components/sort.js';
+// import SortingComponent from './components/sort.js';
 import BoardComponent from './components/board.js';
 import BoardController from './controllers/board.js';
 
@@ -29,8 +29,8 @@ const movies = generateMovies(CARDS_QUANTITY);
 const filters = generateFilters(movies);
 
 const menu = new MenuComponent(filters);
-const sort = new SortingComponent();
-render(pageMain, sort, RenderPosition.BEFOREEND);
+// const sort = new SortingComponent();
+// render(pageMain, sort, RenderPosition.BEFOREEND);
 render(pageMain, menu, RenderPosition.AFTERBEGIN);
 
 

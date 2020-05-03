@@ -2,8 +2,9 @@ import {SORT_BY, SortType} from '../constants.js';
 import AbstractComponent from './abstract-component.js';
 
 const makeSortLink = (name) => {
+  const param = '${SortType.' + name.toUpperCase() + '}';
   return (
-    `<li><a href="#" class="sort__button">Sort by ${name}</a></li>`
+    `<li><a href="#" class="sort__button" data-sort-type="${param}">Sort by ${name}</a></li>`
   );
 };
 

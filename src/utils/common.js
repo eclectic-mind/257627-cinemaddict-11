@@ -69,16 +69,22 @@ export const createElement = (template) => {
 
 export const doSorting = (data, param, from = 0, to = data.length) => {
   let sorted = [];
+  let copy = data.slice();
   switch (param) {
     case `date`:
-      sorted = data.sort((prev, next) => next.date - prev.date);
+      sorted = copy.sort((prev, next) => next.date - prev.date);
       break;
     case `rating`:
-      sorted = data.sort((prev, next) => next.rating - prev.rating);
+      sorted = copy.sort((prev, next) => next.rating - prev.rating);
       break;
     case `comments`:
-      sorted = data.sort((prev, next) => next.comments.length - prev.comments.length);
+      sorted = copy.sort((prev, next) => next.comments.length - prev.comments.length);
       break;
+    case `default`:
+      sorted = copy;
+      break;
+    default:
+      sorted = copy;
   }
   return sorted.slice(from, to);
 };

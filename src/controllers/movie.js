@@ -14,6 +14,8 @@ export default class MovieController {
 
   render(movie) {
 
+    // const body = this._body.getElement();
+    const body = this._body;
     const card = this._card.getElement();
     const popup = this._popup.getElement();
 
@@ -21,6 +23,13 @@ export default class MovieController {
     const title = card.querySelector(`.film-card__title`);
     const comments = card.querySelector(`.film-card__comments`);
     const closeButton = popup.querySelector(`.film-details__close-btn`);
+
+    picture.addEventListener(`click`, this._showPopup);
+    title.addEventListener(`click`, this._showPopup);
+    comments.addEventListener(`click`, this._showPopup);
+    closeButton.addEventListener(`click`, this._closePopup);
+
+    // card.setPopupOpener(this._showPopup);
 
     /*
     this._picture.setPopupOpener((evt) => {
@@ -45,12 +54,21 @@ export default class MovieController {
 
   _showPopup(evt) {
     evt.preventDefault();
-    render(this._body, this._popup, RenderPosition.BEFOREEND);
+    render(body, this._popup, RenderPosition.BEFOREEND);
   };
 
   _closePopup(evt) {
     evt.preventDefault();
     this._popup.getElement().remove();
   };
-
+/*
+  setPopupOpener(handler) {
+    const picture = this.querySelector(`.film-card__poster`);
+    picture.addEventListener(`click`, handler);
+     this.getElement().querySelector(`.film-card__title`)
+      .addEventListener(`click`, handler);
+    this.getElement().querySelector(`.film-card__comments`)
+      .addEventListener(`click`, handler);
+  };
+*/
 };

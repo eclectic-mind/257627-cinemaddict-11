@@ -2,15 +2,31 @@ import {cutText, formatDuration, makeControlLink} from '../utils/common.js'
 import {BRIEF_MAX, CONTROLS_CARD} from '../constants.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
 
+const makeControlButton = (name, condition = false) => {
+  const short = makeControlLink(name);
+  return (
+    `<button class="film-card__controls-item button film-card__controls-item--${short} ${condition ? `film-card__controls-item--active` : ``}">${name}</button>`
+  );
+};
+
 const makeControlsCard = () => {
   const names = CONTROLS_CARD;
-  const shorts = names.map(item => makeControlLink(item));
+  const addToList = makeControlButton(names[0]);
+  const markAsWatched = makeControlButton(names[1]);
+  const markAsFavorite = makeControlButton(names[2]);
+  return (
+    `${addToList}
+     ${markAsWatched}
+     ${markAsFavorite}`
+  );
+
+  /* const shorts = names.map(item => makeControlLink(item));
   return (
     `<button class="film-card__controls-item button film-card__controls-item--add-to-${shorts[0]}">${names[0]}</button>
     <button class="film-card__controls-item button film-card__controls-item--mark-as-${shorts[1]}">${names[1]}</button>
     <button class="film-card__controls-item button film-card__controls-item--${shorts[2]}">${names[2]}</button>`
-  );
-}
+  );*/
+};
 
 export const makeCard = (movie) => {
   const {title, original, description, poster, genres, duration, date, comments, country, producer, writers, cast, rating, age} = movie;
@@ -48,4 +64,13 @@ export default class Card extends AbstractSmartComponent {
   getTemplate() {
     return makeCard(this._movie);
   }
+   /* setPopupOpener(handler) {
+    this.getElement().querySelector(`.film-card__poster`)
+      .addEventListener(`click`, handler);
+    this.getElement().querySelector(`.film-card__title`)
+      .addEventListener(`click`, handler);
+    this.getElement().querySelector(`.film-card__comments`)
+      .addEventListener(`click`, handler);
+
+  } */
 }

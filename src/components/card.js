@@ -64,15 +64,6 @@ export default class Card extends AbstractSmartComponent {
   getTemplate() {
     return makeCard(this._movie);
   }
-   /* setPopupOpener(handler) {
-    this.getElement().querySelector(`.film-card__poster`)
-      .addEventListener(`click`, handler);
-    this.getElement().querySelector(`.film-card__title`)
-      .addEventListener(`click`, handler);
-    this.getElement().querySelector(`.film-card__comments`)
-      .addEventListener(`click`, handler);
-
-  } */
 
   setAddToWatchlistClickHandler(handler) {
     this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`)
@@ -86,6 +77,20 @@ export default class Card extends AbstractSmartComponent {
 
   setMarkAsFavoriteClickHandler(handler) {
     this.getElement().querySelector(`.film-card__controls-item--favorite`)
+      .addEventListener(`click`, handler);
+  }
+
+  setPopupOpenerClickHandler(handler) {
+    this.getElement().querySelector(`.film-card__poster`)
+      .addEventListener(`click`, handler);
+    this.getElement().querySelector(`.film-card__title`)
+      .addEventListener(`click`, handler);
+    this.getElement().querySelector(`.film-card__comments`)
+      .addEventListener(`click`, handler);
+  }
+
+  setPopupCloserClickHandler(handler) {
+    this.getElement().querySelector(`.film-details__close-btn`)
       .addEventListener(`click`, handler);
   }
 

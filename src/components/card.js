@@ -9,11 +9,11 @@ const makeControlButton = (name, condition = false) => {
   );
 };
 
-const makeControlsCard = () => {
+const makeControlsCard = (movie) => {
   const names = CONTROLS_CARD;
-  const addToList = makeControlButton(names[0]);
-  const markAsWatched = makeControlButton(names[1]);
-  const markAsFavorite = makeControlButton(names[2]);
+  const addToList = makeControlButton(names[0], !movie.inWatchlist);
+  const markAsWatched = makeControlButton(names[1], !movie.isWatched);
+  const markAsFavorite = makeControlButton(names[2], !movie.isFavorite);
   return (
     `${addToList}
      ${markAsWatched}
@@ -35,7 +35,7 @@ export const makeCard = (movie) => {
   const brief = description > BRIEF_MAX ? cutText(description, BRIEF_MAX) : description;
   const genreMain = genres[0];
   const commentsQuantity = comments.length;
-  const controlsAll = makeControlsCard();
+  const controlsAll = makeControlsCard(movie);
 
   return (
     `<article class="film-card">
@@ -73,4 +73,20 @@ export default class Card extends AbstractSmartComponent {
       .addEventListener(`click`, handler);
 
   } */
+
+  setAddToWatchlistClickHandler(handler) {
+    this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`)
+      .addEventListener(`click`, handler);
+  }
+
+  setMarkAsWatchedClickHandler(handler) {
+    this.getElement().querySelector(`.film-card__controls-item--mark-as-watched`)
+      .addEventListener(`click`, handler);
+  }
+
+  setMarkAsFavoriteClickHandler(handler) {
+    this.getElement().querySelector(`.film-card__controls-item--favorite`)
+      .addEventListener(`click`, handler);
+  }
+
 }

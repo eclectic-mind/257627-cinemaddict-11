@@ -4,11 +4,12 @@ import {render, replace, RenderPosition} from "../utils/render.js";
 
 export default class MovieController {
 
-  constructor(container, movie) {
+  constructor(container, movie, onDataChange) {
     this._movie = movie;
     this._container = container;
     this._card = new CardComponent(movie);
     this._popup = new DetailsComponent(movie);
+    this._onDataChange = onDataChange;
     this._body = document.querySelector(`body`);
   }
 
@@ -23,6 +24,24 @@ export default class MovieController {
     const title = card.querySelector(`.film-card__title`);
     const comments = card.querySelector(`.film-card__comments`);
     const closeButton = popup.querySelector(`.film-details__close-btn`);
+
+    this._card.setAddToWatchlistClickHandler(() => {
+      this._onDataChange(this, movie, Object.assign({}, movie, {
+        inWatchlist: movie.inWatchlist,
+      }));
+    });
+
+    this._card.setMarkAsWatchedClickHandler(() => {
+      this._onDataChange(this, movie, Object.assign({}, movie, {
+        isWatched: movie.isWatched,
+      }));
+    });
+
+    this._card.setMarkAsFavoriteClickHandler(() => {
+      this._onDataChange(this, movie, Object.assign({}, movie, {
+        isFavorite: movie.isFavorite,
+      }));
+    });
 
     picture.addEventListener(`click`, this._showPopup);
     title.addEventListener(`click`, this._showPopup);

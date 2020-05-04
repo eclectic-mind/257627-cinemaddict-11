@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export const getRandomNumber = (min, max) => {
   return min + Math.floor(Math.random() * (max - min));
 };
@@ -49,10 +51,14 @@ export const cutText = (text, max) => {
   return `${result}...`;
 };
 
+export const formatDate = (date) => {
+  return moment(date).format(`DD MMMM YYYY`);
+};
+
 export const formatDuration = (time) => {
   const hours = Math.floor(time / 60);
   const minutes = time % 60;
-  const text = hours != 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
+  const text = hours != 0 ? `${hours}h${minutes}m` : `${minutes}m`;
   return text;
 };
 

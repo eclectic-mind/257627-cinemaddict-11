@@ -1,5 +1,5 @@
 import {CONTROLS_DETAILS} from '../constants.js';
-import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, formatDuration, makeControlLinkPopup} from '../utils/common.js';
+import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, formatDate, formatDuration, makeControlLinkPopup} from '../utils/common.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
 
 const makeComment = (comment) => {
@@ -55,7 +55,8 @@ export const makeDetails = (movie) => {
   const {title, original, description, poster, genres, duration, date, comments, country, producer, writers, cast, rating, age} = movie;
   const durationFormatted = formatDuration(duration);
   const genresAll = genres.join(`, `);
-  const dateFull = date.toDateString().slice(3);
+  // const dateFull = date.toDateString().slice(3);
+  const dateFull = formatDate(date);
   const commentsAll = comments.map(item => makeComment(item)).join(``);
   const commentsQuantity = comments.length;
   const controls = makeControlsDetails(movie);

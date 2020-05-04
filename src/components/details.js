@@ -1,5 +1,5 @@
 import {CONTROLS_DETAILS} from '../constants.js';
-import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, formatDuration, makeControlLink} from '../utils/common.js';
+import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, formatDuration, makeControlLinkPopup} from '../utils/common.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
 
 const makeComment = (comment) => {
@@ -22,17 +22,26 @@ const makeComment = (comment) => {
   );
 };
 
-const makeControl = (name) => {
-  const short = makeControlLink(name);
+const makeControl = (name, condition = false) => {
+  const short = makeControlLinkPopup(name);
   return (
     `<input type="checkbox" class="film-details__control-input visually-hidden" id="${short}" name="${short}">
      <label for="watchlist" class="film-details__control-label film-details__control-label--${short}">${name}</label>`
   );
 };
 
-const makeControlsDetails = () => {
+const makeControlsDetails = (movie) => {
   const names = CONTROLS_DETAILS;
   let controlsAll = names.map(item => makeControl(item));
+  /* const addToList = makeControl(names[0], !movie.inWatchlist);
+  const markAsWatched = makeControl(names[1], !movie.isWatched);
+  const markAsFavorite = makeControl(names[2], !movie.isFavorite);
+  return (
+    `${addToList}
+     ${markAsWatched}
+     ${markAsFavorite}`
+  );
+  */
   return controlsAll.join(``);
 };
 
@@ -49,7 +58,7 @@ export const makeDetails = (movie) => {
   const dateFull = date.toDateString().slice(3);
   const commentsAll = comments.map(item => makeComment(item)).join(``);
   const commentsQuantity = comments.length;
-  const controls = makeControlsDetails();
+  const controls = makeControlsDetails(movie);
   const button = makeCloseButton();
 
   return (

@@ -62,6 +62,12 @@ export const makeControlLink = (name) => {
   // return name === `Add to favorites` ? `favorite` : array[array.length - 1].toLowerCase();
 };
 
+export const makeControlLinkPopup = (name) => {
+  let array = name.split(` `);
+  // return name === `Add to watchlist` ? `add-to-watchlist` : name === `Mark as watched` ? `mark-as-watched` : `favorite`;
+  return name === `Add to favorites` ? `favorite` : array[array.length - 1].toLowerCase();
+};
+
 export const createElement = (template) => {
   const newElement = document.createElement(`div`);
   newElement.innerHTML = template;

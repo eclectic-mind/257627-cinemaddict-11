@@ -39,7 +39,10 @@ export default class MovieController {
 
     this._card.setPopupOpenerClickHandler((evt) => {
       evt.preventDefault();
-      render(body, this._popup, RenderPosition.BEFOREEND);
+      if (!body.querySelector(`.film-details`)) {
+        render(body, this._popup, RenderPosition.BEFOREEND);
+      }
+
     });
 
     this._popup.setPopupCloserClickHandler((evt) => {
@@ -48,6 +51,7 @@ export default class MovieController {
     });
 
     render(this._container, this._card, RenderPosition.BEFOREEND);
+
   }
 
 };

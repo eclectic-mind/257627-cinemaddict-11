@@ -63,9 +63,9 @@ export default class Card extends AbstractSmartComponent {
     super();
     this._movie = movie;
 
-    /* this._inWatchlist = !!movie.inWatchlist;
+    this._inWatchlist = !!movie.inWatchlist;
     this._isWatched = !!movie.isWatched;
-    this._isFavorite = !!movie.isFavorite;*/
+    this._isFavorite = !!movie.isFavorite;
 
     this._subscribeOnEvents();
   }
@@ -99,8 +99,33 @@ export default class Card extends AbstractSmartComponent {
 
   _subscribeOnEvents() {
     const element = this.getElement();
+    const movie = this._movie;
 
     element.querySelector(`.film-card__controls-item--add-to-watchlist`)
+      .addEventListener(`click`, () => {
+        this._onDataChange(this, movie, Object.assign({}, movie, {
+          inWatchlist: movie.inWatchlist,
+        }));
+      }
+    );
+
+    element.querySelector(`.film-card__controls-item--mark-as-watched`)
+      .addEventListener(`click`, () => {
+        this._onDataChange(this, movie, Object.assign({}, movie, {
+          isWatched: movie.isWatched,
+        }));
+      }
+    );
+
+    element.querySelector(`.film-card__controls-item--favorite`)
+      .addEventListener(`click`, () => {
+        this._onDataChange(this, movie, Object.assign({}, movie, {
+          isFavorite: movie.isFavorite,
+        }));
+      }
+    );
+
+    /* element.querySelector(`.film-card__controls-item--add-to-watchlist`)
       .addEventListener(`click`, () => {
         this._inWatchlist = !inWatchlist;
         this.reRender();
@@ -116,7 +141,9 @@ export default class Card extends AbstractSmartComponent {
         this._isFavorite = !isFavorite;
         this.reRender();
     });
+    */
   }
+
 
   setAddToWatchlistClickHandler(handler) {
     this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`)

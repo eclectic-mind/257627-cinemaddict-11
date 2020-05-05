@@ -24,11 +24,8 @@ export default class MovieController {
     this._card.setAddToWatchlistClickHandler((evt) => {
       evt.preventDefault();
       console.log(`добавили в список!`);
-      // this._onDataChange(this, movie, Object.assign({}, movie, {
-       // inWatchlist: movie.inWatchlist,
-      // }));
     });
-
+/*
     this._card.setMarkAsWatchedClickHandler((evt) => {
       evt.preventDefault();
       console.log(`просмотрено!`);
@@ -38,7 +35,7 @@ export default class MovieController {
       evt.preventDefault();
       console.log(`fav!`);
     });
-
+*/
 
     this._card.setPopupOpenerClickHandler((evt) => {
       evt.preventDefault();

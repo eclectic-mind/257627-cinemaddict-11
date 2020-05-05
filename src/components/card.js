@@ -65,6 +65,14 @@ export default class Card extends AbstractSmartComponent {
     return makeCard(this._movie);
   }
 
+  reset() {
+    const movie = this._movie;
+    this._inWatchlist = Object.values(movie.inWatchlist).some(Boolean);
+    this._isWatched = Object.values(movie.isWatched).some(Boolean);
+    this._isFavorite = Object.values(movie.isFavorite).some(Boolean);
+    this.rerender();
+  }
+
   setAddToWatchlistClickHandler(handler) {
     this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`)
       .addEventListener(`click`, handler);

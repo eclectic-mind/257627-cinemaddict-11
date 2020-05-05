@@ -1,6 +1,6 @@
 import CardComponent from "../components/card.js";
 import DetailsComponent from "../components/details.js";
-import {render, replace, RenderPosition} from "../utils/render.js";
+import {render, replace, remove, RenderPosition} from "../utils/render.js";
 
 export default class MovieController {
 
@@ -43,11 +43,10 @@ export default class MovieController {
       render(body, this._popup, RenderPosition.BEFOREEND);
     });
 
-    /* this._popup.setPopupCloserClickHandler((evt) => {
+    this._popup.setPopupCloserClickHandler((evt) => {
       evt.preventDefault();
-      this._popup.remove();
+      remove(this._popup.getElement());
     });
-    */
 
     render(this._container, this._card, RenderPosition.BEFOREEND);
   }

@@ -38,8 +38,8 @@ export const generateMovie = () => {
     rating: getRandomFloat(0, RATING_MAX),
     age: getRandomArrayItem(AGES),
     inWatchlist: getRandomBoolean(),
-    inHistory: getRandomBoolean(),
-    inFavorites: getRandomBoolean()
+    isWatched: getRandomBoolean(),
+    isFavorite: getRandomBoolean()
   };
 };
 

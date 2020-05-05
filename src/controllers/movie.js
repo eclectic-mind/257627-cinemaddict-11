@@ -20,19 +20,25 @@ export default class MovieController {
     const card = this._card.getElement();
     const popup = this._popup.getElement();
 
-    this._card.setAddToWatchlistClickHandler(() => {
+    this._card.setAddToWatchlistClickHandler((evt) => {
+      evt.preventDefault();
+      console.log(`добавили в список!`);
       this._onDataChange(this, movie, Object.assign({}, movie, {
         inWatchlist: movie.inWatchlist,
       }));
     });
 
-    this._card.setMarkAsWatchedClickHandler(() => {
+    this._card.setMarkAsWatchedClickHandler((evt) => {
+      evt.preventDefault();
+      console.log(`просмотрено!`);
       this._onDataChange(this, movie, Object.assign({}, movie, {
         isWatched: movie.isWatched,
       }));
     });
 
-    this._card.setMarkAsFavoriteClickHandler(() => {
+    this._card.setMarkAsFavoriteClickHandler((evt) => {
+      evt.preventDefault();
+      console.log(`fav!`);
       this._onDataChange(this, movie, Object.assign({}, movie, {
         isFavorite: movie.isFavorite,
       }));

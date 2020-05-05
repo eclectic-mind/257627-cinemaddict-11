@@ -2,7 +2,7 @@ import {cutText, formatDuration, makeControlLink} from '../utils/common.js'
 import {BRIEF_MAX, CONTROLS_CARD} from '../constants.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
 
-const makeControlButton = (name, condition = false) => {
+const makeControlButton = (name, condition = true) => {
   const short = makeControlLink(name);
   return (
     `<button class="film-card__controls-item button film-card__controls-item--${short} ${condition ? `film-card__controls-item--active` : ``}">${name}</button>`
@@ -11,9 +11,9 @@ const makeControlButton = (name, condition = false) => {
 
 const makeControlsCard = (movie) => {
   const names = CONTROLS_CARD;
-  const addToList = makeControlButton(names[0], !movie.inWatchlist);
-  const markAsWatched = makeControlButton(names[1], !movie.isWatched);
-  const markAsFavorite = makeControlButton(names[2], !movie.isFavorite);
+  const addToList = makeControlButton(names[0], movie.inWatchlist);
+  const markAsWatched = makeControlButton(names[1], movie.isWatched);
+  const markAsFavorite = makeControlButton(names[2], movie.isFavorite);
   return (
     `${addToList}
      ${markAsWatched}
@@ -28,8 +28,10 @@ const makeControlsCard = (movie) => {
   );*/
 };
 
-export const makeCard = (movie) => {
-  const {title, original, description, poster, genres, duration, date, comments, country, producer, writers, cast, rating, age} = movie;
+// export const makeCard = (movie, options = {}) => {
+  export const makeCard = (movie) => {
+  const {title, original, description, poster, genres, duration, date, comments, country, producer, writers, cast, rating, age, inWatchlist, isWatched, isFavorite} = movie;
+  // const {inWatchlist, isWatched, isFavorite} = options;
   const year = date.getFullYear();
   const durationFormatted = formatDuration(duration);
   const brief = description > BRIEF_MAX ? cutText(description, BRIEF_MAX) : description;
@@ -60,9 +62,16 @@ export default class Card extends AbstractSmartComponent {
   constructor(movie) {
     super();
     this._movie = movie;
+    // this._inWatchlist = inWatchlist;
+    // this._isWatched = isWatched;
+    // this._isFavorite = isFavorite;
   }
   getTemplate() {
-    return makeCard(this._movie);
+    return makeCard(this._movie, {
+      inWatchlist: this._inWatchlist,
+      isWatched: this._isWatched,
+      isFavorite: this._isFavorite
+    });
   }
 
   reset() {
@@ -70,7 +79,36 @@ export default class Card extends AbstractSmartComponent {
     this._inWatchlist = Object.values(movie.inWatchlist).some(Boolean);
     this._isWatched = Object.values(movie.isWatched).some(Boolean);
     this._isFavorite = Object.values(movie.isFavorite).some(Boolean);
-    this.rerender();
+    this.reRender();
+  }
+
+  reRender() {
+    super.reRender();
+  }
+
+  recoveryListeners() {
+    this.setControlsClickHandler(this._controlHandler);
+    this._subscribeOnEvents();
+  }
+
+  _subscribeOnEvents() {
+    const element = this.getElement();
+
+    element.querySelector(`.film-card__controls-item--add-to-watchlist`)
+      .addEventListener(`click`, () => {
+        this._inWatchlist = !inWatchlist;
+        this.reRender();
+    });
+    element.querySelector(`.film-card__controls-item--mark-as-watched`)
+      .addEventListener(`click`, () => {
+        this._isWatched = !isWatched;
+        this.reRender();
+    });
+    element.querySelector(`.film-card__controls-item--favorite`)
+      .addEventListener(`click`, () => {
+        this._isFavorite = !isFavorite;
+        this.reRender();
+    });
   }
 
   setAddToWatchlistClickHandler(handler) {

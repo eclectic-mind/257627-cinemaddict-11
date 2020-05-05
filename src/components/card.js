@@ -62,10 +62,14 @@ export default class Card extends AbstractSmartComponent {
   constructor(movie) {
     super();
     this._movie = movie;
-    // this._inWatchlist = inWatchlist;
-    // this._isWatched = isWatched;
-    // this._isFavorite = isFavorite;
+
+    /* this._inWatchlist = !!movie.inWatchlist;
+    this._isWatched = !!movie.isWatched;
+    this._isFavorite = !!movie.isFavorite;*/
+
+    this._subscribeOnEvents();
   }
+
   getTemplate() {
     return makeCard(this._movie, {
       inWatchlist: this._inWatchlist,
@@ -74,6 +78,7 @@ export default class Card extends AbstractSmartComponent {
     });
   }
 
+  /*
   reset() {
     const movie = this._movie;
     this._inWatchlist = Object.values(movie.inWatchlist).some(Boolean);
@@ -81,6 +86,7 @@ export default class Card extends AbstractSmartComponent {
     this._isFavorite = Object.values(movie.isFavorite).some(Boolean);
     this.reRender();
   }
+  */
 
   reRender() {
     super.reRender();
@@ -104,6 +110,7 @@ export default class Card extends AbstractSmartComponent {
         this._isWatched = !isWatched;
         this.reRender();
     });
+
     element.querySelector(`.film-card__controls-item--favorite`)
       .addEventListener(`click`, () => {
         this._isFavorite = !isFavorite;

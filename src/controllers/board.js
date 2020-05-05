@@ -72,11 +72,11 @@ export default class BoardController {
     const topFilmCards = renderFilms(boxTop, topMovies.slice(0, CARDS_QUANTITY_RATINGS), this._onDataChange, this._onViewChange);
     const mostFilmCards = renderFilms(boxMost, mostMovies.slice(0, CARDS_QUANTITY_RATINGS), this._onDataChange, this._onViewChange);
 
-    this._renderButton();
+    this._renderButton(moviesSorted);
 
   }
 
-  _renderButton() {
+  _renderButton(moviesSorted) {
     if (this._showingMoviesCount >= this._movies.length) {
       return;
     }
@@ -89,18 +89,19 @@ export default class BoardController {
 
     render(list, this._button, RenderPosition.BEFOREEND);
 
-    const allMoviesSorted = doSorting(this._movies, this._sorting.getSortType());
+    // const moviesSorted = doSorting(this._movies, this._sorting.getSortType());
 
     this._button.setClickHandler(() => {
       const prevMoviesCount = this._showingMoviesCount;
       this._showingMoviesCount += CARDS_QUANTITY_MORE;
       // const moviesSorted = doSorting(this._movies, this._sorting.getSortType(), prevMoviesCount, this._showingMoviesCount);
-
-      const additionalMovies = allMoviesSorted.slice(prevMoviesCount, this._showingMoviesCount);
+      const copy = moviesSorted.slice();
+      const additionalMovies = copy.slice(prevMoviesCount, this._showingMoviesCount);
       const newFilmCards = renderFilms(box, additionalMovies, this._onDataChange);
       this._showedMovieControllers = this._showedMovieControllers.concat(newFilmCards);
-      if (this._showingMoviesCount >= allMoviesSorted.length) {
+      if (this._showingMoviesCount >= moviesSorted.length) {
         remove(this._button.getElement());
+        this._button.removeElement();
       }
     });
 
@@ -127,7 +128,11 @@ export default class BoardController {
     list.innerHTML = ``;
     const newFilmCards = renderFilms(list, moviesSorted, this._onDataChange);
     this._showedMovieControllers = newFilmCards;
-    this._renderButton();
+
+    remove(this._button.getElement());
+    this._button.removeElement();
+
+    this._renderButton(moviesSorted);
   }
 
 }

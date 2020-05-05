@@ -103,6 +103,7 @@ export default class BoardController {
         remove(this._button.getElement());
         this._button.removeElement();
       }
+      console.log(copy);
     });
 
   }

@@ -62,6 +62,9 @@ export default class BoardController {
     const boxTop = this._top.getElement().querySelector(`.films-list__container`);
     const boxMost = this._most.getElement().querySelector(`.films-list__container`);
     const moviesSorted = doSorting(this._movies, this._sorting.getSortType());
+
+// console.log(`sorting by: ` + this._sorting.getSortType());
+
     const newFilmCards = renderFilms(box, moviesSorted.slice(0, CARDS_QUANTITY_ON_START), this._onDataChange, this._onViewChange);
     this._showedMovieControllers = this._showedMovieControllers.concat(newFilmCards);
     const topMovies = doSorting(this._movies, `rating`);
@@ -117,9 +120,9 @@ export default class BoardController {
   }
 
   _onSortTypeChange(sortType) {
-    const type = sortType.slice(11, -1).toLowerCase();
+    // const type = sortType.slice(11, -1).toLowerCase();
     const showingMoviesCount = CARDS_QUANTITY_ON_START;
-    const moviesSorted = doSorting(this._movies, type, 0, this._showingMoviesCount);
+    const moviesSorted = doSorting(this._movies, sortType, 0, this._showingMoviesCount);
     const list = this._films.getElement();
     list.innerHTML = ``;
     const newFilmCards = renderFilms(list, moviesSorted, this._onDataChange);

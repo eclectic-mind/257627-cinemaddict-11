@@ -3,8 +3,11 @@ import AbstractComponent from './abstract-component.js';
 
 const makeSortLink = (name) => {
   const param = '${SortType.' + name.toUpperCase() + '}';
+  // const param = name.toUpperCase();
   return (
-    `<li><a href="#" class="sort__button" data-sort-type="${param}">Sort by ${name}</a></li>`
+    // `<li><a href="#" class="sort__button" data-sort-type="${param}">Sort by ${name}</a></li>`
+    `<li><a href="#" class="sort__button" data-sort-type="${SortType[name.toUpperCase()]}">Sort by ${name}</a></li>`
+    // `<li><a href="#" class="sort__button" data-sort-type="SortType.${name}">Sort by ${name}</a></li>`
   );
 };
 
@@ -22,6 +25,7 @@ export default class Sorting extends AbstractComponent {
   constructor() {
     super();
     this._currentSortType = SortType.DEFAULT;
+    // this._currentSortType = `default`;
   }
   getTemplate() {
     return makeSortMarkup();
@@ -46,6 +50,8 @@ export default class Sorting extends AbstractComponent {
 
       this._currentSortType = sortType;
       handler(this._currentSortType);
+
+      console.log(this._currentSortType);
     });
   }
 }

@@ -180,4 +180,8 @@ export default class Details extends AbstractSmartComponent {
   getTemplate() {
     return makeDetails(this._movie);
   }
+  setPopupCloserClickHandler(handler) {
+    this.getElement().querySelector(`.film-details__close-btn`)
+      .addEventListener(`click`, handler);
+  }
 }

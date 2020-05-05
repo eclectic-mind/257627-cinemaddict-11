@@ -97,9 +97,4 @@ export default class Card extends AbstractSmartComponent {
       .addEventListener(`click`, handler);
   }
 
-  setPopupCloserClickHandler(handler) {
-    this.getElement().querySelector(`.film-details__close-btn`)
-      .addEventListener(`click`, handler);
-  }
-
 }

@@ -1,4 +1,4 @@
-import {CONTROLS_DETAILS} from '../constants.js';
+import {CONTROLS_DETAILS, EMOTIONS} from '../constants.js';
 import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, formatDate, formatDuration, makeControlLinkPopup} from '../utils/common.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
 
@@ -47,18 +47,37 @@ const makeCloseButton = () => {
   return (
   `<button class="film-details__close-btn" type="button">close</button>`
   );
+}
+
+const makeEmotion = (name) => {
+  return (
+    `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${name}" value="${name}">
+     <label class="film-details__emoji-label" for="emoji-${name}">
+     <img src="./images/emoji/${name}.png" width="30" height="30" alt="emoji">
+     </label>`
+  );
+};
+
+const makeEmotionsList = () => {
+  const items = EMOTIONS;
+  const markup = items.map(item => makeEmotion(item)).join(``);
+  return (
+    `<div class="film-details__emoji-list">
+    ${markup}
+    </div>`
+  );
 };
 
 export const makeDetails = (movie) => {
-  const {title, original, description, poster, genres, duration, date, comments, country, producer, writers, cast, rating, age} = movie;
+  const {title, original, description, poster, genres, duration, date, comments, country, producer, writers, cast, rating, age, emotion, inWatchlist, isWatched, isFavorite} = movie;
   const durationFormatted = formatDuration(duration);
   const genresAll = genres.join(`, `);
-  // const dateFull = date.toDateString().slice(3);
   const dateFull = formatDate(date);
   const commentsAll = comments.map(item => makeComment(item)).join(``);
   const commentsQuantity = comments.length;
   const controls = makeControlsDetails(movie);
   const button = makeCloseButton();
+  const emotions = makeEmotionsList();
 
   return (
     `<section class="film-details">
@@ -141,27 +160,7 @@ export const makeDetails = (movie) => {
             <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
           </label>
 
-          <div class="film-details__emoji-list">
-            <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile">
-            <label class="film-details__emoji-label" for="emoji-smile">
-              <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji">
-            </label>
-
-            <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="sleeping">
-            <label class="film-details__emoji-label" for="emoji-sleeping">
-              <img src="./images/emoji/sleeping.png" width="30" height="30" alt="emoji">
-            </label>
-
-            <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-puke" value="puke">
-            <label class="film-details__emoji-label" for="emoji-puke">
-              <img src="./images/emoji/puke.png" width="30" height="30" alt="emoji">
-            </label>
-
-            <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="angry">
-            <label class="film-details__emoji-label" for="emoji-angry">
-              <img src="./images/emoji/angry.png" width="30" height="30" alt="emoji">
-            </label>
-          </div>
+          ${emotions}
         </div>
       </section>
     </div>
@@ -177,12 +176,14 @@ export default class Details extends AbstractSmartComponent {
     this._inWatchlist = !!movie.inWatchlist;
     this._isWatched = !!movie.isWatched;
     this._isFavorite = !!movie.isFavorite;
+    this._emotion = !!movie.emotion;
   }
   getTemplate() {
     return makeDetails(this._movie, {
       inWatchlist: this._inWatchlist,
       isWatched: this._isWatched,
-      isFavorite: this._isFavorite
+      isFavorite: this._isFavorite,
+      emotion: this._emotion
     });
   }
 
@@ -239,6 +240,17 @@ export default class Details extends AbstractSmartComponent {
 
   setMarkAsFavoriteClickHandler(handler) {
     this.getElement().querySelector(`#favorite`)
+      .addEventListener(`click`, handler);
+  }
+
+  setEmojiClickHandler(handler) {
+    this.getElement().querySelector(`#emoji-smile`)
+      .addEventListener(`click`, handler);
+    this.getElement().querySelector(`#emoji-sleeping`)
+      .addEventListener(`click`, handler);
+    this.getElement().querySelector(`#emoji-puke`)
+      .addEventListener(`click`, handler);
+    this.getElement().querySelector(`#emoji-angry`)
       .addEventListener(`click`, handler);
   }
 

@@ -37,6 +37,7 @@ export const generateMovie = () => {
     cast: CAST.join(`, `),
     rating: getRandomFloat(0, RATING_MAX),
     age: getRandomArrayItem(AGES),
+    emotion: null,
     inWatchlist: getRandomBoolean(),
     isWatched: getRandomBoolean(),
     isFavorite: getRandomBoolean()

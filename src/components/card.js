@@ -22,8 +22,8 @@ const makeControlsCard = (movie) => {
 };
 
 // export const makeCard = (movie, options = {}) => {
-  export const makeCard = (movie) => {
-  const {title, original, description, poster, genres, duration, date, comments, country, producer, writers, cast, rating, age, inWatchlist, isWatched, isFavorite} = movie;
+  const makeCard = (movie) => {
+  const {title, original, description, poster, genres, duration, date, comments, country, producer, writers, cast, rating, age, emotion, inWatchlist, isWatched, isFavorite} = movie;
   // const {inWatchlist, isWatched, isFavorite} = options;
   const year = date.getFullYear();
   const durationFormatted = formatDuration(duration);

@@ -22,26 +22,11 @@ const makeComment = (comment) => {
   );
 };
 
-/*
-const makeControl = (name, condition = false) => {
-  const short = makeControlLinkPopup(name);
-  return (
-    `<input type="checkbox" class="film-details__control-input visually-hidden" id="${short}" name="${short}">
-     <label for="watchlist" class="film-details__control-label film-details__control-label--${short}">${name}</label>`
-  );
-};
-
-const makeControlsDetails = (movie) => {
-  const names = CONTROLS_DETAILS;
-  let controlsAll = names.map(item => makeControl(item));
-  return controlsAll.join(``);
-};
-*/
-
 const makeControl = (name, condition = true) => {
   const short = makeControlLinkPopup(name);
+  const active = !!condition ? `checked` : ``;
   return (
-    `<input type="checkbox" class="film-details__control-input visually-hidden" id="${short}" name="${short}">
+    `<input type="checkbox" class="film-details__control-input visually-hidden" id="${short}" name="${short}" ${active}>
      <label for="${short}" class="film-details__control-label film-details__control-label--${short}">${name}</label>`
   );
 };

@@ -5,7 +5,7 @@ import AbstractSmartComponent from './abstract-smart-component.js';
 const makeControlButton = (name, condition = true) => {
   const short = makeControlLink(name);
   return (
-    `<button class="film-card__controls-item button film-card__controls-item--${short} ${condition ? `film-card__controls-item--active` : ``}">${name}</button>`
+    `<button class="film-card__controls-item button film-card__controls-item--${short} ${!!condition ? `film-card__controls-item--active` : ``}">${name}</button>`
   );
 };
 

@@ -22,6 +22,7 @@ const makeComment = (comment) => {
   );
 };
 
+/*
 const makeControl = (name, condition = false) => {
   const short = makeControlLinkPopup(name);
   return (
@@ -33,16 +34,28 @@ const makeControl = (name, condition = false) => {
 const makeControlsDetails = (movie) => {
   const names = CONTROLS_DETAILS;
   let controlsAll = names.map(item => makeControl(item));
-  /* const addToList = makeControl(names[0], !movie.inWatchlist);
-  const markAsWatched = makeControl(names[1], !movie.isWatched);
-  const markAsFavorite = makeControl(names[2], !movie.isFavorite);
+  return controlsAll.join(``);
+};
+*/
+
+const makeControl = (name, condition = true) => {
+  const short = makeControlLinkPopup(name);
+  return (
+    `<input type="checkbox" class="film-details__control-input visually-hidden" id="${short}" name="${short}">
+     <label for="${short}" class="film-details__control-label film-details__control-label--${short}">${name}</label>`
+  );
+};
+
+const makeControlsDetails = (movie) => {
+  const names = CONTROLS_DETAILS;
+  const addToList = makeControl(names[0], movie.inWatchlist);
+  const markAsWatched = makeControl(names[1], movie.isWatched);
+  const markAsFavorite = makeControl(names[2], movie.isFavorite);
   return (
     `${addToList}
      ${markAsWatched}
      ${markAsFavorite}`
   );
-  */
-  return controlsAll.join(``);
 };
 
 const makeCloseButton = () => {
@@ -176,10 +189,74 @@ export default class Details extends AbstractSmartComponent {
   constructor(movie) {
     super();
     this._movie = movie;
+    this._inWatchlist = !!movie.inWatchlist;
+    this._isWatched = !!movie.isWatched;
+    this._isFavorite = !!movie.isFavorite;
   }
   getTemplate() {
-    return makeDetails(this._movie);
+    return makeDetails(this._movie, {
+      inWatchlist: this._inWatchlist,
+      isWatched: this._isWatched,
+      isFavorite: this._isFavorite
+    });
   }
+
+  reRender() {
+    super.reRender();
+  }
+
+  /*
+  recoveryListeners() {
+    this.setControlsClickHandler(this._controlHandler);
+    this._subscribeOnEvents();
+  }
+  */
+
+/* _subscribeOnEvents() {
+    const element = this.getElement();
+    const movie = this._movie;
+
+    element.querySelector(`.film-card__controls-item--add-to-watchlist`)
+      .addEventListener(`click`, () => {
+        this._onDataChange(this, movie, Object.assign({}, movie, {
+          inWatchlist: movie.inWatchlist,
+        }));
+      }
+    );
+
+    element.querySelector(`.film-card__controls-item--mark-as-watched`)
+      .addEventListener(`click`, () => {
+        this._onDataChange(this, movie, Object.assign({}, movie, {
+          isWatched: movie.isWatched,
+        }));
+      }
+    );
+
+    element.querySelector(`.film-card__controls-item--favorite`)
+      .addEventListener(`click`, () => {
+        this._onDataChange(this, movie, Object.assign({}, movie, {
+          isFavorite: movie.isFavorite,
+        }));
+      }
+
+    );
+*/
+
+  setAddToWatchlistClickHandler(handler) {
+    this.getElement().querySelector(`#watchlist`)
+      .addEventListener(`click`, handler);
+  }
+
+  setMarkAsWatchedClickHandler(handler) {
+    this.getElement().querySelector(`#watched`)
+      .addEventListener(`click`, handler);
+  }
+
+  setMarkAsFavoriteClickHandler(handler) {
+    this.getElement().querySelector(`#favorite`)
+      .addEventListener(`click`, handler);
+  }
+
   setPopupCloserClickHandler(handler) {
     this.getElement().querySelector(`.film-details__close-btn`)
       .addEventListener(`click`, handler);

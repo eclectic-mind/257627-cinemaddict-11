@@ -19,13 +19,6 @@ const makeControlsCard = (movie) => {
      ${markAsWatched}
      ${markAsFavorite}`
   );
-
-  /* const shorts = names.map(item => makeControlLink(item));
-  return (
-    `<button class="film-card__controls-item button film-card__controls-item--add-to-${shorts[0]}">${names[0]}</button>
-    <button class="film-card__controls-item button film-card__controls-item--mark-as-${shorts[1]}">${names[1]}</button>
-    <button class="film-card__controls-item button film-card__controls-item--${shorts[2]}">${names[2]}</button>`
-  );*/
 };
 
 // export const makeCard = (movie, options = {}) => {
@@ -62,12 +55,11 @@ export default class Card extends AbstractSmartComponent {
   constructor(movie) {
     super();
     this._movie = movie;
-
     this._inWatchlist = !!movie.inWatchlist;
     this._isWatched = !!movie.isWatched;
     this._isFavorite = !!movie.isFavorite;
 
-    this._subscribeOnEvents();
+    // this._subscribeOnEvents();
   }
 
   getTemplate() {
@@ -92,58 +84,11 @@ export default class Card extends AbstractSmartComponent {
     super.reRender();
   }
 
-  recoveryListeners() {
+  /* recoveryListeners() {
     this.setControlsClickHandler(this._controlHandler);
     this._subscribeOnEvents();
   }
-
-  _subscribeOnEvents() {
-    const element = this.getElement();
-    const movie = this._movie;
-
-    element.querySelector(`.film-card__controls-item--add-to-watchlist`)
-      .addEventListener(`click`, () => {
-        this._onDataChange(this, movie, Object.assign({}, movie, {
-          inWatchlist: movie.inWatchlist,
-        }));
-      }
-    );
-
-    element.querySelector(`.film-card__controls-item--mark-as-watched`)
-      .addEventListener(`click`, () => {
-        this._onDataChange(this, movie, Object.assign({}, movie, {
-          isWatched: movie.isWatched,
-        }));
-      }
-    );
-
-    element.querySelector(`.film-card__controls-item--favorite`)
-      .addEventListener(`click`, () => {
-        this._onDataChange(this, movie, Object.assign({}, movie, {
-          isFavorite: movie.isFavorite,
-        }));
-      }
-    );
-
-    /* element.querySelector(`.film-card__controls-item--add-to-watchlist`)
-      .addEventListener(`click`, () => {
-        this._inWatchlist = !inWatchlist;
-        this.reRender();
-    });
-    element.querySelector(`.film-card__controls-item--mark-as-watched`)
-      .addEventListener(`click`, () => {
-        this._isWatched = !isWatched;
-        this.reRender();
-    });
-
-    element.querySelector(`.film-card__controls-item--favorite`)
-      .addEventListener(`click`, () => {
-        this._isFavorite = !isFavorite;
-        this.reRender();
-    });
-    */
-  }
-
+  */
 
   setAddToWatchlistClickHandler(handler) {
     this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`)

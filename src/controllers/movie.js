@@ -77,15 +77,16 @@ export default class MovieController {
       }));
     });
 
-    this._popup.setEmojiClickHandler((evt) => {
+    /* this._popup.setFeedbackClickHandler((evt) => {
       evt.preventDefault();
       let value = evt.target.value;
-      console.log(value);
       this._onDataChange(this, movie, Object.assign({}, movie, {
         emotion: value,
       }));
-      console.log(movie);
+      let bigEmoji = document.querySelector(`.film-details__add-emoji-label`);
+      bigEmoji.innerHTML = `<img src="images/emoji/${value}.png" width="55" height="55" alt="emoji-smile">`;
     });
+    */
 
     if (oldCardController && oldPopupController) {
       replace(this._card, oldCardController);

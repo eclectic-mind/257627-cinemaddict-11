@@ -69,7 +69,7 @@ const makeEmotionsList = () => {
 };
 
 export const makeDetails = (movie) => {
-  const {title, original, description, poster, genres, duration, date, comments, country, producer, writers, cast, rating, age, emotion, inWatchlist, isWatched, isFavorite} = movie;
+  const {title, original, description, poster, genres, duration, date, comments, country, producer, writers, cast, rating, age, inWatchlist, isWatched, isFavorite} = movie;
   const durationFormatted = formatDuration(duration);
   const genresAll = genres.join(`, `);
   const dateFull = formatDate(date);
@@ -176,14 +176,18 @@ export default class Details extends AbstractSmartComponent {
     this._inWatchlist = !!movie.inWatchlist;
     this._isWatched = !!movie.isWatched;
     this._isFavorite = !!movie.isFavorite;
-    this._emotion = !!movie.emotion;
+    this._emotion = null;
+    this._feedbackHandler = null;
+
+    this._subscribeOnEvents();
   }
   getTemplate() {
     return makeDetails(this._movie, {
       inWatchlist: this._inWatchlist,
       isWatched: this._isWatched,
       isFavorite: this._isFavorite,
-      emotion: this._emotion
+      emotion: this._emotion,
+      commentText: this._commentText
     });
   }
 
@@ -191,42 +195,70 @@ export default class Details extends AbstractSmartComponent {
     super.reRender();
   }
 
-  /*
   recoveryListeners() {
-    this.setControlsClickHandler(this._controlHandler);
+    this.setFeedbackHandler(this._feedbackHandler);
     this._subscribeOnEvents();
   }
-  */
 
-/* _subscribeOnEvents() {
+  setFeedbackHandler(handler) {
+    this._element.querySelector(`.film-details__emoji-list`)
+      .addEventListener(`click`, handler);
+
+    this._feedbackHandler = handler;
+  }
+
+  _subscribeOnEvents() {
     const element = this.getElement();
     const movie = this._movie;
+    const emotion = this._emotion;
+    const commentText = this._commentText;
 
-    element.querySelector(`.film-card__controls-item--add-to-watchlist`)
+    element.querySelector(`#emoji-smile`)
       .addEventListener(`click`, () => {
-        this._onDataChange(this, movie, Object.assign({}, movie, {
-          inWatchlist: movie.inWatchlist,
-        }));
-      }
-    );
-
-    element.querySelector(`.film-card__controls-item--mark-as-watched`)
+        this._setEmotionClickHandler;
+        this.reRender();
+      });
+    element.querySelector(`#emoji-sleeping`)
       .addEventListener(`click`, () => {
-        this._onDataChange(this, movie, Object.assign({}, movie, {
-          isWatched: movie.isWatched,
-        }));
-      }
-    );
-
-    element.querySelector(`.film-card__controls-item--favorite`)
+        this._setEmotionClickHandler;
+        this.reRender();
+      });
+    element.querySelector(`#emoji-puke`)
       .addEventListener(`click`, () => {
-        this._onDataChange(this, movie, Object.assign({}, movie, {
-          isFavorite: movie.isFavorite,
-        }));
-      }
+        this._setEmotionClickHandler;
+        this.reRender();
+      });
+    element.querySelector(`#emoji-angry`)
+      .addEventListener(`click`, () => {
+        this._setEmotionClickHandler;
+        this.reRender();
+      });
+/*
+    element.querySelector(`.film-details__comment-input`)
+      .addEventListener(`click`, this._setCommentGetter);
+    this.reRender();
+    */
+  }
 
-    );
-*/
+  setEmotionClickHandler(evt) {
+    evt.preventDefault();
+    let value = evt.target.value;
+    this._onDataChange(this, movie, Object.assign({}, movie, {
+      emotion: value,
+    }));
+    console.log(emotion);
+    let bigEmoji = document.querySelector(`.film-details__add-emoji-label`);
+    bigEmoji.innerHTML = `<img src="images/emoji/${value}.png" width="55" height="55" alt="emoji-smile">`;
+  };
+
+  /* setCommentGetter(evt) {
+    evt.preventDefault();
+    let value = evt.target.value;
+    this._onDataChange(this, movie, Object.assign({}, movie, {
+      commentText: value,
+    }));
+  };
+  */
 
   setAddToWatchlistClickHandler(handler) {
     this.getElement().querySelector(`#watchlist`)
@@ -242,8 +274,8 @@ export default class Details extends AbstractSmartComponent {
     this.getElement().querySelector(`#favorite`)
       .addEventListener(`click`, handler);
   }
-
-  setEmojiClickHandler(handler) {
+/*
+  setEmotionClickHandler(handler) {
     this.getElement().querySelector(`#emoji-smile`)
       .addEventListener(`click`, handler);
     this.getElement().querySelector(`#emoji-sleeping`)
@@ -253,7 +285,7 @@ export default class Details extends AbstractSmartComponent {
     this.getElement().querySelector(`#emoji-angry`)
       .addEventListener(`click`, handler);
   }
-
+*/
   setPopupCloserClickHandler(handler) {
     this.getElement().querySelector(`.film-details__close-btn`)
       .addEventListener(`click`, handler);

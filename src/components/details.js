@@ -186,8 +186,8 @@ export default class Details extends AbstractSmartComponent {
       inWatchlist: this._inWatchlist,
       isWatched: this._isWatched,
       isFavorite: this._isFavorite,
-      emotion: this._emotion,
-      commentText: this._commentText
+      emotion: this._emotion
+      // commentText: this._commentText
     });
   }
 
@@ -211,26 +211,26 @@ export default class Details extends AbstractSmartComponent {
     const element = this.getElement();
     const movie = this._movie;
     const emotion = this._emotion;
-    const commentText = this._commentText;
+    // const commentText = this._commentText;
 
     element.querySelector(`#emoji-smile`)
       .addEventListener(`click`, () => {
-        this._setEmotionClickHandler;
+        this.setEmotionClickHandler;
         this.reRender();
       });
     element.querySelector(`#emoji-sleeping`)
       .addEventListener(`click`, () => {
-        this._setEmotionClickHandler;
+        this.setEmotionClickHandler;
         this.reRender();
       });
     element.querySelector(`#emoji-puke`)
       .addEventListener(`click`, () => {
-        this._setEmotionClickHandler;
+        this.setEmotionClickHandler;
         this.reRender();
       });
     element.querySelector(`#emoji-angry`)
       .addEventListener(`click`, () => {
-        this._setEmotionClickHandler;
+        this.setEmotionClickHandler;
         this.reRender();
       });
 /*

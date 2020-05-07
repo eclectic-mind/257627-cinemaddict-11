@@ -78,6 +78,10 @@ export const makeDetails = (movie) => {
   const controls = makeControlsDetails(movie);
   const button = makeCloseButton();
   const emotions = makeEmotionsList();
+  const emotion = null;
+  const currentEmotion = emotion !== null ? `<img src="images/emoji/${emotion}.png" width="55" height="55" alt="emoji-smile">` : ``;
+  // let bigEmoji = document.querySelector(`.film-details__add-emoji-label`);
+    // bigEmoji.innerHTML = `<img src="images/emoji/${value}.png" width="55" height="55" alt="emoji-smile">`;
 
   return (
     `<section class="film-details">
@@ -154,7 +158,9 @@ export const makeDetails = (movie) => {
         ${commentsAll}
         </ul>
         <div class="film-details__new-comment">
-          <div for="add-emoji" class="film-details__add-emoji-label"></div>
+          <div for="add-emoji" class="film-details__add-emoji-label">
+          ${currentEmotion}
+          </div>
 
           <label class="film-details__comment-label">
             <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
@@ -202,53 +208,64 @@ export default class Details extends AbstractSmartComponent {
 
   setFeedbackHandler(handler) {
     this._element.querySelector(`.film-details__emoji-list`)
-      .addEventListener(`click`, handler);
-
+      .addEventListener(`change`, handler);
     this._feedbackHandler = handler;
+    // this.reRender();
   }
 
   _subscribeOnEvents() {
     const element = this.getElement();
     const movie = this._movie;
     const emotion = this._emotion;
-    // const commentText = this._commentText;
 
-    element.querySelector(`#emoji-smile`)
-      .addEventListener(`click`, () => {
-        this.setEmotionClickHandler;
-        this.reRender();
-      });
-    element.querySelector(`#emoji-sleeping`)
-      .addEventListener(`click`, () => {
-        this.setEmotionClickHandler;
-        this.reRender();
-      });
-    element.querySelector(`#emoji-puke`)
-      .addEventListener(`click`, () => {
-        this.setEmotionClickHandler;
-        this.reRender();
-      });
-    element.querySelector(`#emoji-angry`)
-      .addEventListener(`click`, () => {
-        this.setEmotionClickHandler;
-        this.reRender();
-      });
-/*
+    element.querySelector(`.film-details__emoji-list`)
+      .addEventListener(`change`, this.setEmotionClickHandler);
+    this.reRender();
+
+    /*
     element.querySelector(`.film-details__comment-input`)
       .addEventListener(`click`, this._setCommentGetter);
     this.reRender();
     */
+    /*
+    element.querySelector(`#emoji-smile`)
+      .addEventListener(`change`, () => {
+        this.setEmotionClickHandler;
+        // this.reRender();
+      });
+    element.querySelector(`#emoji-sleeping`)
+      .addEventListener(`change`, () => {
+        this.setEmotionClickHandler;
+        // this.reRender();
+      });
+    element.querySelector(`#emoji-puke`)
+      .addEventListener(`change`, () => {
+        this.setEmotionClickHandler;
+        // .reRender();
+      });
+    element.querySelector(`#emoji-angry`)
+      .addEventListener(`change`, () => {
+        this.setEmotionClickHandler;
+        // this.reRender();
+      });
+      */
   }
 
   setEmotionClickHandler(evt) {
     evt.preventDefault();
     let value = evt.target.value;
-    this._onDataChange(this, movie, Object.assign({}, movie, {
+    console.log(value);
+    this._emotion = value;
+    /* this._onDataChange(this, movie, Object.assign({}, movie, {
       emotion: value,
     }));
-    console.log(emotion);
-    let bigEmoji = document.querySelector(`.film-details__add-emoji-label`);
-    bigEmoji.innerHTML = `<img src="images/emoji/${value}.png" width="55" height="55" alt="emoji-smile">`;
+    */
+    // let bigEmoji = document.querySelector(`.film-details__add-emoji-label`);
+    // bigEmoji.innerHTML = `<img src="images/emoji/${value}.png" width="55" height="55" alt="emoji-smile">`;
+
+
+    // this.reRender();
+    // console.log(this._popup);
   };
 
   /* setCommentGetter(evt) {
@@ -274,18 +291,7 @@ export default class Details extends AbstractSmartComponent {
     this.getElement().querySelector(`#favorite`)
       .addEventListener(`click`, handler);
   }
-/*
-  setEmotionClickHandler(handler) {
-    this.getElement().querySelector(`#emoji-smile`)
-      .addEventListener(`click`, handler);
-    this.getElement().querySelector(`#emoji-sleeping`)
-      .addEventListener(`click`, handler);
-    this.getElement().querySelector(`#emoji-puke`)
-      .addEventListener(`click`, handler);
-    this.getElement().querySelector(`#emoji-angry`)
-      .addEventListener(`click`, handler);
-  }
-*/
+
   setPopupCloserClickHandler(handler) {
     this.getElement().querySelector(`.film-details__close-btn`)
       .addEventListener(`click`, handler);

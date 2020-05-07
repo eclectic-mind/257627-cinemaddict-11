@@ -14,6 +14,7 @@ export default class MovieController {
     this._popup = null;
     this._onDataChange = onDataChange;
     this._body = document.querySelector(`body`);
+    this._emotion = null;
   }
 
   render(movie) {
@@ -25,6 +26,7 @@ export default class MovieController {
     const body = this._body;
     const card = this._card.getElement();
     const popup = this._popup.getElement();
+    const emotion = this._emotion;
 
     this._card.setAddToWatchlistClickHandler((evt) => {
       evt.preventDefault();
@@ -51,6 +53,11 @@ export default class MovieController {
       evt.preventDefault();
       if (!body.querySelector(`.film-details`)) {
         render(body, this._popup, RenderPosition.BEFOREEND);
+        let bigEmoji = document.querySelector(`.film-details__add-emoji-label`);
+        if (emotion !== null) {
+          bigEmoji.innerHTML = `<img src="images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">`;
+        }
+        console.log(bigEmoji);
       }
     });
 

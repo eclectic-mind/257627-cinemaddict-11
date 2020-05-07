@@ -210,7 +210,7 @@ export default class Details extends AbstractSmartComponent {
     this._element.querySelector(`.film-details__emoji-list`)
       .addEventListener(`change`, handler);
     this._feedbackHandler = handler;
-    // this.reRender();
+    this.reRender();
   }
 
   _subscribeOnEvents() {
@@ -220,7 +220,8 @@ export default class Details extends AbstractSmartComponent {
 
     element.querySelector(`.film-details__emoji-list`)
       .addEventListener(`change`, this.setEmotionClickHandler);
-    this.reRender();
+    // this.reRender();
+    // console.log(movie);
 
     /*
     element.querySelector(`.film-details__comment-input`)
@@ -254,8 +255,10 @@ export default class Details extends AbstractSmartComponent {
   setEmotionClickHandler(evt) {
     evt.preventDefault();
     let value = evt.target.value;
-    console.log(value);
     this._emotion = value;
+    // reRender();
+    console.log(this._emotion);
+
     /* this._onDataChange(this, movie, Object.assign({}, movie, {
       emotion: value,
     }));
@@ -263,9 +266,7 @@ export default class Details extends AbstractSmartComponent {
     // let bigEmoji = document.querySelector(`.film-details__add-emoji-label`);
     // bigEmoji.innerHTML = `<img src="images/emoji/${value}.png" width="55" height="55" alt="emoji-smile">`;
 
-
-    // this.reRender();
-    // console.log(this._popup);
+    // console.log(movie);
   };
 
   /* setCommentGetter(evt) {

@@ -57,7 +57,7 @@ export default class MovieController {
         if (emotion !== null) {
           bigEmoji.innerHTML = `<img src="images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">`;
         }
-        console.log(bigEmoji);
+        // console.log(bigEmoji);
       }
     });
 

@@ -183,7 +183,7 @@ export default class Details extends AbstractSmartComponent {
     this._isWatched = !!movie.isWatched;
     this._isFavorite = !!movie.isFavorite;
     this._emotion = null;
-    this._feedbackHandler = null;
+    // this._feedbackHandler = null;
 
     this._subscribeOnEvents();
   }

@@ -79,7 +79,7 @@ export const makeDetails = (movie, options = {}) => {
   const controls = makeControlsDetails(movie);
   const button = makeCloseButton();
   const emotions = makeEmotionsList();
-  const currentEmotion = emotion !== null ? `<img src="images/emoji/${emotion}.png" width="55" height="55" alt="emoji-smile">` : ``;
+  const currentEmotion = emotion !== null ? `<img src="images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">` : ``;
   // let bigEmoji = document.querySelector(`.film-details__add-emoji-label`);
     // bigEmoji.innerHTML = `<img src="images/emoji/${value}.png" width="55" height="55" alt="emoji-smile">`;
 

@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export const getRandomNumber = (min, max) => {
   return min + Math.floor(Math.random() * (max - min));
 };
@@ -49,15 +51,26 @@ export const cutText = (text, max) => {
   return `${result}...`;
 };
 
+export const formatDate = (date) => {
+  return moment(date).format(`DD MMMM YYYY`);
+};
+
 export const formatDuration = (time) => {
   const hours = Math.floor(time / 60);
   const minutes = time % 60;
-  const text = hours != 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
+  const text = hours != 0 ? `${hours}h${minutes}m` : `${minutes}m`;
   return text;
 };
 
 export const makeControlLink = (name) => {
   let array = name.split(` `);
+  return name === `Add to watchlist` ? `add-to-watchlist` : name === `Mark as watched` ? `mark-as-watched` : `favorite`;
+  // return name === `Add to favorites` ? `favorite` : array[array.length - 1].toLowerCase();
+};
+
+export const makeControlLinkPopup = (name) => {
+  let array = name.split(` `);
+  // return name === `Add to watchlist` ? `add-to-watchlist` : name === `Mark as watched` ? `mark-as-watched` : `favorite`;
   return name === `Add to favorites` ? `favorite` : array[array.length - 1].toLowerCase();
 };
 
@@ -69,16 +82,22 @@ export const createElement = (template) => {
 
 export const doSorting = (data, param, from = 0, to = data.length) => {
   let sorted = [];
+  let copy = data.slice();
   switch (param) {
     case `date`:
-      sorted = data.sort((prev, next) => next.date - prev.date);
+      sorted = copy.sort((prev, next) => next.date - prev.date);
       break;
     case `rating`:
-      sorted = data.sort((prev, next) => next.rating - prev.rating);
+      sorted = copy.sort((prev, next) => next.rating - prev.rating);
       break;
     case `comments`:
-      sorted = data.sort((prev, next) => next.comments.length - prev.comments.length);
+      sorted = copy.sort((prev, next) => next.comments.length - prev.comments.length);
       break;
+    case `default`:
+      sorted = copy;
+      break;
+    default:
+      sorted = copy;
   }
   return sorted.slice(from, to);
 };

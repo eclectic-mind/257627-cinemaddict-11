@@ -68,8 +68,9 @@ const makeEmotionsList = () => {
   );
 };
 
-export const makeDetails = (movie) => {
+export const makeDetails = (movie, options = {}) => {
   const {title, original, description, poster, genres, duration, date, comments, country, producer, writers, cast, rating, age, inWatchlist, isWatched, isFavorite} = movie;
+  const {emotion} = options;
   const durationFormatted = formatDuration(duration);
   const genresAll = genres.join(`, `);
   const dateFull = formatDate(date);
@@ -78,7 +79,6 @@ export const makeDetails = (movie) => {
   const controls = makeControlsDetails(movie);
   const button = makeCloseButton();
   const emotions = makeEmotionsList();
-  const emotion = null;
   const currentEmotion = emotion !== null ? `<img src="images/emoji/${emotion}.png" width="55" height="55" alt="emoji-smile">` : ``;
   // let bigEmoji = document.querySelector(`.film-details__add-emoji-label`);
     // bigEmoji.innerHTML = `<img src="images/emoji/${value}.png" width="55" height="55" alt="emoji-smile">`;
@@ -193,7 +193,6 @@ export default class Details extends AbstractSmartComponent {
       isWatched: this._isWatched,
       isFavorite: this._isFavorite,
       emotion: this._emotion
-      // commentText: this._commentText
     });
   }
 
@@ -202,81 +201,31 @@ export default class Details extends AbstractSmartComponent {
   }
 
   recoveryListeners() {
-    this.setFeedbackHandler(this._feedbackHandler);
+    // this.setFeedbackHandler(this._feedbackHandler);
     this._subscribeOnEvents();
   }
 
-  setFeedbackHandler(handler) {
+  /* setFeedbackHandler(handler) {
     this._element.querySelector(`.film-details__emoji-list`)
       .addEventListener(`change`, handler);
     this._feedbackHandler = handler;
-    this.reRender();
-  }
+  } */
 
   _subscribeOnEvents() {
     const element = this.getElement();
-    const movie = this._movie;
-    const emotion = this._emotion;
+    // const movie = this._movie;
+    // const emotion = this._emotion;
 
     element.querySelector(`.film-details__emoji-list`)
       .addEventListener(`change`, this.setEmotionClickHandler);
-    // this.reRender();
-    // console.log(movie);
-
-    /*
-    element.querySelector(`.film-details__comment-input`)
-      .addEventListener(`click`, this._setCommentGetter);
-    this.reRender();
-    */
-    /*
-    element.querySelector(`#emoji-smile`)
-      .addEventListener(`change`, () => {
-        this.setEmotionClickHandler;
-        // this.reRender();
-      });
-    element.querySelector(`#emoji-sleeping`)
-      .addEventListener(`change`, () => {
-        this.setEmotionClickHandler;
-        // this.reRender();
-      });
-    element.querySelector(`#emoji-puke`)
-      .addEventListener(`change`, () => {
-        this.setEmotionClickHandler;
-        // .reRender();
-      });
-    element.querySelector(`#emoji-angry`)
-      .addEventListener(`change`, () => {
-        this.setEmotionClickHandler;
-        // this.reRender();
-      });
-      */
   }
 
   setEmotionClickHandler(evt) {
     evt.preventDefault();
     let value = evt.target.value;
     this._emotion = value;
-    // reRender();
-    console.log(this._emotion);
-
-    /* this._onDataChange(this, movie, Object.assign({}, movie, {
-      emotion: value,
-    }));
-    */
-    // let bigEmoji = document.querySelector(`.film-details__add-emoji-label`);
-    // bigEmoji.innerHTML = `<img src="images/emoji/${value}.png" width="55" height="55" alt="emoji-smile">`;
-
-    // console.log(movie);
+    reRender();
   };
-
-  /* setCommentGetter(evt) {
-    evt.preventDefault();
-    let value = evt.target.value;
-    this._onDataChange(this, movie, Object.assign({}, movie, {
-      commentText: value,
-    }));
-  };
-  */
 
   setAddToWatchlistClickHandler(handler) {
     this.getElement().querySelector(`#watchlist`)

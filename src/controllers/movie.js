@@ -6,10 +6,7 @@ import {render, replace, remove, RenderPosition} from "../utils/render.js";
 export default class MovieController {
 
   constructor(container, movie, onDataChange) {
-    // this._movie = movie;
     this._container = container;
-    // this._card = new CardComponent(movie);
-    // this._popup = new DetailsComponent(movie);
     this._card = null;
     this._popup = null;
     this._onDataChange = onDataChange;
@@ -26,7 +23,6 @@ export default class MovieController {
     const body = this._body;
     const card = this._card.getElement();
     const popup = this._popup.getElement();
-    const emotion = this._emotion;
 
     this._card.setAddToWatchlistClickHandler((evt) => {
       evt.preventDefault();
@@ -54,10 +50,6 @@ export default class MovieController {
       if (!body.querySelector(`.film-details`)) {
         render(body, this._popup, RenderPosition.BEFOREEND);
         let bigEmoji = document.querySelector(`.film-details__add-emoji-label`);
-        if (emotion !== null) {
-          bigEmoji.innerHTML = `<img src="images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">`;
-        }
-        // console.log(bigEmoji);
       }
     });
 
@@ -83,17 +75,6 @@ export default class MovieController {
         isFavorite: !movie.isFavorite,
       }));
     });
-
-    /* this._popup.setFeedbackClickHandler((evt) => {
-      evt.preventDefault();
-      let value = evt.target.value;
-      this._onDataChange(this, movie, Object.assign({}, movie, {
-        emotion: value,
-      }));
-      let bigEmoji = document.querySelector(`.film-details__add-emoji-label`);
-      bigEmoji.innerHTML = `<img src="images/emoji/${value}.png" width="55" height="55" alt="emoji-smile">`;
-    });
-    */
 
     if (oldCardController && oldPopupController) {
       replace(this._card, oldCardController);

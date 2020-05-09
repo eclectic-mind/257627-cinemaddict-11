@@ -7,7 +7,6 @@ import {doSorting} from './utils/common.js';
 import StatsComponent from './components/stats.js';
 import RankComponent from './components/rank.js';
 import MenuComponent from './components/menu.js';
-// import SortingComponent from './components/sort.js';
 import BoardComponent from './components/board.js';
 import BoardController from './controllers/board.js';
 
@@ -22,17 +21,11 @@ render(statsContainer, stats, RenderPosition.AFTERBEGIN);
 
 const moviesData = generateMovie();
 const movies = generateMovies(CARDS_QUANTITY);
-// const moviesSorted = doSorting(movies, `date`);
-// const moviesTopRated = doSorting(movies, `rating`, 0, CARDS_QUANTITY_RATINGS);
-// const moviesMostComment = doSorting(movies, `comments`, 0, CARDS_QUANTITY_RATINGS);
 
 const filters = generateFilters(movies);
 
 const menu = new MenuComponent(filters);
-// const sort = new SortingComponent();
-// render(pageMain, sort, RenderPosition.BEFOREEND);
 render(pageMain, menu, RenderPosition.AFTERBEGIN);
-
 
 const board = new BoardComponent();
 const boardController = new BoardController(board);

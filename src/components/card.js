@@ -21,10 +21,8 @@ const makeControlsCard = (movie) => {
   );
 };
 
-// export const makeCard = (movie, options = {}) => {
   const makeCard = (movie) => {
   const {title, original, description, poster, genres, duration, date, comments, country, producer, writers, cast, rating, age, inWatchlist, isWatched, isFavorite} = movie;
-  // const {inWatchlist, isWatched, isFavorite} = options;
   const year = date.getFullYear();
   const durationFormatted = formatDuration(duration);
   const brief = description > BRIEF_MAX ? cutText(description, BRIEF_MAX) : description;
@@ -58,8 +56,6 @@ export default class Card extends AbstractSmartComponent {
     this._inWatchlist = !!movie.inWatchlist;
     this._isWatched = !!movie.isWatched;
     this._isFavorite = !!movie.isFavorite;
-
-    // this._subscribeOnEvents();
   }
 
   getTemplate() {
@@ -70,25 +66,9 @@ export default class Card extends AbstractSmartComponent {
     });
   }
 
-  /*
-  reset() {
-    const movie = this._movie;
-    this._inWatchlist = Object.values(movie.inWatchlist).some(Boolean);
-    this._isWatched = Object.values(movie.isWatched).some(Boolean);
-    this._isFavorite = Object.values(movie.isFavorite).some(Boolean);
-    this.reRender();
+  rerender() {
+    super.rerender();
   }
-  */
-
-  reRender() {
-    super.reRender();
-  }
-
-  /* recoveryListeners() {
-    this.setControlsClickHandler(this._controlHandler);
-    this._subscribeOnEvents();
-  }
-  */
 
   setAddToWatchlistClickHandler(handler) {
     this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`)

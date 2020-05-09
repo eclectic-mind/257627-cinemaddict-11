@@ -49,7 +49,6 @@ export default class MovieController {
       evt.preventDefault();
       if (!body.querySelector(`.film-details`)) {
         render(body, this._popup, RenderPosition.BEFOREEND);
-        // let bigEmoji = document.querySelector(`.film-details__add-emoji-label`);
       }
     });
 

@@ -65,12 +65,10 @@ export const formatDuration = (time) => {
 export const makeControlLink = (name) => {
   let array = name.split(` `);
   return name === `Add to watchlist` ? `add-to-watchlist` : name === `Mark as watched` ? `mark-as-watched` : `favorite`;
-  // return name === `Add to favorites` ? `favorite` : array[array.length - 1].toLowerCase();
 };
 
 export const makeControlLinkPopup = (name) => {
   let array = name.split(` `);
-  // return name === `Add to watchlist` ? `add-to-watchlist` : name === `Mark as watched` ? `mark-as-watched` : `favorite`;
   return name === `Add to favorites` ? `favorite` : array[array.length - 1].toLowerCase();
 };
 

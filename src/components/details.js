@@ -79,9 +79,7 @@ export const makeDetails = (movie, options = {}) => {
   const controls = makeControlsDetails(movie);
   const button = makeCloseButton();
   const emotions = makeEmotionsList();
-  const currentEmotion = emotion !== null ? `<img src="images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">` : ``;
-  // let bigEmoji = document.querySelector(`.film-details__add-emoji-label`);
-    // bigEmoji.innerHTML = `<img src="images/emoji/${value}.png" width="55" height="55" alt="emoji-smile">`;
+  const currentEmotion = emotion !== null && emotion !== undefined ? `<img src="images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">` : ``;
 
   return (
     `<section class="film-details">
@@ -93,7 +91,6 @@ export const makeDetails = (movie, options = {}) => {
       <div class="film-details__info-wrap">
         <div class="film-details__poster">
           <img class="film-details__poster-img" src="./images/posters/${poster}" alt="${title}">
-
           <p class="film-details__age">${age}+</p>
         </div>
 
@@ -139,11 +136,9 @@ export const makeDetails = (movie, options = {}) => {
               <td class="film-details__cell">${genresAll}</td>
             </tr>
           </table>
-
           <p class="film-details__film-description">${description}</p>
         </div>
       </div>
-
       <section class="film-details__controls">
       ${controls}
       </section>
@@ -158,14 +153,12 @@ export const makeDetails = (movie, options = {}) => {
         ${commentsAll}
         </ul>
         <div class="film-details__new-comment">
-          <div for="add-emoji" class="film-details__add-emoji-label">
+        <div for="add-emoji" class="film-details__add-emoji-label">
           ${currentEmotion}
           </div>
-
           <label class="film-details__comment-label">
             <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
           </label>
-
           ${emotions}
         </div>
       </section>
@@ -182,9 +175,7 @@ export default class Details extends AbstractSmartComponent {
     this._inWatchlist = !!movie.inWatchlist;
     this._isWatched = !!movie.isWatched;
     this._isFavorite = !!movie.isFavorite;
-    this._emotion = null;
-    // this._feedbackHandler = null;
-
+    this.setEmotionClickHandler = this.setEmotionClickHandler.bind(this);
     this._subscribeOnEvents();
   }
   getTemplate() {
@@ -196,26 +187,20 @@ export default class Details extends AbstractSmartComponent {
     });
   }
 
-  reRender() {
-    super.reRender();
+  rerender() {
+    super.rerender();
   }
 
   recoveryListeners() {
-    // this.setFeedbackHandler(this._feedbackHandler);
     this._subscribeOnEvents();
+    this.setPopupCloserClickHandler(this._popupCloserClickHandler);
+    this.setMarkAsFavoriteClickHandler(this._markAsFavoriteClickHandler);
+    this.setMarkAsWatchedClickHandler(this._markAsWatchedClickHandler);
+    this.setAddToWatchlistClickHandler(this._addToWatchListClickHandler);
   }
-
-  /* setFeedbackHandler(handler) {
-    this._element.querySelector(`.film-details__emoji-list`)
-      .addEventListener(`change`, handler);
-    this._feedbackHandler = handler;
-  } */
 
   _subscribeOnEvents() {
     const element = this.getElement();
-    // const movie = this._movie;
-    // const emotion = this._emotion;
-
     element.querySelector(`.film-details__emoji-list`)
       .addEventListener(`change`, this.setEmotionClickHandler);
   }
@@ -224,26 +209,30 @@ export default class Details extends AbstractSmartComponent {
     evt.preventDefault();
     let value = evt.target.value;
     this._emotion = value;
-    reRender();
+    this.rerender();
   };
 
   setAddToWatchlistClickHandler(handler) {
     this.getElement().querySelector(`#watchlist`)
       .addEventListener(`click`, handler);
+    this._addToWatchListClickHandler = handler;
   }
 
   setMarkAsWatchedClickHandler(handler) {
     this.getElement().querySelector(`#watched`)
       .addEventListener(`click`, handler);
+    this._markAsWatchedClickHandler = handler;
   }
 
   setMarkAsFavoriteClickHandler(handler) {
     this.getElement().querySelector(`#favorite`)
       .addEventListener(`click`, handler);
+    this._markAsFavoriteClickHandler = handler;
   }
 
   setPopupCloserClickHandler(handler) {
     this.getElement().querySelector(`.film-details__close-btn`)
       .addEventListener(`click`, handler);
+    this._popupCloserClickHandler = handler;
   }
 }

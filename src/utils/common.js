@@ -1,6 +1,6 @@
 import moment from "moment";
 
-export const getRandomNumber = (min, max) => {
+export const getRandomNumber = (min = 0, max = 1000) => {
   return min + Math.floor(Math.random() * (max - min));
 };
 

@@ -23,6 +23,7 @@ const generateCommentsArray = () => {
 
 export const generateMovie = () => {
   return {
+    id: getRandomNumber(),
     title: getRandomArrayItem(FILM_TITLES),
     original: getRandomArrayItem(FILM_TITLES),
     description: createFishText(DESCR_MIN, DESCR_MAX, DESCR_SENTENCES),

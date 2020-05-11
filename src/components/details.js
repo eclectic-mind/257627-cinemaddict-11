@@ -1,6 +1,7 @@
 import {CONTROLS_DETAILS, EMOTIONS} from '../constants.js';
 import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, formatDate, formatDuration, makeControlLinkPopup} from '../utils/common.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
+import {encode} from "he";
 
 const makeComment = (comment) => {
   const {text, emotion, author, dateComment} = comment;
@@ -70,7 +71,8 @@ const makeEmotionsList = () => {
 
 export const makeDetails = (movie, options = {}) => {
   const {title, original, description, poster, genres, duration, date, comments, country, producer, writers, cast, rating, age, inWatchlist, isWatched, isFavorite} = movie;
-  const {emotion} = options;
+  const {emotion, textComment} = options;
+  // const encodedTextComment = encode(textComment);
   const durationFormatted = formatDuration(duration);
   const genresAll = genres.join(`, `);
   const dateFull = formatDate(date);
@@ -189,6 +191,7 @@ export default class Details extends AbstractSmartComponent {
 
   rerender() {
     super.rerender();
+    console.log(this._movie);
   }
 
   recoveryListeners() {

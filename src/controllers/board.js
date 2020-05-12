@@ -63,27 +63,29 @@ export default class BoardController {
 
     // const moviesSorted = doSorting((this._moviesModel.getMovies(), this._sorting.getSortType());
     const moviesSorted = doSorting(movies, this._sorting.getSortType());
+    const topMovies = doSorting(movies, `rating`);
+    const mostMovies = doSorting(movies, `comments`);
 
     const newFilmCards = renderFilms(box, moviesSorted.slice(0, CARDS_QUANTITY_ON_START), this._onDataChange, this._onViewChange);
     this._showedMovieControllers = this._showedMovieControllers.concat(newFilmCards);
-    const topMovies = doSorting(movies, `rating`);
-    const mostMovies = doSorting(movies, `comments`);
+    console.log(newFilmCards);
+
     const topFilmCards = renderFilms(boxTop, topMovies.slice(0, CARDS_QUANTITY_RATINGS), this._onDataChange, this._onViewChange);
     const mostFilmCards = renderFilms(boxMost, mostMovies.slice(0, CARDS_QUANTITY_RATINGS), this._onDataChange, this._onViewChange);
 
-    this._renderMovies(moviesSorted.slice(0, this._showingMoviesCount));
+    // this._renderMovies(moviesSorted.slice(0, this._showingMoviesCount));
     this._renderButton(moviesSorted);
   }
 
   _renderButton(moviesSorted) {
+
     /* if (this._showingMoviesCount >= moviesSorted.length) {
       return;
-    }
-    */
+    } */
 
-    remove(this._buttonComponent);
+    // remove(this._buttonComponent);
 
-    if (this._showingMoviesCount >= this._moviestasksModel.getMovies().length) {
+     if (this._showingMoviesCount >= this._moviesModel.getMovies().length) {
       return;
     }
 
@@ -102,11 +104,11 @@ export default class BoardController {
       const additionalMovies = moviesSorted.slice(prevMoviesCount, this._showingMoviesCount);
       const newFilmCards = renderFilms(box, additionalMovies, this._onDataChange);
       this._showedMovieControllers = this._showedMovieControllers.concat(newFilmCards);
-      /* if (this._showingMoviesCount >= moviesSorted.length) {
+      if (this._showingMoviesCount >= moviesSorted.length) {
         remove(this._button.getElement());
         this._button.removeElement();
       }
-      */
+
     });
 
   }

@@ -1,3 +1,4 @@
+import {FilterType} from "../constants.js";
 import moment from "moment";
 
 export const getRandomNumber = (min = 0, max = 1000) => {
@@ -99,3 +100,32 @@ export const doSorting = (data, param, from = 0, to = data.length) => {
   }
   return sorted.slice(from, to);
 };
+
+// filtering
+
+export const getInWatchlist = (items) => {
+  return items.filter((item) => !!item.inWatchlist)
+};
+
+export const getWatched = (items) => {
+  return items.filter((item) => !!item.inHistory);
+};
+
+export const getFavorites = (items) => {
+  return items.filter((item) => !!item.inFavorites);
+};
+
+export const getMoviesByFilter = (items, filterType) => {
+  switch (filterType) {
+    case FilterType.WATCHLIST:
+      return getInWatchlist(items);
+    case FilterType.HISTORY:
+      return getWatched(items);
+    case FilterType.FAVORITES:
+      return getFavorites(items);
+    case FilterType.ALL:
+      return items;
+    default:
+      return items;
+ }
+}

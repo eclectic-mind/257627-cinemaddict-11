@@ -34,7 +34,9 @@ export default class BoardController {
     this._onDataChange = this._onDataChange.bind(this);
     this._onSortTypeChange = this._onSortTypeChange.bind(this);
     this._onViewChange = this._onViewChange.bind(this);
+    this._onFilterChange = this._onFilterChange.bind(this);
     this._sorting.setSortTypeChangeHandler(this._onSortTypeChange);
+    this._moviesModel.setFilterChangeHandler(this._onFilterChange);
   }
 
   render() {
@@ -77,7 +79,15 @@ export default class BoardController {
     this._renderButton(moviesSorted);
   }
 
-  _renderButton(moviesSorted) {
+  /*
+  _renderMovies(movies) {
+    const moviesSorted = doSorting(movies, this._sorting.getSortType());
+    const topMovies = doSorting(movies, `rating`);
+    const mostMovies = doSorting(movies, `comments`);
+  }
+  */
+
+  _renderButton(movies) {
 
     /* if (this._showingMoviesCount >= moviesSorted.length) {
       return;
@@ -88,6 +98,8 @@ export default class BoardController {
      if (this._showingMoviesCount >= this._moviesModel.getMovies().length) {
       return;
     }
+
+    const moviesSorted = doSorting(movies, this._sorting.getSortType());
 
     const container = this._container.getElement();
     const list = container.querySelector(`.films-list`);
@@ -108,9 +120,18 @@ export default class BoardController {
         remove(this._button.getElement());
         this._button.removeElement();
       }
-
     });
 
+  }
+
+  _removeMovies() {
+    this._showedMovieControllers.forEach((movieController) => movieController.destroy());
+    this._showedMovieControllers = [];
+  }
+
+  _updateMovies(count) {
+    this._removeMovies();
+    this._renderButton(this._moviesModel.getMovies().slice(0, count));
   }
 
   _onDataChange(movieController, oldData, newData) {
@@ -139,6 +160,10 @@ export default class BoardController {
     remove(this._button.getElement());
     this._button.removeElement();
     this._renderButton(moviesSorted);
+  }
+
+  _onFilterChange() {
+    this._updateMovies(CARDS_QUANTITY_ON_START);
   }
 
 }

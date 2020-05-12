@@ -10,6 +10,7 @@ import RankComponent from './components/rank.js';
 import MenuComponent from './components/menu.js';
 import BoardComponent from './components/board.js';
 import BoardController from './controllers/board.js';
+import FilterController from "./controllers/filter.js";
 
 const pageMain = document.querySelector(`main`);
 const header = document.querySelector(`header`);
@@ -26,7 +27,6 @@ const moviesModel = new MoviesModel();
 moviesModel.setMovies(movies);
 
 const filters = generateFilters(movies);
-
 const menu = new MenuComponent(filters);
 render(pageMain, menu, RenderPosition.AFTERBEGIN);
 

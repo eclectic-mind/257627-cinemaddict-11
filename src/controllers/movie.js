@@ -84,4 +84,10 @@ export default class MovieController {
 
   }
 
+   destroy() {
+    remove(this._popup);
+    remove(this._card);
+    document.removeEventListener(`keydown`, this._onEscKeyDown);
+  }
+
 };

@@ -1,8 +1,10 @@
+import {getInWatchlist, getWatched, getFavorites} from '../utils/common.js';
+
 export const generateFilters = (items) => {
   const allCount = items.length;
-  const watchlistCount = items.filter((item) => !!item.inWatchlist).length;
-  const historyCount = items.filter((item) => !!item.inHistory).length;
-  const favoritesCount = items.filter((item) => !!item.inFavorites).length;
+  const watchlistCount = getInWatchlist(items).length;
+  const historyCount = getWatched(items).length;
+  const favoritesCount = getFavorites(items).length;
 
   return [
     {title: `All`, count: allCount},

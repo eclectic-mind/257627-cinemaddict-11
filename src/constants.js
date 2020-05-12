@@ -10,6 +10,12 @@ export const SortType = {
   RATING: `rating`,
   DEFAULT: `default`,
 };
+export const FilterType = {
+  ALL: `All movies`,
+  WATCHLIST: `Watchlist`,
+  HISTORY: `History`,
+  FAVORITES: `Favorites`,
+};
 export const USER_RANKS = [`Novice`, `Fan`, `Movie Buff`];
 export const MENU_ITEMS = [`All movies`, `Watchlist`, `History`, `Favorites`, `Stats`];
 export const STATS_ALL = 130291;

@@ -191,7 +191,6 @@ export default class Details extends AbstractSmartComponent {
 
   rerender() {
     super.rerender();
-    console.log(this._movie);
   }
 
   recoveryListeners() {

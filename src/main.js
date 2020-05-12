@@ -22,7 +22,7 @@ render(statsContainer, stats, RenderPosition.AFTERBEGIN);
 
 const moviesData = generateMovie();
 const movies = generateMovies(CARDS_QUANTITY);
-const moviesModel = new Movies();
+const moviesModel = new MoviesModel();
 moviesModel.setMovies(movies);
 
 const filters = generateFilters(movies);

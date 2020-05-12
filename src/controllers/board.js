@@ -47,7 +47,6 @@ export default class BoardController {
     const boxMost = this._most.getElement().querySelector(`.films-list__container`);
 
     const movies = this._moviesModel.getMovies();
-    console.log(movies);
     const sorting = this._sorting;
 
     if (movies.length === 0) {

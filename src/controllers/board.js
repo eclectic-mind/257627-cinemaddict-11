@@ -8,6 +8,10 @@ import MovieController from "./movie.js";
 import SpecialFilmsComponent from '../components/special.js';
 import NoFilmsComponent from '../components/no-films.js';
 
+import MenuComponent from '../components/menu.js';
+import {generateFilters} from '../mock/menu.js';
+import FilterController from "../controllers/filter.js";
+
 const renderFilms = (filmsListContainer, items, onDataChange) => {
   return items.map((item) => {
     const movieController = new MovieController(filmsListContainer, item, onDataChange);
@@ -19,6 +23,7 @@ const renderFilms = (filmsListContainer, items, onDataChange) => {
 export default class BoardController {
   constructor(container, moviesModel) {
     this._container = container;
+    this._pageMain = document.querySelector(`main`);
     this._moviesModel = moviesModel;
     this._noFilms = new NoFilmsComponent();
     this._sorting = new SortingComponent();
@@ -26,12 +31,13 @@ export default class BoardController {
     this._button = new LoadMoreButtonComponent();
     this._top = new SpecialFilmsComponent(SUBTITLES[0]);
     this._most = new SpecialFilmsComponent(SUBTITLES[1]);
-    this._pageMain = document.querySelector(`main`);
     this._showedMovieControllers = [];
     this._showingMoviesCount = CARDS_QUANTITY_ON_START;
     this._onDataChange = this._onDataChange.bind(this);
     this._onSortTypeChange = this._onSortTypeChange.bind(this);
-    // this._onViewChange = this._onViewChange.bind(this);
+    this._sorting = new SortingComponent();
+    this._films = new FilmsContainerComponent();
+    this._button = new LoadMoreButtonComponent();
     this._onFilterChange = this._onFilterChange.bind(this);
     this._sorting.setSortTypeChangeHandler(this._onSortTypeChange);
     this._moviesModel.setFilterChangeHandler(this._onFilterChange);
@@ -46,6 +52,9 @@ export default class BoardController {
     const boxMost = this._most.getElement().querySelector(`.films-list__container`);
 
     const movies = this._moviesModel.getMovies();
+    const filters = generateFilters(movies);
+    const menu = new MenuComponent(filters);
+
     const sorting = this._sorting;
 
     if (movies.length === 0) {
@@ -56,6 +65,7 @@ export default class BoardController {
     }
 
     render(this._pageMain, sorting, RenderPosition.AFTERBEGIN);
+    render(this._pageMain, menu, RenderPosition.AFTERBEGIN);
     render(list, this._films, RenderPosition.BEFOREEND);
     render(container, this._top, RenderPosition.BEFOREEND);
     render(container, this._most, RenderPosition.BEFOREEND);

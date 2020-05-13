@@ -9,11 +9,12 @@ import {getMoviesByFilter} from "../utils/common.js";
 
 export default class FilterController {
   constructor(container, moviesModel) {
+    this._pageMain = document.querySelector(`main`);
     this._container = container;
     this._moviesModel = moviesModel;
 
     this._activeFilterType = FilterType.ALL;
-    this._filterComponent = null;
+    this._menu = null;
 
     this._onDataChange = this._onDataChange.bind(this);
     this._onFilterChange = this._onFilterChange.bind(this);
@@ -31,15 +32,16 @@ export default class FilterController {
         checked: filterType === this._activeFilterType,
       };
     });
-    const oldComponent = this._filterComponent;
+    const oldComponent = this._menu;
 
-    this._filterComponent = new FilterComponent(filters);
-    this._filterComponent.setFilterChangeHandler(this._onFilterChange);
+    this._menu = new MenuComponent(filters);
+    this._menu.setFilterChangeHandler(this._onFilterChange);
+    console.log(`выбран фильтр` + filterType);
 
     if (oldComponent) {
-      replace(this._filterComponent, oldComponent);
+      replace(this._menu, oldComponent);
     } else {
-      render(container, this._filterComponent, RenderPosition.BEFOREEND);
+      render(this._pageMain, this._menu, RenderPosition.BEFOREEND);
     }
   }
 

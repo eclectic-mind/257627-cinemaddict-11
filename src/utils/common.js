@@ -108,11 +108,11 @@ export const getInWatchlist = (items) => {
 };
 
 export const getWatched = (items) => {
-  return items.filter((item) => !!item.inHistory);
+  return items.filter((item) => !!item.isWatched);
 };
 
 export const getFavorites = (items) => {
-  return items.filter((item) => !!item.inFavorites);
+  return items.filter((item) => !!item.isFavorite);
 };
 
 export const getMoviesByFilter = (items, filterType) => {

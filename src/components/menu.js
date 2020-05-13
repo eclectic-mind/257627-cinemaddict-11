@@ -19,10 +19,12 @@ export const makeFilter = (filter, isChecked) => {
 };
 
 export const getFilterName = (element) => {
-  const href = element.getAttribute(`href`);
-  // return href.slice(1);
-  console.log(href);
-  return href;
+  // const href = element.getAttribute(`href`);
+  // const filterType = evt.target.dataset.filterType;
+  const filterType = evt.target;
+  console.log(filterType);
+  return filterType;
+  // return href.substr(1);
 };
 
 export const makeMenuMarkup = (filters) => {
@@ -50,10 +52,10 @@ export default class Menu extends AbstractComponent {
     return makeMenuMarkup(this._filters);
   }
   setFilterChangeHandler(handler) {
-    this.getElement().addEventListener(`change`, (evt) => {
+    this.getElement().addEventListener(`click`, (evt) => {
       const filterName = getFilterName(evt.target);
-      handler(filterName);
       console.log(`выбрали фильтр` + filterName);
+      handler(filterName);
     });
   }
 }

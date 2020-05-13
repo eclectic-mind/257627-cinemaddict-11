@@ -8,9 +8,9 @@ import MovieController from "./movie.js";
 import SpecialFilmsComponent from '../components/special.js';
 import NoFilmsComponent from '../components/no-films.js';
 
-const renderFilms = (filmsListContainer, items, onDataChange, onViewChange) => {
+const renderFilms = (filmsListContainer, items, onDataChange) => {
   return items.map((item) => {
-    const movieController = new MovieController(filmsListContainer, item, onDataChange, onViewChange);
+    const movieController = new MovieController(filmsListContainer, item, onDataChange);
     movieController.render(item);
     return movieController;
   });
@@ -31,7 +31,7 @@ export default class BoardController {
     this._showingMoviesCount = CARDS_QUANTITY_ON_START;
     this._onDataChange = this._onDataChange.bind(this);
     this._onSortTypeChange = this._onSortTypeChange.bind(this);
-    this._onViewChange = this._onViewChange.bind(this);
+    // this._onViewChange = this._onViewChange.bind(this);
     this._onFilterChange = this._onFilterChange.bind(this);
     this._sorting.setSortTypeChangeHandler(this._onSortTypeChange);
     this._moviesModel.setFilterChangeHandler(this._onFilterChange);
@@ -65,10 +65,10 @@ export default class BoardController {
     const topMovies = doSorting(movies, `rating`);
     const mostMovies = doSorting(movies, `comments`);
 
-    const topFilmCards = renderFilms(boxTop, topMovies.slice(0, CARDS_QUANTITY_RATINGS), this._onDataChange, this._onViewChange);
-    const mostFilmCards = renderFilms(boxMost, mostMovies.slice(0, CARDS_QUANTITY_RATINGS), this._onDataChange, this._onViewChange);
+    const topFilmCards = renderFilms(boxTop, topMovies.slice(0, CARDS_QUANTITY_RATINGS), this._onDataChange);
+    const mostFilmCards = renderFilms(boxMost, mostMovies.slice(0, CARDS_QUANTITY_RATINGS), this._onDataChange);
 
-    const newFilmCards = renderFilms(box, moviesSorted.slice(0, CARDS_QUANTITY_ON_START), this._onDataChange, this._onViewChange);
+    const newFilmCards = renderFilms(box, moviesSorted.slice(0, CARDS_QUANTITY_ON_START), this._onDataChange);
     this._showedMovieControllers = this._showedMovieControllers.concat(newFilmCards);
 
     // this._renderMovies(moviesSorted.slice(0, this._showingMoviesCount));
@@ -83,7 +83,7 @@ export default class BoardController {
   }
   */
 
-  _renderButton(movies) {
+  _renderButton(movies = this._moviesModel.getMovies()) {
 
     /* if (this._showingMoviesCount >= moviesSorted.length) {
       return;
@@ -137,9 +137,9 @@ export default class BoardController {
     }
   }
 
-  _onViewChange() {
+  /* _onViewChange() {
     this._showedMovieControllers.forEach((item) => item.setDefaultView());
-  }
+  } */
 
   _onSortTypeChange(sortType) {
     const showingMoviesCount = CARDS_QUANTITY_ON_START;

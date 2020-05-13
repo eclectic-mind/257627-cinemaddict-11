@@ -11,7 +11,7 @@ export const SortType = {
   DEFAULT: `default`,
 };
 export const FilterType = {
-  ALL: `All movies`,
+  ALL: `All`,
   WATCHLIST: `Watchlist`,
   HISTORY: `History`,
   FAVORITES: `Favorites`,

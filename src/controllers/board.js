@@ -1,5 +1,5 @@
 import {CARDS_QUANTITY, CARDS_QUANTITY_ON_START, CARDS_QUANTITY_RATINGS, CARDS_QUANTITY_MORE, STATS_ALL, SUBTITLES} from '../constants.js';
-import {doSorting} from '../utils/common.js';
+import {doSorting, generateFilters, doFiltration} from '../utils/common.js';
 import {render, remove, RenderPosition} from "../utils/render.js";
 import LoadMoreButtonComponent from '../components/button.js';
 import FilmsContainerComponent from '../components/films.js';
@@ -7,10 +7,7 @@ import SortingComponent from '../components/sort.js';
 import MovieController from "./movie.js";
 import SpecialFilmsComponent from '../components/special.js';
 import NoFilmsComponent from '../components/no-films.js';
-
 import MenuComponent from '../components/menu.js';
-import {generateFilters} from '../mock/menu.js';
-import FilterController from "../controllers/filter.js";
 
 const renderFilms = (filmsListContainer, items, onDataChange) => {
   return items.map((item) => {
@@ -38,9 +35,8 @@ export default class BoardController {
     this._sorting = new SortingComponent();
     this._films = new FilmsContainerComponent();
     this._button = new LoadMoreButtonComponent();
-    this._onFilterChange = this._onFilterChange.bind(this);
+    this._onFilterTypeChange = this._onFilterTypeChange.bind(this);
     this._sorting.setSortTypeChangeHandler(this._onSortTypeChange);
-    this._moviesModel.setFilterChangeHandler(this._onFilterChange);
   }
 
   render() {
@@ -50,11 +46,9 @@ export default class BoardController {
     const box = this._films.getElement();
     const boxTop = this._top.getElement().querySelector(`.films-list__container`);
     const boxMost = this._most.getElement().querySelector(`.films-list__container`);
-
     const movies = this._moviesModel.getMovies();
     const filters = generateFilters(movies);
     const menu = new MenuComponent(filters);
-
     const sorting = this._sorting;
 
     if (movies.length === 0) {
@@ -70,37 +64,21 @@ export default class BoardController {
     render(container, this._top, RenderPosition.BEFOREEND);
     render(container, this._most, RenderPosition.BEFOREEND);
 
-    // const moviesSorted = doSorting((this._moviesModel.getMovies(), this._sorting.getSortType());
+    menu.setFilterChangeHandler(this._onFilterTypeChange);
+
     const moviesSorted = doSorting(movies, this._sorting.getSortType());
     const topMovies = doSorting(movies, `rating`);
     const mostMovies = doSorting(movies, `comments`);
 
     const topFilmCards = renderFilms(boxTop, topMovies.slice(0, CARDS_QUANTITY_RATINGS), this._onDataChange);
     const mostFilmCards = renderFilms(boxMost, mostMovies.slice(0, CARDS_QUANTITY_RATINGS), this._onDataChange);
-
     const newFilmCards = renderFilms(box, moviesSorted.slice(0, CARDS_QUANTITY_ON_START), this._onDataChange);
     this._showedMovieControllers = this._showedMovieControllers.concat(newFilmCards);
 
-    // this._renderMovies(moviesSorted.slice(0, this._showingMoviesCount));
     this._renderButton(moviesSorted);
   }
 
-  /*
-  _renderMovies(movies) {
-    const moviesSorted = doSorting(movies, this._sorting.getSortType());
-    const topMovies = doSorting(movies, `rating`);
-    const mostMovies = doSorting(movies, `comments`);
-  }
-  */
-
   _renderButton(movies = this._moviesModel.getMovies()) {
-
-    /* if (this._showingMoviesCount >= moviesSorted.length) {
-      return;
-    } */
-
-    // remove(this._buttonComponent);
-
      if (this._showingMoviesCount >= this._moviesModel.getMovies().length) {
       return;
     }
@@ -130,26 +108,12 @@ export default class BoardController {
 
   }
 
-  _removeMovies() {
-    this._showedMovieControllers.forEach((movieController) => movieController.destroy());
-    this._showedMovieControllers = [];
-  }
-
-  _updateMovies(count) {
-    this._removeMovies();
-    this._renderButton(this._moviesModel.getMovies().slice(0, count));
-  }
-
   _onDataChange(movieController, oldData, newData) {
     const isSuccess = this._moviesModel.updateMovie(oldData.id, newData);
     if (isSuccess) {
       movieController.render(newData);
     }
   }
-
-  /* _onViewChange() {
-    this._showedMovieControllers.forEach((item) => item.setDefaultView());
-  } */
 
   _onSortTypeChange(sortType) {
     const showingMoviesCount = CARDS_QUANTITY_ON_START;
@@ -165,8 +129,18 @@ export default class BoardController {
     this._renderButton(moviesSorted);
   }
 
-  _onFilterChange() {
-    this._updateMovies(CARDS_QUANTITY_ON_START);
+  _onFilterTypeChange(filterType) {
+    const showingMoviesCount = CARDS_QUANTITY_ON_START;
+    const moviesFiltered = doFiltration(this._moviesModel.getMovies(), filterType);
+    const list = this._films.getElement();
+    list.innerHTML = ``;
+    const firstMovies = moviesFiltered.slice(0, showingMoviesCount);
+    const newFilmCards = renderFilms(list, firstMovies, this._onDataChange);
+    this._showedMovieControllers = newFilmCards;
+
+    remove(this._button.getElement());
+    this._button.removeElement();
+    this._renderButton(moviesFiltered);
   }
 
 }

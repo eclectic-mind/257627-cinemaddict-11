@@ -3,10 +3,6 @@ import {FilterType} from "../constants.js";
 import {render, replace, RenderPosition} from "../utils/render.js";
 import {getMoviesByFilter} from "../utils/common.js";
 
-/* const isFilterActive = (filterName) => {
-  filterName.getElement().classList.contains(`main-navigation__item--active`) ? true : false;
-} */
-
 export default class FilterController {
   constructor(container, moviesModel) {
     this._pageMain = document.querySelector(`main`);
@@ -48,7 +44,6 @@ export default class FilterController {
   _onFilterChange(filterType) {
     this._moviesModel.setFilter(filterType);
     this._activeFilterType = filterType;
-    console.log(`выбран фильтр` + filterType);
   }
 
   _onDataChange() {

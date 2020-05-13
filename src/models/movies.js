@@ -1,4 +1,4 @@
-import {getMoviesByFilter} from "../utils/common.js";
+import {doFiltration} from "../utils/common.js";
 import {FilterType} from "../constants.js";
 
 export default class Movies {
@@ -10,7 +10,7 @@ export default class Movies {
   }
 
   getMovies() {
-    return getMoviesByFilter(this._movies, this._activeFilterType);
+    return doFiltration(this._movies, this._activeFilterType);
   }
 
   getMoviesAll() {

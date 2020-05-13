@@ -79,6 +79,20 @@ export const createElement = (template) => {
   return newElement.firstChild;
 };
 
+export const generateFilters = (items) => {
+  const allCount = items.length;
+  const watchlistCount = getInWatchlist(items).length;
+  const historyCount = getWatched(items).length;
+  const favoritesCount = getFavorites(items).length;
+
+  return [
+    {title: `All`, count: allCount},
+    {title: `Watchlist`, count: watchlistCount},
+    {title: `History`, count: historyCount},
+    {title: `Favorites`, count: favoritesCount}
+  ];
+};
+
 export const doSorting = (data, param, from = 0, to = data.length) => {
   let sorted = [];
   let copy = data.slice();
@@ -101,7 +115,7 @@ export const doSorting = (data, param, from = 0, to = data.length) => {
   return sorted.slice(from, to);
 };
 
-// filtering
+// filtration
 
 export const getInWatchlist = (items) => {
   return items.filter((item) => !!item.inWatchlist)
@@ -115,17 +129,18 @@ export const getFavorites = (items) => {
   return items.filter((item) => !!item.isFavorite);
 };
 
-export const getMoviesByFilter = (items, filterType) => {
-  switch (filterType) {
-    case FilterType.WATCHLIST:
-      return getInWatchlist(items);
-    case FilterType.HISTORY:
-      return getWatched(items);
-    case FilterType.FAVORITES:
-      return getFavorites(items);
-    case FilterType.ALL:
-      return items;
+export const doFiltration = (data, param) => {
+  let copy = data.slice();
+  switch (param) {
+    case `Watchlist`:
+      return getInWatchlist(copy);
+    case `History`:
+      return getWatched(copy);
+    case `Favorites`:
+      return getFavorites(copy);
+    case `All`:
+      return copy;
     default:
-      return items;
+      return copy;
  }
-}
+};

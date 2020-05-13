@@ -18,15 +18,6 @@ export const makeFilter = (filter, isChecked) => {
   );
 };
 
-export const getFilterName = (element) => {
-  // const href = element.getAttribute(`href`);
-  // const filterType = evt.target.dataset.filterType;
-  const filterType = evt.target;
-  console.log(filterType);
-  return filterType;
-  // return href.substr(1);
-};
-
 export const makeMenuMarkup = (filters) => {
   const filterAll = `<a href="#${menuLinks[0]}" class="main-navigation__item main-navigation__item--active">${MENU_ITEMS[0]}</a>`;
   const aloneLink = `<a href="#${menuLinks[4]}" class="main-navigation__additional">${MENU_ITEMS[4]}</a>`;
@@ -53,9 +44,10 @@ export default class Menu extends AbstractComponent {
   }
   setFilterChangeHandler(handler) {
     this.getElement().addEventListener(`click`, (evt) => {
-      const filterName = getFilterName(evt.target);
-      console.log(`выбрали фильтр` + filterName);
-      handler(filterName);
+      const filterName = evt.target.innerHTML;
+      const filterType = filterName.split(' ')[0];
+      console.log(`выбрали фильтр ` + filterType);
+      handler(filterType);
     });
   }
 }

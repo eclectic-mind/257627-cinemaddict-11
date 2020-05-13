@@ -81,18 +81,16 @@ export default class BoardController {
   }
 
   _renderButton(movies = this._moviesModel.getMovies()) {
-     if (this._showingMoviesCount >= this._moviesModel.getMovies().length) {
+    const box = this._box;
+    const list = container.querySelector(`.films-list`);
+    const container = this._container.getElement();
+
+    if (this._showingMoviesCount >= this._moviesModel.getMovies().length) {
       return;
     }
 
     // const moviesFiltered = doFiltration(movies, this._menu.getFilterType());
     const moviesSorted = doSorting(movies, this._sorting.getSortType());
-
-    const container = this._container.getElement();
-    const list = container.querySelector(`.films-list`);
-    const box = this._films.getElement();
-    const boxTop = this._top.getElement().querySelector(`.films-list__container`);
-    const boxMost = this._most.getElement().querySelector(`.films-list__container`);
 
     render(list, this._button, RenderPosition.BEFOREEND);
 

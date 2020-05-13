@@ -66,7 +66,9 @@ export default class BoardController {
 
     menu.setFilterChangeHandler(this._onFilterTypeChange);
 
-    const moviesSorted = doSorting(movies, this._sorting.getSortType());
+    const moviesFiltered = doFiltration(movies, this._menu.getFilterType());
+    const moviesSorted = doSorting(moviesFiltered, this._sorting.getSortType());
+
     const topMovies = doSorting(movies, `rating`);
     const mostMovies = doSorting(movies, `comments`);
 
@@ -83,6 +85,7 @@ export default class BoardController {
       return;
     }
 
+    // const moviesFiltered = doFiltration(movies, this._menu.getFilterType());
     const moviesSorted = doSorting(movies, this._sorting.getSortType());
 
     const container = this._container.getElement();

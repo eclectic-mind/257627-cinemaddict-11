@@ -1,4 +1,4 @@
-import {MENU_ITEMS} from '../constants.js';
+import {MENU_ITEMS, FilterType} from '../constants.js';
 import {getRandomNumber} from '../utils/common.js';
 import AbstractComponent from './abstract-component.js';
 
@@ -38,16 +38,58 @@ export default class Menu extends AbstractComponent {
   constructor(filters) {
     super();
     this._filters = filters;
+    this._currentFilterType = FilterType.ALL;
   }
   getTemplate() {
     return makeMenuMarkup(this._filters);
   }
+  getFilterType() {
+    return this._currentFilterType;
+  }
   setFilterChangeHandler(handler) {
     this.getElement().addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+      if (evt.target.tagName !== `A`) {
+        return;
+      }
+
       const filterName = evt.target.innerHTML;
       const filterType = filterName.split(' ')[0];
       console.log(`выбрали фильтр ` + filterType);
-      handler(filterType);
+
+      if (filterType === `Stats`) {
+        return;
+      }
+      if (this._currentFilterType === filterType) {
+        return;
+      }
+
+      this._currentFilterType = filterType;
+      handler(this._currentFilterType);
+
     });
   }
+/*
+  setSortTypeChangeHandler(handler) {
+    this.getElement().addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+
+      if (evt.target.tagName !== `A`) {
+        return;
+      }
+
+      const sortType = evt.target.dataset.sortType;
+
+      if (this._currentSortType === sortType) {
+        return;
+      }
+
+      this._currentSortType = sortType;
+      handler(this._currentSortType);
+    });
+  }
+
+*/
+
+
 }

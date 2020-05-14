@@ -84,7 +84,7 @@ export default class MovieController {
 
   }
 
-   destroy() {
+  destroy() {
     remove(this._popup);
     remove(this._card);
     document.removeEventListener(`keydown`, this._onEscKeyDown);

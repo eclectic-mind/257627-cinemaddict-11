@@ -66,32 +66,41 @@ export default class BoardController {
 
     menu.setFilterChangeHandler(this._onFilterTypeChange);
 
-    const moviesFiltered = doFiltration(movies, this._menu.getFilterType());
-    const moviesSorted = doSorting(moviesFiltered, this._sorting.getSortType());
-
+    const moviesSorted = doSorting(movies, this._sorting.getSortType());
     const topMovies = doSorting(movies, `rating`);
     const mostMovies = doSorting(movies, `comments`);
 
     const topFilmCards = renderFilms(boxTop, topMovies.slice(0, CARDS_QUANTITY_RATINGS), this._onDataChange);
     const mostFilmCards = renderFilms(boxMost, mostMovies.slice(0, CARDS_QUANTITY_RATINGS), this._onDataChange);
-    const newFilmCards = renderFilms(box, moviesSorted.slice(0, CARDS_QUANTITY_ON_START), this._onDataChange);
-    this._showedMovieControllers = this._showedMovieControllers.concat(newFilmCards);
 
+    this._renderMovies(moviesSorted);
     this._renderButton(moviesSorted);
   }
 
-  _renderButton(movies = this._moviesModel.getMovies()) {
-    const box = this._box;
-    const list = container.querySelector(`.films-list`);
+  _renderMovies(movies = this._moviesModel.getMovies()) {
     const container = this._container.getElement();
+    const list = container.querySelector(`.films-list`);
+    const box = this._films.getElement();
+
+    const newFilmCards = renderFilms(box, movies.slice(0, CARDS_QUANTITY_ON_START), this._onDataChange);
+    this._showedMovieControllers = this._showedMovieControllers.concat(newFilmCards);
+  }
+
+  _removeMovies() {
+    this._showedMovieControllers.forEach((movieController) => movieController.destroy());
+    this._showedMovieControllers = [];
+  }
+
+  _renderButton(movies = this._moviesModel.getMovies()) {
+    const container = this._container.getElement();
+    const list = container.querySelector(`.films-list`);
+    const box = this._films.getElement();
 
     if (this._showingMoviesCount >= this._moviesModel.getMovies().length) {
       return;
     }
 
-    // const moviesFiltered = doFiltration(movies, this._menu.getFilterType());
     const moviesSorted = doSorting(movies, this._sorting.getSortType());
-
     render(list, this._button, RenderPosition.BEFOREEND);
 
     this._button.setClickHandler(() => {
@@ -102,11 +111,10 @@ export default class BoardController {
       const newFilmCards = renderFilms(box, additionalMovies, this._onDataChange);
       this._showedMovieControllers = this._showedMovieControllers.concat(newFilmCards);
       if (this._showingMoviesCount >= moviesSorted.length) {
-        remove(this._button.getElement());
+        remove(this._button);
         this._button.removeElement();
       }
     });
-
   }
 
   _onDataChange(movieController, oldData, newData) {
@@ -127,10 +135,25 @@ export default class BoardController {
 
     remove(this._button.getElement());
     this._button.removeElement();
-    this._renderButton(moviesSorted);
   }
 
-  _onFilterTypeChange(filterType) {
+  _onFilterTypeChange() {
+    this._removeMovies();
+    remove(this._button);
+    this._button.removeElement();
+
+    console.log(`должны отрисоваться отфильтрованные фильмы`);
+
+    const movies = this._moviesModel.getMovies();
+    const moviesSorted = doSorting(movies, this._sorting.getSortType());
+    this._renderMovies(moviesSorted);
+    this._renderButton(moviesSorted);
+
+    // const movies = this._moviesModel.getMovies();
+    // const newFilmCards = renderFilms(this._box, movies.slice(0, CARDS_QUANTITY_ON_START), this._onDataChange);
+    // this._showedMovieControllers = this._showedMovieControllers.concat(newFilmCards);
+    //  this._renderButton(movies);
+    /*
     const showingMoviesCount = CARDS_QUANTITY_ON_START;
     const moviesFiltered = doFiltration(this._moviesModel.getMovies(), filterType);
     const list = this._films.getElement();
@@ -142,6 +165,7 @@ export default class BoardController {
     remove(this._button.getElement());
     this._button.removeElement();
     this._renderButton(moviesFiltered);
+    */
   }
 
 }

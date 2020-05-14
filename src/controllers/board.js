@@ -37,6 +37,7 @@ export default class BoardController {
     this._button = new LoadMoreButtonComponent();
     this._onFilterTypeChange = this._onFilterTypeChange.bind(this);
     this._sorting.setSortTypeChangeHandler(this._onSortTypeChange);
+    this._moviesModel.setFilterChangeHandler(this._onFilterTypeChange);
   }
 
   render() {
@@ -142,10 +143,12 @@ export default class BoardController {
     remove(this._button);
     this._button.removeElement();
 
-    console.log(`должны отрисоваться отфильтрованные фильмы`);
-
     const movies = this._moviesModel.getMovies();
     const moviesSorted = doSorting(movies, this._sorting.getSortType());
+
+    console.log(`должны отрисоваться отфильтрованные фильмы`);
+    console.log(movies);
+
     this._renderMovies(moviesSorted);
     this._renderButton(moviesSorted);
 

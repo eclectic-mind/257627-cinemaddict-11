@@ -10,8 +10,10 @@ export default class MovieController {
     this._card = null;
     this._popup = null;
     this._onDataChange = onDataChange;
+    this._onEscKeyDown = this._onEscKeyDown.bind(this);
     this._body = document.querySelector(`body`);
     this._emotion = null;
+
   }
 
   render(movie) {
@@ -23,6 +25,33 @@ export default class MovieController {
     const body = this._body;
     const card = this._card.getElement();
     const popup = this._popup.getElement();
+
+    const setPopupHandlers = () => {
+      this._popup.setPopupCloserClickHandler((evt) => {
+      evt.preventDefault();
+      remove(this._popup);
+      document.removeEventListener(`keydown`, this._onEscKeyDown);
+      });
+
+      this._popup.setAddToWatchlistClickHandler((evt) => {
+      this._onDataChange(this, movie, Object.assign({}, movie, {
+        inWatchlist: !movie.inWatchlist,
+      }));
+    });
+
+    this._popup.setMarkAsWatchedClickHandler((evt) => {
+      this._onDataChange(this, movie, Object.assign({}, movie, {
+        isWatched: !movie.isWatched,
+      }));
+    });
+
+    this._popup.setMarkAsFavoriteClickHandler((evt) => {
+      this._onDataChange(this, movie, Object.assign({}, movie, {
+        isFavorite: !movie.isFavorite,
+      }));
+    });
+
+    };
 
     this._card.setAddToWatchlistClickHandler((evt) => {
       evt.preventDefault();
@@ -47,33 +76,21 @@ export default class MovieController {
 
     this._card.setPopupOpenerClickHandler((evt) => {
       evt.preventDefault();
+      document.addEventListener(`keydown`, this._onEscKeyDown);
       if (!body.querySelector(`.film-details`)) {
         render(body, this._popup, RenderPosition.BEFOREEND);
+        setPopupHandlers();
       }
+
+
+
     });
 
-    this._popup.setPopupCloserClickHandler((evt) => {
-      evt.preventDefault();
-      remove(this._popup.getElement());
-    });
 
-    this._popup.setAddToWatchlistClickHandler((evt) => {
-      this._onDataChange(this, movie, Object.assign({}, movie, {
-        inWatchlist: !movie.inWatchlist,
-      }));
-    });
 
-    this._popup.setMarkAsWatchedClickHandler((evt) => {
-      this._onDataChange(this, movie, Object.assign({}, movie, {
-        isWatched: !movie.isWatched,
-      }));
-    });
 
-    this._popup.setMarkAsFavoriteClickHandler((evt) => {
-      this._onDataChange(this, movie, Object.assign({}, movie, {
-        isFavorite: !movie.isFavorite,
-      }));
-    });
+
+    setPopupHandlers();
 
     if (oldCardController && oldPopupController) {
       replace(this._card, oldCardController);
@@ -83,6 +100,16 @@ export default class MovieController {
     }
 
   }
+
+  _onEscKeyDown(evt) {
+    console.log(`escape!`);
+      const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
+
+      if (isEscKey) {
+        remove(this._popup);
+        document.removeEventListener(`keydown`, this._onEscKeyDown);
+        }
+  };
 
   destroy() {
     remove(this._popup);

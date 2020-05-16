@@ -2,6 +2,7 @@ import {CARDS_QUANTITY, CARDS_QUANTITY_ON_START, CARDS_QUANTITY_RATINGS, CARDS_Q
 import {generateMovie, generateMovies} from './mock/data.js';
 import {render, RenderPosition} from './utils/render.js';
 import MoviesModel from "./models/movies.js";
+import FilterController from './controllers/filter.js';
 
 import StatsComponent from './components/stats.js';
 import RankComponent from './components/rank.js';
@@ -21,6 +22,9 @@ const moviesData = generateMovie();
 const movies = generateMovies(CARDS_QUANTITY);
 const moviesModel = new MoviesModel();
 moviesModel.setMovies(movies);
+
+const menu = new FilterController(pageMain, moviesModel);
+menu.render();
 
 const board = new BoardComponent();
 const boardController = new BoardController(board, moviesModel);

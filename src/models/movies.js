@@ -23,7 +23,7 @@ export default class Movies {
   }
 
   setFilter(filterType) {
-    this._currentFilterType = filterType;
+    this._activeFilterType = filterType;
     this._callHandlers(this._filterChangeHandlers);
   }
 

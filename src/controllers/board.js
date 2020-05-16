@@ -7,7 +7,7 @@ import SortingComponent from '../components/sort.js';
 import MovieController from "./movie.js";
 import SpecialFilmsComponent from '../components/special.js';
 import NoFilmsComponent from '../components/no-films.js';
-import FilterController from '../controllers/filter.js';
+// import FilterController from '../controllers/filter.js';
 import MoviesModel from "../models/movies.js";
 // import MenuComponent from '../components/menu.js';
 
@@ -40,7 +40,7 @@ export default class BoardController {
     this._onFilterTypeChange = this._onFilterTypeChange.bind(this);
     this._sorting.setSortTypeChangeHandler(this._onSortTypeChange);
     this._moviesModel.setFilterChangeHandler(this._onFilterTypeChange);
-    // this._menu.setFilterChangeHandler(this._onFilterTypeChange);
+    // this._moviesModel.setFilterChangeHandler(this._onFilterTypeChange);
   }
 
   render() {
@@ -53,10 +53,10 @@ export default class BoardController {
     const movies = this._moviesModel.getMovies();
     // const filters = generateFilters(movies);
     // const menu = this._menu;
-    const menu = new FilterController(container, movies);
+    // const menu = new FilterController(this._pageMain, this._moviesModel);
     const sorting = this._sorting;
 
-    console.log(menu);
+    // console.log(menu);
     // const menu = new MenuComponent(filters);
 
     if (movies.length === 0) {
@@ -67,6 +67,7 @@ export default class BoardController {
     }
 
     render(this._pageMain, sorting, RenderPosition.AFTERBEGIN);
+    // menu.render();
     render(list, this._films, RenderPosition.BEFOREEND);
     render(container, this._top, RenderPosition.BEFOREEND);
     render(container, this._most, RenderPosition.BEFOREEND);
@@ -81,7 +82,8 @@ export default class BoardController {
     this._renderMovies(moviesSorted);
     this._renderButton(moviesSorted);
 
-    render(this._pageMain, menu, RenderPosition.AFTERBEGIN);
+
+    // render(this._pageMain, menu, RenderPosition.AFTERBEGIN);
     // menu.setFilterChangeHandler(this._onFilterTypeChange);
   }
 
@@ -151,13 +153,13 @@ export default class BoardController {
     this._button.removeElement();
 
     const movies = this._moviesModel.getMovies();
-    const moviesSorted = doSorting(movies, this._sorting.getSortType());
+    // const moviesSorted = doSorting(movies, this._sorting.getSortType());
 
     console.log(`должны отрисоваться отфильтрованные фильмы`);
     console.log(movies);
 
-    this._renderMovies(moviesSorted);
-    this._renderButton(moviesSorted);
+    this._renderMovies(movies);
+    this._renderButton(movies);
 
     // const movies = this._moviesModel.getMovies();
     // const newFilmCards = renderFilms(this._box, movies.slice(0, CARDS_QUANTITY_ON_START), this._onDataChange);

@@ -31,14 +31,13 @@ export default class FilterController {
     console.log(filters);
 
     const menu = new MenuComponent(filters);
+    menu.setFilterChangeHandler(this._onFilterChange);
 
     console.log(menu);
 
     const oldComponent = menu;
 
     // this._menu = new MenuComponent(filters);
-    menu.setFilterChangeHandler(this._onFilterChange);
-
 
     // console.log(`выбран фильтр` + filterType);
 

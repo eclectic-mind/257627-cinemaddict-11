@@ -34,7 +34,6 @@ export default class BoardController {
     this._showingMoviesCount = CARDS_QUANTITY_ON_START;
     this._onDataChange = this._onDataChange.bind(this);
     this._onSortTypeChange = this._onSortTypeChange.bind(this);
-    this._sorting = new SortingComponent();
     this._films = new FilmsContainerComponent();
     this._button = new LoadMoreButtonComponent();
     // this._menu = new FilterController(this._container, this.moviesModel);

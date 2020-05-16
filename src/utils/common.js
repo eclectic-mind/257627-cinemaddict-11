@@ -21,6 +21,12 @@ export const getRandomTime = () => {
   return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 };
 
+export const getRandomCommentTime = () => {
+  const start = new Date("January 2018 00:00");
+  const end = new Date();
+  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+};
+
 export const getRandomBoolean = () => {
   return Math.random() >= 0.5;
 };
@@ -56,11 +62,57 @@ export const formatDate = (date) => {
   return moment(date).format(`DD MMMM YYYY`);
 };
 
+export const formatDateForComment = (date) => {
+  const now = moment();
+  let result = ``;
+
+  const startMinutes = 60;
+  const startHours = 60 * 60;
+  const startToday = startHours * 12;
+  const startDays = startHours * 24;
+  const endDays = startDays * 7;
+
+  const differenceSec = Math.round(moment.duration(now.diff(date)).asSeconds());
+  const differenceHour = Math.round(moment.duration(now.diff(date)).asHours());
+  const differenceDay = Math.round(moment.duration(now.diff(date)).asDays());
+
+  if (differenceSec <= startMinutes) {
+    result = `Now`;
+  }
+  else if (differenceSec <= startHours) {
+    result = `A few minutes ago`;
+  }
+  else if (differenceSec <= startToday && differenceHour === 1) {
+    result = `${differenceHour} hour ago`;
+  }
+  else if (differenceSec <= startToday) {
+    result = `${differenceHour} hours ago`;
+  }
+  else if (differenceSec > startToday && differenceSec <= startDays) {
+    result = `Today`;
+  }
+  else if (differenceSec > startDays && differenceDay === 1) {
+    result = `Yesterday`;
+  }
+  else if (differenceSec > startDays && differenceSec <= endDays) {
+    result = `${differenceDay} days ago`;
+  }
+  else if (differenceSec > endDays) {
+    result = moment(date).format(`YYYY/MM/DD HH:mm`)
+  }
+
+  return result;
+};
+
 export const formatDuration = (time) => {
   const hours = Math.floor(time / 60);
   const minutes = time % 60;
-  const text = hours != 0 ? `${hours}h${minutes}m` : `${minutes}m`;
+  const text = hours != 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
   return text;
+};
+
+export const getOnlyYear = (date) => {
+  return moment(date).format(`YYYY`);
 };
 
 export const makeControlLink = (name) => {

@@ -1,11 +1,11 @@
 import {CONTROLS_DETAILS, EMOTIONS} from '../constants.js';
-import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, formatDate, formatDuration, makeControlLinkPopup} from '../utils/common.js';
+import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, makeControlLinkPopup, formatDate, formatDateForComment, formatDuration} from '../utils/common.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
 import {encode} from "he";
 
 const makeComment = (comment) => {
   const {text, emotion, author, dateComment} = comment;
-  const dateFormatted = dateComment.toLocaleDateString();
+  const dateFormatted = formatDateForComment(dateComment);
   return (
   `<li class="film-details__comment">
     <span class="film-details__comment-emoji">

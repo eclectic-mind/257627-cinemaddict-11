@@ -1,4 +1,4 @@
-import {cutText, formatDuration, makeControlLink} from '../utils/common.js'
+import {cutText, makeControlLink, formatDuration, getOnlyYear} from '../utils/common.js'
 import {BRIEF_MAX, CONTROLS_CARD} from '../constants.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
 
@@ -23,7 +23,7 @@ const makeControlsCard = (movie) => {
 
   const makeCard = (movie) => {
   const {title, original, description, poster, genres, duration, date, comments, country, producer, writers, cast, rating, age, inWatchlist, isWatched, isFavorite} = movie;
-  const year = date.getFullYear();
+  const year = getOnlyYear(date);
   const durationFormatted = formatDuration(duration);
   const brief = description > BRIEF_MAX ? cutText(description, BRIEF_MAX) : description;
   const genreMain = genres[0];

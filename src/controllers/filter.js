@@ -2,11 +2,9 @@ import MenuComponent from "../components/menu.js";
 import {FilterType} from "../constants.js";
 import {render, replace, RenderPosition} from "../utils/render.js";
 import {doFiltration, generateFilters} from "../utils/common.js";
-// import MoviesModel from "../models/movies.js";
 
 export default class FilterController {
   constructor(container, moviesModel) {
-    // this._pageMain = document.querySelector(`main`);
     this._container = container;
     this._moviesModel = moviesModel;
     this._activeFilterType = FilterType.ALL;
@@ -19,9 +17,7 @@ export default class FilterController {
   }
 
   render() {
-    // const container = this._container;
     const allMovies = this._moviesModel.getMoviesAll();
-    // const filters = generateFilters(allMovies);
     const filters = Object.values(FilterType).map((filterType) => {
       return {
         title: filterType,
@@ -29,8 +25,6 @@ export default class FilterController {
         checked: filterType === this._activeFilterType,
       };
     });
-
-    console.log(filters);
 
     const oldComponent = this._menu;
     this._menu = new MenuComponent(filters);

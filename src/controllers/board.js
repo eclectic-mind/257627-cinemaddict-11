@@ -7,9 +7,7 @@ import SortingComponent from '../components/sort.js';
 import MovieController from "./movie.js";
 import SpecialFilmsComponent from '../components/special.js';
 import NoFilmsComponent from '../components/no-films.js';
-// import FilterController from '../controllers/filter.js';
 import MoviesModel from "../models/movies.js";
-// import MenuComponent from '../components/menu.js';
 
 const renderFilms = (filmsListContainer, items, onDataChange) => {
   return items.map((item) => {
@@ -36,11 +34,9 @@ export default class BoardController {
     this._onSortTypeChange = this._onSortTypeChange.bind(this);
     this._films = new FilmsContainerComponent();
     this._button = new LoadMoreButtonComponent();
-    // this._menu = new FilterController(this._container, this.moviesModel);
     this._onFilterTypeChange = this._onFilterTypeChange.bind(this);
     this._sorting.setSortTypeChangeHandler(this._onSortTypeChange);
     this._moviesModel.setFilterChangeHandler(this._onFilterTypeChange);
-    // this._moviesModel.setFilterChangeHandler(this._onFilterTypeChange);
   }
 
   render() {
@@ -51,13 +47,7 @@ export default class BoardController {
     const boxTop = this._top.getElement().querySelector(`.films-list__container`);
     const boxMost = this._most.getElement().querySelector(`.films-list__container`);
     const movies = this._moviesModel.getMovies();
-    // const filters = generateFilters(movies);
-    // const menu = this._menu;
-    // const menu = new FilterController(this._pageMain, this._moviesModel);
     const sorting = this._sorting;
-
-    // console.log(menu);
-    // const menu = new MenuComponent(filters);
 
     if (movies.length === 0) {
       const allFilmsTitle = list.querySelector(`h2`);
@@ -67,7 +57,6 @@ export default class BoardController {
     }
 
     render(this._pageMain, sorting, RenderPosition.AFTERBEGIN);
-    // menu.render();
     render(list, this._films, RenderPosition.BEFOREEND);
     render(container, this._top, RenderPosition.BEFOREEND);
     render(container, this._most, RenderPosition.BEFOREEND);
@@ -81,10 +70,6 @@ export default class BoardController {
 
     this._renderMovies(moviesSorted);
     this._renderButton(moviesSorted);
-
-
-    // render(this._pageMain, menu, RenderPosition.AFTERBEGIN);
-    // menu.setFilterChangeHandler(this._onFilterTypeChange);
   }
 
   _renderMovies(movies = this._moviesModel.getMovies()) {
@@ -143,7 +128,7 @@ export default class BoardController {
     const newFilmCards = renderFilms(list, firstMovies, this._onDataChange);
     this._showedMovieControllers = newFilmCards;
 
-    remove(this._button.getElement());
+    remove(this._button);
     this._button.removeElement();
   }
 
@@ -153,31 +138,9 @@ export default class BoardController {
     this._button.removeElement();
 
     const movies = this._moviesModel.getMovies();
-    // const moviesSorted = doSorting(movies, this._sorting.getSortType());
-
-    console.log(`должны отрисоваться отфильтрованные фильмы`);
-    console.log(movies);
 
     this._renderMovies(movies);
     this._renderButton(movies);
-
-    // const movies = this._moviesModel.getMovies();
-    // const newFilmCards = renderFilms(this._box, movies.slice(0, CARDS_QUANTITY_ON_START), this._onDataChange);
-    // this._showedMovieControllers = this._showedMovieControllers.concat(newFilmCards);
-    //  this._renderButton(movies);
-    /*
-    const showingMoviesCount = CARDS_QUANTITY_ON_START;
-    const moviesFiltered = doFiltration(this._moviesModel.getMovies(), filterType);
-    const list = this._films.getElement();
-    list.innerHTML = ``;
-    const firstMovies = moviesFiltered.slice(0, showingMoviesCount);
-    const newFilmCards = renderFilms(list, firstMovies, this._onDataChange);
-    this._showedMovieControllers = newFilmCards;
-
-    remove(this._button.getElement());
-    this._button.removeElement();
-    this._renderButton(moviesFiltered);
-    */
   }
 
 }

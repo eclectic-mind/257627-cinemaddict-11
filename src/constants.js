@@ -4,6 +4,8 @@ export const CARDS_QUANTITY_ON_START = 5;
 export const CARDS_QUANTITY_MORE = 5;
 export const CARDS_QUANTITY_RATINGS = 2;
 export const BUTTON_NAME = `Show more`;
+export const ACTIVE_MENU_CLASS = `main-navigation__item--active`;
+export const ACTIVE_SORT_CLASS = `sort__button--active`;
 export const SORT_BY = [`default`, `date`, `rating`];
 export const SortType = {
   DATE: `date`,

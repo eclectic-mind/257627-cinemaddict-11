@@ -1,8 +1,6 @@
-import {MENU_ITEMS, FilterType} from '../constants.js';
+import {MENU_ITEMS, FilterType, ACTIVE_MENU_CLASS} from '../constants.js';
 import {getRandomNumber} from '../utils/common.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
-
-const ACTIVE_MENU_CLASS = `main-navigation__item--active`;
 
 const makeMenuLink = (name) => {
   let array = name.split(` `);
@@ -14,7 +12,6 @@ const menuLinks = MENU_ITEMS.map(item => makeMenuLink(item));
 
 export const makeFilter = (filter, currentFilterType) => {
   const {title, count, checked} = filter;
-  // const className = makeMenuLink(title);
   return (
     `<a href="#${title}" class="main-navigation__item ${checked ? ACTIVE_MENU_CLASS : ``}">${title} <span class="main-navigation__item-count">${count}</span></a>`
   );
@@ -40,7 +37,6 @@ export default class Menu extends AbstractSmartComponent {
   constructor(filters) {
     super();
     this._filters = filters;
-    // this._currentFilterType = FilterType.ALL;
   }
   getTemplate() {
     return makeMenuMarkup(this._filters);

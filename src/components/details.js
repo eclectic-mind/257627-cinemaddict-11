@@ -179,13 +179,15 @@ export default class Details extends AbstractSmartComponent {
     this._isFavorite = !!movie.isFavorite;
     this.setEmotionClickHandler = this.setEmotionClickHandler.bind(this);
     this._subscribeOnEvents();
+    // this.commentText = ``;
   }
   getTemplate() {
     return makeDetails(this._movie, {
       inWatchlist: this._inWatchlist,
       isWatched: this._isWatched,
       isFavorite: this._isFavorite,
-      emotion: this._emotion
+      emotion: this._emotion,
+      // comments: this._commentsText
     });
   }
 
@@ -211,6 +213,7 @@ export default class Details extends AbstractSmartComponent {
     evt.preventDefault();
     let value = evt.target.value;
     this._emotion = value;
+    // comm
     this.rerender();
   };
 

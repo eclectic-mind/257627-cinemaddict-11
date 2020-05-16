@@ -2,6 +2,7 @@ import {EMOTIONS} from '../constants.js';
 import CardComponent from "../components/card.js";
 import DetailsComponent from "../components/details.js";
 import {render, replace, remove, RenderPosition} from "../utils/render.js";
+// comm - подкл. модель
 
 export default class MovieController {
 
@@ -28,28 +29,28 @@ export default class MovieController {
 
     const setPopupHandlers = () => {
       this._popup.setPopupCloserClickHandler((evt) => {
-      evt.preventDefault();
-      remove(this._popup);
-      document.removeEventListener(`keydown`, this._onEscKeyDown);
+        evt.preventDefault();
+        remove(this._popup);
+        document.removeEventListener(`keydown`, this._onEscKeyDown);
       });
 
       this._popup.setAddToWatchlistClickHandler((evt) => {
-      this._onDataChange(this, movie, Object.assign({}, movie, {
-        inWatchlist: !movie.inWatchlist,
-      }));
-    });
+        this._onDataChange(this, movie, Object.assign({}, movie, {
+          inWatchlist: !movie.inWatchlist,
+        }));
+      });
 
-    this._popup.setMarkAsWatchedClickHandler((evt) => {
-      this._onDataChange(this, movie, Object.assign({}, movie, {
-        isWatched: !movie.isWatched,
-      }));
-    });
+      this._popup.setMarkAsWatchedClickHandler((evt) => {
+        this._onDataChange(this, movie, Object.assign({}, movie, {
+          isWatched: !movie.isWatched,
+        }));
+      });
 
-    this._popup.setMarkAsFavoriteClickHandler((evt) => {
-      this._onDataChange(this, movie, Object.assign({}, movie, {
-        isFavorite: !movie.isFavorite,
-      }));
-    });
+      this._popup.setMarkAsFavoriteClickHandler((evt) => {
+        this._onDataChange(this, movie, Object.assign({}, movie, {
+          isFavorite: !movie.isFavorite,
+        }));
+      });
 
     };
 
@@ -81,13 +82,7 @@ export default class MovieController {
         render(body, this._popup, RenderPosition.BEFOREEND);
         setPopupHandlers();
       }
-
-
-
     });
-
-
-
 
 
     setPopupHandlers();
@@ -102,14 +97,12 @@ export default class MovieController {
   }
 
   _onEscKeyDown(evt) {
-    console.log(`escape!`);
-      const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
-
-      if (isEscKey) {
-        remove(this._popup);
-        document.removeEventListener(`keydown`, this._onEscKeyDown);
-        }
-  };
+    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
+    if (isEscKey) {
+      remove(this._popup);
+      document.removeEventListener(`keydown`, this._onEscKeyDown);
+    }
+  }
 
   destroy() {
     remove(this._popup);

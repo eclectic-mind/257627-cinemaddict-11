@@ -54,7 +54,6 @@ export default class Menu extends AbstractSmartComponent {
 
       const filterName = evt.target.innerHTML;
       const filterType = filterName.split(' ')[0];
-      console.log(`выбрали фильтр ` + filterType);
 
       if (filterType === `Stats`) {
         return;

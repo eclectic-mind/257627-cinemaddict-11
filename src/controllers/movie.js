@@ -14,7 +14,7 @@ export default class MovieController {
     this._onEscKeyDown = this._onEscKeyDown.bind(this);
     this._body = document.querySelector(`body`);
     this._emotion = null;
-
+    // this.commentText = ``;
   }
 
   render(movie) {

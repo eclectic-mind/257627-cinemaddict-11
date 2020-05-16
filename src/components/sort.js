@@ -29,6 +29,21 @@ export default class Sorting extends AbstractSmartComponent {
     return this._currentSortType;
   }
 
+  rerender() {
+    super.rerender();
+  }
+
+  recoveryListeners() {
+    this._subscribeOnEvents();
+    this.setSortTypeChangeHandler(this._sortTypeChangeHandler);
+  }
+
+  _subscribeOnEvents() {
+    document.querySelector(`.sort`)
+      .addEventListener(`click`, this.setSortTypeChangeHandler);
+    // this.getElement().addEventListener(`click`, this.setSortTypeChangeHandler);
+  }
+
   setSortTypeChangeHandler(handler) {
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
@@ -38,7 +53,6 @@ export default class Sorting extends AbstractSmartComponent {
       }
 
       const sortType = evt.target.dataset.sortType;
-
       if (this._currentSortType === sortType) {
         return;
       }
@@ -47,5 +61,6 @@ export default class Sorting extends AbstractSmartComponent {
       handler(this._currentSortType);
       this.rerender();
     });
+    this._sortTypeChangeHandler = handler;
   }
 }

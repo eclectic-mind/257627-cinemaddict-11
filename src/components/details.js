@@ -9,7 +9,7 @@ const makeComment = (comment) => {
   return (
   `<li class="film-details__comment">
     <span class="film-details__comment-emoji">
-    <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-smile">
+    <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">
     </span>
     <div>
     <p class="film-details__comment-text">${text}</p>
@@ -54,7 +54,7 @@ const makeEmotion = (name) => {
   return (
     `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${name}" value="${name}">
      <label class="film-details__emoji-label" for="emoji-${name}">
-     <img src="./images/emoji/${name}.png" width="30" height="30" alt="emoji">
+     <img src="./images/emoji/${name}.png" width="30" height="30" alt="emoji-${name}">
      </label>`
   );
 };
@@ -187,7 +187,7 @@ export default class Details extends AbstractSmartComponent {
       isWatched: this._isWatched,
       isFavorite: this._isFavorite,
       emotion: this._emotion,
-      // comments: this._commentsText
+      // comments: this._comments
     });
   }
 

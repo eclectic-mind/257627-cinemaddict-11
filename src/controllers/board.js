@@ -1,5 +1,5 @@
 import {CARDS_QUANTITY, CARDS_QUANTITY_ON_START, CARDS_QUANTITY_RATINGS, CARDS_QUANTITY_MORE, STATS_ALL, SUBTITLES} from '../constants.js';
-import {doSorting, generateFilters, doFiltration} from '../utils/common.js';
+import {doSorting, doFiltration} from '../utils/common.js';
 import {render, remove, RenderPosition} from "../utils/render.js";
 import LoadMoreButtonComponent from '../components/button.js';
 import FilmsContainerComponent from '../components/films.js';
@@ -7,7 +7,9 @@ import SortingComponent from '../components/sort.js';
 import MovieController from "./movie.js";
 import SpecialFilmsComponent from '../components/special.js';
 import NoFilmsComponent from '../components/no-films.js';
-import MenuComponent from '../components/menu.js';
+import FilterController from '../controllers/filter.js';
+import MoviesModel from "../models/movies.js";
+// import MenuComponent from '../components/menu.js';
 
 const renderFilms = (filmsListContainer, items, onDataChange) => {
   return items.map((item) => {
@@ -35,9 +37,11 @@ export default class BoardController {
     this._sorting = new SortingComponent();
     this._films = new FilmsContainerComponent();
     this._button = new LoadMoreButtonComponent();
+    // this._menu = new FilterController(this._container, this.moviesModel);
     this._onFilterTypeChange = this._onFilterTypeChange.bind(this);
     this._sorting.setSortTypeChangeHandler(this._onSortTypeChange);
     this._moviesModel.setFilterChangeHandler(this._onFilterTypeChange);
+    // this._menu.setFilterChangeHandler(this._onFilterTypeChange);
   }
 
   render() {
@@ -48,9 +52,13 @@ export default class BoardController {
     const boxTop = this._top.getElement().querySelector(`.films-list__container`);
     const boxMost = this._most.getElement().querySelector(`.films-list__container`);
     const movies = this._moviesModel.getMovies();
-    const filters = generateFilters(movies);
-    const menu = new MenuComponent(filters);
+    // const filters = generateFilters(movies);
+    // const menu = this._menu;
+    const menu = new FilterController(container, movies);
     const sorting = this._sorting;
+
+    console.log(menu);
+    // const menu = new MenuComponent(filters);
 
     if (movies.length === 0) {
       const allFilmsTitle = list.querySelector(`h2`);
@@ -60,12 +68,9 @@ export default class BoardController {
     }
 
     render(this._pageMain, sorting, RenderPosition.AFTERBEGIN);
-    render(this._pageMain, menu, RenderPosition.AFTERBEGIN);
     render(list, this._films, RenderPosition.BEFOREEND);
     render(container, this._top, RenderPosition.BEFOREEND);
     render(container, this._most, RenderPosition.BEFOREEND);
-
-    menu.setFilterChangeHandler(this._onFilterTypeChange);
 
     const moviesSorted = doSorting(movies, this._sorting.getSortType());
     const topMovies = doSorting(movies, `rating`);
@@ -76,6 +81,9 @@ export default class BoardController {
 
     this._renderMovies(moviesSorted);
     this._renderButton(moviesSorted);
+
+    render(this._pageMain, menu, RenderPosition.AFTERBEGIN);
+    // menu.setFilterChangeHandler(this._onFilterTypeChange);
   }
 
   _renderMovies(movies = this._moviesModel.getMovies()) {

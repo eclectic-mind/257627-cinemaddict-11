@@ -10,9 +10,9 @@ export default class CommentController {
     this._board = board;
   }
 
-  render(comments) {
+  render(comments, commentBox) {
     this._commentComponent = new CommentComponent(comments);
-    render(this._container, this._commentComponent, RenderPosition.BEFOREEND);
+    render(commentBox, this._commentComponent, RenderPosition.BEFOREEND);
 
     console.log(this._commentComponent);
 

@@ -3,8 +3,8 @@
 import {render, replace, remove, RenderPosition} from "../utils/render.js";
 
 // import CommentsComponent from "../components/comments.js";
-// import CommentsModel from "../models/comments.js";
-// import CommentsController from "../controllers/comments.js";
+import CommentsModel from "../models/comments.js";
+import CommentsController from "../controllers/comments.js";
 import CardComponent from "../components/card.js";
 import DetailsComponent from "../components/details.js";
 

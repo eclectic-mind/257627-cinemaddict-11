@@ -70,7 +70,7 @@ const makeEmotionsList = () => {
 }; */
 
 export const makeDetails = (movie, options = {}) => {
-  const {title, original, description, poster, genres, duration, date, /* comments, */ country, producer, writers, cast, rating, age, inWatchlist, isWatched, isFavorite} = movie;
+  const {title, original, description, poster, genres, duration, date, country, producer, writers, cast, rating, age, inWatchlist, isWatched, isFavorite /* comments, */} = movie;
   // const {emotion, textComment} = options;
   // const encodedTextComment = encode(textComment);
   const durationFormatted = formatDuration(duration);

@@ -32,7 +32,6 @@ export const generateMovie = () => {
     genres: getSomeItems(GENRE_MAX, GENRE_MAX, GENRES),
     duration: getRandomNumber(DURATION_MIN, DURATION_MAX),
     date: getRandomTime(),
-    comments: generateCommentsArray(),
     country: getRandomArrayItem(COUNTRIES),
     producer: PRODUCER,
     writers: WRITERS.join(`, `),
@@ -41,7 +40,8 @@ export const generateMovie = () => {
     age: getRandomArrayItem(AGES),
     inWatchlist: getRandomBoolean(),
     isWatched: getRandomBoolean(),
-    isFavorite: getRandomBoolean()
+    isFavorite: getRandomBoolean(),
+    comments: generateCommentsArray()
   };
 };
 

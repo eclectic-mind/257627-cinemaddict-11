@@ -1,7 +1,12 @@
 // import {EMOTIONS} from '../constants.js';
+
+import {render, replace, remove, RenderPosition} from "../utils/render.js";
+
+// import CommentsComponent from "../components/comments.js";
+// import CommentsModel from "../models/comments.js";
+// import CommentsController from "../controllers/comments.js";
 import CardComponent from "../components/card.js";
 import DetailsComponent from "../components/details.js";
-import {render, replace, remove, RenderPosition} from "../utils/render.js";
 
 export default class MovieController {
 
@@ -15,6 +20,8 @@ export default class MovieController {
     this._body = document.querySelector(`body`);
     // this._emotion = null;
     // this._commentText = ``;
+    this._commentsModel = null;
+    this._commentsComponent = null;
   }
 
   render(movie) {
@@ -23,6 +30,10 @@ export default class MovieController {
 
     this._card = new CardComponent(movie);
     this._popup = new DetailsComponent(movie);
+
+    // this._commentsModel = new CommentsModel();
+    // this._commentsModel.setComments(movie);
+
     const body = this._body;
     const card = this._card.getElement();
     const popup = this._popup.getElement();
@@ -115,7 +126,7 @@ export default class MovieController {
     remove(this._popup);
     remove(this._card);
     document.removeEventListener(`keydown`, this._onEscKeyDown);
-    document.removeEventListener(`keydown`, this._onEnterKeyDown);
+    // document.removeEventListener(`keydown`, this._onEnterKeyDown);
   }
 
 };

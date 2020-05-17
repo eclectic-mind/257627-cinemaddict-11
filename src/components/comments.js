@@ -3,7 +3,7 @@ import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getR
 import AbstractSmartComponent from './abstract-smart-component.js';
 import {encode} from "he";
 
-const makeComment = (comment) => {
+export const makeComment = (comment) => {
   const {text, emotion, author, dateComment, id} = comment;
   const dateFormatted = formatDateForComment(dateComment);
   return (
@@ -23,7 +23,7 @@ const makeComment = (comment) => {
   );
 };
 
-const makeEmotion = (name) => {
+export const makeEmotion = (name) => {
   return (
     `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${name}" value="${name}">
      <label class="film-details__emoji-label" for="emoji-${name}">
@@ -32,7 +32,7 @@ const makeEmotion = (name) => {
   );
 };
 
-const makeEmotionsList = () => {
+export const makeEmotionsList = () => {
   const items = EMOTIONS;
   const markup = items.map(item => makeEmotion(item)).join(``);
   return (

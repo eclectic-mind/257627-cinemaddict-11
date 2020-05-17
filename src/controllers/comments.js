@@ -14,15 +14,15 @@ export default class CommentController {
     this._commentComponent = new CommentComponent(comment);
     render(this._container, this._commentComponent, RenderPosition.BEFOREEND);
 
-    this._commentComponent.setDeleteButtonClickHandler((evt) => {
+    /* this._commentComponent.setDeleteButtonClickHandler((evt) => {
       evt.preventDefault();
       const comments = this._commentsModel.onDeleteComment(comment.id);
       remove(this._commentComponent);
-      this._boardComponent.rerender(comments);
+      this._board.rerender(comments);
     });
 
 
-      /* this._popup.setSubmitHandler((evt) => {
+       this._popup.setSubmitHandler((evt) => {
         evt.preventDefault();
         const commentField = document.querySelector(`.film-details__comment-input`);
         commentField.addEventListener(`keydown`, this._onEnterKeyDown);

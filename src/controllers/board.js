@@ -37,7 +37,8 @@ export default class BoardController {
     this._onFilterTypeChange = this._onFilterTypeChange.bind(this);
     this._sorting.setSortTypeChangeHandler(this._onSortTypeChange);
     this._moviesModel.setFilterChangeHandler(this._onFilterTypeChange);
-    this._comments = collectAllComments(this._moviesModel.getMovies());
+    // this._comments = collectAllComments(this._moviesModel.getMovies());
+    // console.log(this._comments);
   }
 
   render() {
@@ -51,7 +52,7 @@ export default class BoardController {
     const sorting = this._sorting;
     const comments = this._comments;
 
-    // console.log(comments);
+    console.log(comments);
 
     if (movies.length === 0) {
       const allFilmsTitle = list.querySelector(`h2`);

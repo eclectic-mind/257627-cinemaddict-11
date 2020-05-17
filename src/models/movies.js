@@ -1,4 +1,4 @@
-import {doFiltration, collectAllComments} from "../utils/common.js";
+import {doFiltration} from "../utils/common.js";
 import {FilterType} from "../constants.js";
 
 export default class Movies {
@@ -7,7 +7,7 @@ export default class Movies {
     this._activeFilterType = FilterType.ALL;
     this._dataChangeHandlers = [];
     this._filterChangeHandlers = [];
-    this._comments = collectAllComments(this._movies);
+    // this._comments = collectAllComments(this._movies);
   }
 
   getMovies() {
@@ -38,23 +38,6 @@ export default class Movies {
     this._movies = [].concat(this._movies.slice(0, index), movie, this._movies.slice(index + 1));
     this._callHandlers(this._dataChangeHandlers);
     return true;
-  }
-
-  deleteComment(id, comments) {
-    const index = comments.findIndex((item) => item.id === id);
-
-    if (index === -1) {
-      return false;
-    }
-
-    comments = [].concat(comments.slice(0, index), comments.slice(index + 1));
-    this._callHandlers(this._dataChangeHandlers);
-    return true;
-  }
-
-  addComment(newComment, comments) {
-    comments = [].concat(newComment, comments);
-    this._callHandlers(this._dataChangeHandlers);
   }
 
   setFilterChangeHandler(handler) {

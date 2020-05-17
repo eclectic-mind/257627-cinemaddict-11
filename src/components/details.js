@@ -1,9 +1,9 @@
-import {CONTROLS_DETAILS, EMOTIONS} from '../constants.js';
-import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, makeControlLinkPopup, formatDate, formatDateForComment, formatDuration} from '../utils/common.js';
+import {CONTROLS_DETAILS} from '../constants.js';
+import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, makeControlLinkPopup, formatDate, formatDuration} from '../utils/common.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
-import {encode} from "he";
+// import {encode} from "he";
 
-const makeComment = (comment) => {
+/* const makeComment = (comment) => {
   const {text, emotion, author, dateComment} = comment;
   const dateFormatted = formatDateForComment(dateComment);
   return (
@@ -21,7 +21,7 @@ const makeComment = (comment) => {
     </div>
     </li>`
   );
-};
+}; */
 
 const makeControl = (name, condition = true) => {
   const short = makeControlLinkPopup(name);
@@ -50,7 +50,7 @@ const makeCloseButton = () => {
   );
 }
 
-const makeEmotion = (name) => {
+/* const makeEmotion = (name) => {
   return (
     `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${name}" value="${name}">
      <label class="film-details__emoji-label" for="emoji-${name}">
@@ -67,22 +67,22 @@ const makeEmotionsList = () => {
     ${markup}
     </div>`
   );
-};
+}; */
 
 export const makeDetails = (movie, options = {}) => {
-  const {title, original, description, poster, genres, duration, date, comments, country, producer, writers, cast, rating, age, inWatchlist, isWatched, isFavorite} = movie;
-  const {emotion, textComment} = options;
+  const {title, original, description, poster, genres, duration, date, /* comments, */ country, producer, writers, cast, rating, age, inWatchlist, isWatched, isFavorite} = movie;
+  // const {emotion, textComment} = options;
   // const encodedTextComment = encode(textComment);
   const durationFormatted = formatDuration(duration);
   const genresAll = genres.join(`, `);
   const dateFull = formatDate(date);
-  const commentsAll = comments.map(item => makeComment(item)).join(``);
-  const commentsQuantity = comments.length;
+  // const commentsAll = comments.map(item => makeComment(item)).join(``);
+  // const commentsQuantity = comments.length;
   const controls = makeControlsDetails(movie);
   const button = makeCloseButton();
-  const emotions = makeEmotionsList();
-  const currentEmotion = emotion !== null && emotion !== undefined ? `<img src="images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">` : ``;
-  const commentText = ``;
+  // const emotions = makeEmotionsList();
+  // const currentEmotion = emotion !== null && emotion !== undefined ? `<img src="images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">` : ``;
+  // const commentText = ``;
 
   return (
     `<section class="film-details">
@@ -147,25 +147,7 @@ export const makeDetails = (movie, options = {}) => {
       </section>
     </div>
 
-    <div class="form-details__bottom-container">
-      <section class="film-details__comments-wrap">
-        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">
-        ${commentsQuantity}
-        </span></h3>
-        <ul class="film-details__comments-list">
-        ${commentsAll}
-        </ul>
-        <div class="film-details__new-comment">
-        <div for="add-emoji" class="film-details__add-emoji-label">
-          ${currentEmotion}
-          </div>
-          <label class="film-details__comment-label">
-            <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
-          </label>
-          ${emotions}
-        </div>
-      </section>
-    </div>
+
   </form>
 </section>`
   );
@@ -179,8 +161,8 @@ export default class Details extends AbstractSmartComponent {
     this._inWatchlist = !!movie.inWatchlist;
     this._isWatched = !!movie.isWatched;
     this._isFavorite = !!movie.isFavorite;
-    this.setEmotionClickHandler = this.setEmotionClickHandler.bind(this);
-    this._subscribeOnEvents();
+    // this.setEmotionClickHandler = this.setEmotionClickHandler.bind(this);
+    // this._subscribeOnEvents();
     // this._commentsAll = commentsAll;
     // this._commentText = ``;
   }
@@ -189,7 +171,7 @@ export default class Details extends AbstractSmartComponent {
       inWatchlist: this._inWatchlist,
       isWatched: this._isWatched,
       isFavorite: this._isFavorite,
-      emotion: this._emotion,
+      // emotion: this._emotion,
       // comments: this._comments
     });
   }
@@ -199,14 +181,14 @@ export default class Details extends AbstractSmartComponent {
   }
 
   recoveryListeners() {
-    this._subscribeOnEvents();
+    // this._subscribeOnEvents();
     this.setPopupCloserClickHandler(this._popupCloserClickHandler);
     this.setMarkAsFavoriteClickHandler(this._markAsFavoriteClickHandler);
     this.setMarkAsWatchedClickHandler(this._markAsWatchedClickHandler);
     this.setAddToWatchlistClickHandler(this._addToWatchListClickHandler);
   }
 
-  _subscribeOnEvents() {
+  /* _subscribeOnEvents() {
     const element = this.getElement();
     element.querySelector(`.film-details__emoji-list`)
       .addEventListener(`change`, this.setEmotionClickHandler);
@@ -225,7 +207,7 @@ export default class Details extends AbstractSmartComponent {
     let commentField = document.querySelector(`.film-details__comment-input`);
     const commentText = commentField.value;
     console.log(commentText);
-  }
+  } */
 
   setAddToWatchlistClickHandler(handler) {
     this.getElement().querySelector(`#watchlist`)

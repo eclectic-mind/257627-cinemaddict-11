@@ -82,6 +82,7 @@ export const makeDetails = (movie, options = {}) => {
   const button = makeCloseButton();
   const emotions = makeEmotionsList();
   const currentEmotion = emotion !== null && emotion !== undefined ? `<img src="images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">` : ``;
+  const commentText = ``;
 
   return (
     `<section class="film-details">
@@ -168,6 +169,7 @@ export const makeDetails = (movie, options = {}) => {
   </form>
 </section>`
   );
+
 };
 
 export default class Details extends AbstractSmartComponent {
@@ -179,7 +181,8 @@ export default class Details extends AbstractSmartComponent {
     this._isFavorite = !!movie.isFavorite;
     this.setEmotionClickHandler = this.setEmotionClickHandler.bind(this);
     this._subscribeOnEvents();
-    // this.commentText = ``;
+    // this._commentsAll = commentsAll;
+    // this._commentText = ``;
   }
   getTemplate() {
     return makeDetails(this._movie, {
@@ -207,15 +210,22 @@ export default class Details extends AbstractSmartComponent {
     const element = this.getElement();
     element.querySelector(`.film-details__emoji-list`)
       .addEventListener(`change`, this.setEmotionClickHandler);
+    element.querySelector(`.film-details__comment-input`)
+      .addEventListener(`change`, this.setCommentFieldChangeHandler);
   }
 
   setEmotionClickHandler(evt) {
     evt.preventDefault();
     let value = evt.target.value;
     this._emotion = value;
-    // comm
     this.rerender();
-  };
+  }
+
+  setCommentFieldChangeHandler(evt) {
+    let commentField = document.querySelector(`.film-details__comment-input`);
+    const commentText = commentField.value;
+    console.log(commentText);
+  }
 
   setAddToWatchlistClickHandler(handler) {
     this.getElement().querySelector(`#watchlist`)

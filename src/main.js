@@ -23,11 +23,11 @@ const movies = generateMovies(CARDS_QUANTITY);
 const moviesModel = new MoviesModel();
 moviesModel.setMovies(movies);
 
-const menu = new FilterController(pageMain, moviesModel);
-menu.render();
-
 const board = new BoardComponent();
 const boardController = new BoardController(board, moviesModel);
 
 render(pageMain, board, RenderPosition.BEFOREEND);
 boardController.render(movies);
+
+const menu = new FilterController(pageMain, moviesModel);
+menu.render();

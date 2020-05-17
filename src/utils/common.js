@@ -196,3 +196,8 @@ export const doFiltration = (data, param) => {
       return copy;
  }
 };
+
+export const collectAllComments = (movies) => {
+  let result = [];
+  movies.map((item) => result.push(item.comments));
+};

@@ -4,6 +4,7 @@ import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getR
 
 const generateComment = () => {
   return {
+    id: getRandomNumber(),
     text: getRandomArrayItem(TEXTS),
     emotion: getRandomArrayItem(EMOTIONS),
     author: getRandomArrayItem(AUTHORS),

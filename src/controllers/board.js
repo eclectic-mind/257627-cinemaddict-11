@@ -1,5 +1,5 @@
 import {CARDS_QUANTITY, CARDS_QUANTITY_ON_START, CARDS_QUANTITY_RATINGS, CARDS_QUANTITY_MORE, STATS_ALL, SUBTITLES} from '../constants.js';
-import {doSorting, doFiltration} from '../utils/common.js';
+import {doSorting, doFiltration, collectAllComments} from '../utils/common.js';
 import {render, remove, RenderPosition} from "../utils/render.js";
 import LoadMoreButtonComponent from '../components/button.js';
 import FilmsContainerComponent from '../components/films.js';
@@ -37,6 +37,7 @@ export default class BoardController {
     this._onFilterTypeChange = this._onFilterTypeChange.bind(this);
     this._sorting.setSortTypeChangeHandler(this._onSortTypeChange);
     this._moviesModel.setFilterChangeHandler(this._onFilterTypeChange);
+    this._comments = collectAllComments(this._moviesModel.getMovies());
   }
 
   render() {
@@ -48,6 +49,9 @@ export default class BoardController {
     const boxMost = this._most.getElement().querySelector(`.films-list__container`);
     const movies = this._moviesModel.getMovies();
     const sorting = this._sorting;
+    const comments = this._comments;
+
+    // console.log(comments);
 
     if (movies.length === 0) {
       const allFilmsTitle = list.querySelector(`h2`);

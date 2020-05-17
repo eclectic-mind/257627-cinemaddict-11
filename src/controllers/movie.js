@@ -2,7 +2,6 @@ import {EMOTIONS} from '../constants.js';
 import CardComponent from "../components/card.js";
 import DetailsComponent from "../components/details.js";
 import {render, replace, remove, RenderPosition} from "../utils/render.js";
-// comm - подкл. модель
 
 export default class MovieController {
 
@@ -12,9 +11,10 @@ export default class MovieController {
     this._popup = null;
     this._onDataChange = onDataChange;
     this._onEscKeyDown = this._onEscKeyDown.bind(this);
+    this._onEnterKeyDown = this._onEnterKeyDown.bind(this);
     this._body = document.querySelector(`body`);
     this._emotion = null;
-    // this.commentText = ``;
+    this._commentText = ``;
   }
 
   render(movie) {
@@ -52,6 +52,13 @@ export default class MovieController {
         }));
       });
 
+      /* this._popup.setSubmitHandler((evt) => {
+        evt.preventDefault();
+        const commentField = document.querySelector(`.film-details__comment-input`);
+        commentField.addEventListener(`keydown`, this._onEnterKeyDown);
+        console.log(`отправлен новый коммент!`);
+      }); */
+
     };
 
     this._card.setAddToWatchlistClickHandler((evt) => {
@@ -82,8 +89,8 @@ export default class MovieController {
         render(body, this._popup, RenderPosition.BEFOREEND);
         setPopupHandlers();
       }
+            console.log(movie.comments);
     });
-
 
     setPopupHandlers();
 
@@ -104,10 +111,18 @@ export default class MovieController {
     }
   }
 
+  _onEnterKeyDown(evt) {
+    const isEnterKey = evt.key === `Enter`;
+    if (isEnterKey) {
+      console.log(`нажали на Enter`);
+    }
+  }
+
   destroy() {
     remove(this._popup);
     remove(this._card);
     document.removeEventListener(`keydown`, this._onEscKeyDown);
+    document.removeEventListener(`keydown`, this._onEnterKeyDown);
   }
 
 };

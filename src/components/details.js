@@ -146,8 +146,11 @@ export const makeDetails = (movie, options = {}) => {
       ${controls}
       </section>
     </div>
+    <div class="form-details__bottom-container">
+      <section class="film-details__comments-wrap">
 
-
+      </section>
+    </div>
   </form>
 </section>`
   );

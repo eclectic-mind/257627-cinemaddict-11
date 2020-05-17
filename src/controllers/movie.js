@@ -91,6 +91,12 @@ export default class MovieController {
       document.addEventListener(`keydown`, this._onEscKeyDown);
       if (!body.querySelector(`.film-details`)) {
         render(body, this._popup, RenderPosition.BEFOREEND);
+
+        const commentsContent = this._commentsModel.getComments();
+        const commentBox = document.querySelector(`.film-details__comments-wrap`);
+        console.log(commentBox, commentsContent);
+        render(commentBox, commentsContent, RenderPosition.BEFOREEND);
+
         setPopupHandlers();
       }
             console.log(movie.comments);

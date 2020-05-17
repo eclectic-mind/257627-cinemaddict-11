@@ -86,7 +86,7 @@ export default class Comments extends AbstractSmartComponent {
   }
 
   getTemplate() {
-    return makeComments(this._comments, this._emotion, this._newComment});
+    return makeComments(this._comments, this._emotion, this._newComment);
   }
 
   rerender() {

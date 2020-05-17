@@ -109,12 +109,12 @@ export default class Comments extends AbstractSmartComponent {
   }
 
   renderAllComments() {
-    const commentItem = this.getElement().querySelector(`.film-details__comments-list`);
+    const box = this.getElement().querySelector(`.film-details__comments-list`);
     this._comments = this._commentsModel.getComments();
 
     this._comments.forEach((comment) => {
       const commentController = new CommentController(commentItem, this._commentsModel, this);
-      commentController.render(comment);
+      commentController.render(comment, box);
     });
   }
 

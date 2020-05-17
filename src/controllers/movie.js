@@ -95,7 +95,7 @@ export default class MovieController {
         const commentsContent = this._commentsModel.getComments();
         const commentBox = document.querySelector(`.film-details__comments-wrap`);
         console.log(commentBox, commentsContent);
-        render(commentBox, commentsContent, RenderPosition.BEFOREEND);
+        render(commentBox.getElement(), commentsContent, RenderPosition.BEFOREEND);
 
         setPopupHandlers();
       }

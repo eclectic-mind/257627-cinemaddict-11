@@ -22,15 +22,15 @@ const makeControlsCard = (movie) => {
 };
 
   const makeCard = (movie) => {
-  const {title, original, description, poster, genres, duration, date, country, producer, writers, cast, rating, age, inWatchlist, isWatched, isFavorite /* comments,*/} = movie;
+  const {title, original, description, poster, genres, duration, date, country, producer, writers, cast, rating, age, inWatchlist, isWatched, isFavorite, comments} = movie;
   const year = getOnlyYear(date);
   const durationFormatted = formatDuration(duration);
   const brief = description > BRIEF_MAX ? cutText(description, BRIEF_MAX) : description;
   const genreMain = genres[0];
-  // const commentsQuantity = comments.length;
+  const commentsQuantity = comments.length;
   const controlsAll = makeControlsCard(movie);
 
-  /* return (
+  return (
     `<article class="film-card">
           <h3 class="film-card__title">${title}</h3>
           <p class="film-card__rating">${rating}</p>
@@ -47,8 +47,8 @@ const makeControlsCard = (movie) => {
           </form>
         </article>`
   );
-}; */
-
+};
+/*
 return (
     `<article class="film-card">
           <h3 class="film-card__title">${title}</h3>
@@ -67,7 +67,7 @@ return (
         </article>`
   );
 };
-
+*/
 export default class Card extends AbstractSmartComponent {
   constructor(movie) {
     super();

@@ -42,7 +42,7 @@ export const makeEmotionsList = () => {
   );
 };
 
-export const makeComments = (comments, emotion, newComment) => {
+export const makeComments = (comments, emotion, newComment = ``) => {
   const commentsQuantity = comment ? comments.length : 0;
   const emotions = makeEmotionsList();
   const currentEmotion = emotion !== null && emotion !== undefined ? `<img src="images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">` : ``;
@@ -76,10 +76,10 @@ export const makeComments = (comments, emotion, newComment) => {
 export default class Comments extends AbstractSmartComponent {
   constructor(commentsModel, emotion) {
     super();
+    this._commentsModel = commentsModel;
     this._comments = commentsModel.getComments();
     this._emotion = emotion;
     this._newComment = ``;
-    this._commentsModel = commentsModel;
 
     this.setEmotionClickHandler = this.setEmotionClickHandler.bind(this);
     this._subscribeOnEvents();

@@ -10,9 +10,11 @@ export default class CommentController {
     this._board = board;
   }
 
-  render(comment) {
-    this._commentComponent = new CommentComponent(comment);
+  render(comments) {
+    this._commentComponent = new CommentComponent(comments);
     render(this._container, this._commentComponent, RenderPosition.BEFOREEND);
+
+    console.log(this._commentComponent);
 
     /* this._commentComponent.setDeleteButtonClickHandler((evt) => {
       evt.preventDefault();

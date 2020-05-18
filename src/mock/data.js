@@ -2,7 +2,7 @@ import {FILM_TITLES, GENRES, GENRE_MIN, GENRE_MAX, POSTER_FILES, DESCR_SENTENCES
 import {AGES, RATING_MAX, DURATION_MIN, DURATION_MAX, CAST, WRITERS, PRODUCER, TEXTS, EMOTIONS, AUTHORS} from '../constants.js';
 import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomCommentTime, getRandomBoolean, createFishText, getSomeItems} from '../utils/common.js';
 
-const generateComment = () => {
+export const generateComment = () => {
   return {
     id: getRandomNumber(),
     text: getRandomArrayItem(TEXTS),
@@ -12,7 +12,7 @@ const generateComment = () => {
   };
 };
 
-const generateCommentsArray = () => {
+export const generateCommentsArray = () => {
   const count = getRandomNumber(0, COMMENTS_MAX);
   let comments = [];
   for (let i = 0; i <= count; i += 1) {

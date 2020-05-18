@@ -2,11 +2,15 @@
 
 import {render, replace, remove, RenderPosition} from "../utils/render.js";
 
-// import CommentsComponent from "../components/comments.js";
+import CommentsComponent from "../components/comments.js";
 import CommentsModel from "../models/comments.js";
 import CommentsController from "../controllers/comments.js";
 import CardComponent from "../components/card.js";
 import DetailsComponent from "../components/details.js";
+
+import {generateComment, generateCommentsArray} from '../mock/data.js';
+
+
 
 export default class MovieController {
 
@@ -28,11 +32,21 @@ export default class MovieController {
     const oldCardController = this._card;
     const oldPopupController = this._popup;
 
+    // this._container = container;
+
     this._card = new CardComponent(movie);
     this._popup = new DetailsComponent(movie);
+    this._emotion = null;
 
+    // const commentsData = generateComment();
+    const comments = generateCommentsArray();
     this._commentsModel = new CommentsModel();
-    this._commentsModel.setComments(movie);
+    this._commentsModel.setComments(comments);
+    // this._commentsComponent = new CommentsComponent(commentsModel, this._emotion);
+    // this._commentsController = new CommentsController(this._container, commentsModel);
+
+    // this._commentsModel = new CommentsModel();
+    // this._commentsModel.setComments(movie);
 
     const body = this._body;
     const card = this._card.getElement();
@@ -92,10 +106,18 @@ export default class MovieController {
       if (!body.querySelector(`.film-details`)) {
         render(body, this._popup, RenderPosition.BEFOREEND);
 
+        const commentsComponent = new CommentsComponent(this._commentsModel, this._emotion);
+        const commentsController = new CommentsController(this._commentsModel);
+
         const commentsContent = this._commentsModel.getComments();
-        const commentBox = document.querySelector(`.film-details__comments-wrap`);
-        console.log(commentBox, commentsContent);
-        render(commentBox.getElement(), commentsContent, RenderPosition.BEFOREEND);
+        const commentsBox = document.querySelector(`.film-details__comments-wrap`);
+        console.log(commentsContent, commentsBox);
+
+        // commentsController.render(commentsBox, commentsContent);
+        // render(this._popup, commentsContent, RenderPosition.BEFOREEND);
+        // commentsController.renderAllComments(commentsBox);
+        // render(commentsBox, commentsContent, RenderPosition.BEFOREEND);
+        commentsController.renderComments(commentsBox, commentsContent);
 
         setPopupHandlers();
       }

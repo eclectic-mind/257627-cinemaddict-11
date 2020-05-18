@@ -43,7 +43,7 @@ export const makeEmotionsList = () => {
 };
 
 export const makeComments = (comments, emotion, newComment = ``) => {
-  const commentsQuantity = comment ? comments.length : 0;
+  const commentsQuantity = comments ? comments.length : 0;
   const emotions = makeEmotionsList();
   const currentEmotion = emotion !== null && emotion !== undefined ? `<img src="images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">` : ``;
   const commentsAll = comments.map(item => makeComment(item)).join(``);
@@ -70,10 +70,10 @@ export const makeComments = (comments, emotion, newComment = ``) => {
 };
 
 export default class Comments extends AbstractSmartComponent {
-  constructor(commentsModel, emotion) {
+  constructor(commentsModel, emotion = null) {
     super();
     this._commentsModel = commentsModel;
-    this._comments = commentsModel.getComments();
+    this._comments = this._commentsModel.getComments();
     this._emotion = emotion;
     this._newComment = ``;
 
@@ -87,8 +87,8 @@ export default class Comments extends AbstractSmartComponent {
 
   rerender() {
     super.rerender();
-    this._comments = this._commentsModel.getComments();
-    this.renderAllComments();
+    // this._comments = this._commentsModel.getComments();
+    // this.renderAllComments();
   }
 
   recoveryListeners() {
@@ -98,21 +98,31 @@ export default class Comments extends AbstractSmartComponent {
 
   _subscribeOnEvents() {
     const element = this.getElement();
-    element.querySelector(`.film-details__emoji-list`)
+    /* element.querySelector(`.film-details__emoji-list`)
       .addEventListener(`change`, this.setEmotionClickHandler);
     element.querySelector(`.film-details__comment-input`)
       .addEventListener(`change`, this.setCommentFieldChangeHandler);
+      */
   }
 
-  renderAllComments() {
-    const box = this.getElement().querySelector(`.film-details__comments-list`);
+  /* renderAllComments(box) {
+    // const box = this.getElement().querySelector(`.film-details__comments-list`);
     this._comments = this._commentsModel.getComments();
 
     this._comments.forEach((comment) => {
       const commentController = new CommentController(commentItem, this._commentsModel, this);
       commentController.render(comment, box);
     });
+  } */
+
+  /* renderAllComments(box) {
+    this._comments = this._commentsModel.getComments();
+    this._comments.forEach((comment) => {
+      // const commentController = new CommentController(commentItem, this._commentsModel, this);
+      commentController.render(box, comment);
+    });
   }
+  */
 
   setEmotionClickHandler(evt) {
     evt.preventDefault();

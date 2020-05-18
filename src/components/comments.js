@@ -47,6 +47,8 @@ export const makeComments = (comments, emotion, newComment = ``) => {
   const emotions = makeEmotionsList();
   const currentEmotion = emotion !== null && emotion !== undefined ? `<img src="images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">` : ``;
   const commentsAll = comments.map(item => makeComment(item)).join(``);
+
+  // console.log(commentsAll);
   // const commentText = ``;
   // const encodedTextComment = encode(textComment);
 

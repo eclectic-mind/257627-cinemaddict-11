@@ -39,7 +39,10 @@ export default class MovieController {
     this._emotion = null;
 
     // const commentsData = generateComment();
-    const commentsData = generateCommentsArray();
+    // const commentsData = generateCommentsArray();
+    const commentsData = movie.comments;
+    console.log(commentsData);
+
     this._commentsModel = new CommentsModel();
     this._commentsModel.setComments(commentsData);
     this._comments =  this._commentsModel.getComments();

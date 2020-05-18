@@ -39,9 +39,12 @@ export default class MovieController {
     this._emotion = null;
 
     // const commentsData = generateComment();
-    const comments = generateCommentsArray();
+    const commentsData = generateCommentsArray();
     this._commentsModel = new CommentsModel();
-    this._commentsModel.setComments(comments);
+    this._commentsModel.setComments(commentsData);
+    this._comments =  this._commentsModel.getComments();
+
+    // console.log(this._comments);
     // this._commentsComponent = new CommentsComponent(commentsModel, this._emotion);
     // this._commentsController = new CommentsController(this._container, commentsModel);
 
@@ -106,18 +109,18 @@ export default class MovieController {
       if (!body.querySelector(`.film-details`)) {
         render(body, this._popup, RenderPosition.BEFOREEND);
 
-        const commentsComponent = new CommentsComponent(this._commentsModel, this._emotion);
-        const commentsController = new CommentsController(this._commentsModel);
+        const commentsComponent = new CommentsComponent(this._comments, this._emotion);
+        const commentsController = new CommentsController(this._comments);
 
-        const commentsContent = this._commentsModel.getComments();
+        // const commentsContent = this._commentsModel.getComments();
         const commentsBox = document.querySelector(`.film-details__comments-wrap`);
-        console.log(commentsContent, commentsBox);
+        console.log(this._comments, commentsBox);
 
         // commentsController.render(commentsBox, commentsContent);
         // render(this._popup, commentsContent, RenderPosition.BEFOREEND);
         // commentsController.renderAllComments(commentsBox);
         // render(commentsBox, commentsContent, RenderPosition.BEFOREEND);
-        commentsController.renderComments(commentsBox, commentsContent);
+        commentsController.renderComments(commentsBox, this._comments);
 
         setPopupHandlers();
       }

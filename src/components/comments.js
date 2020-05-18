@@ -4,10 +4,10 @@ import AbstractSmartComponent from './abstract-smart-component.js';
 import {encode} from "he";
 
 export const makeComment = (comment) => {
-  const {text, emotion, author, dateComment, id} = comment;
+  const {id, text, emotion, author, dateComment} = comment;
   const dateFormatted = formatDateForComment(dateComment);
   return (
-  `<li class="film-details__comment" id="${id}">
+  `<li class="film-details__comment" id="$comment-{id}">
     <span class="film-details__comment-emoji">
     <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">
     </span>
@@ -70,10 +70,11 @@ export const makeComments = (comments, emotion, newComment = ``) => {
 };
 
 export default class Comments extends AbstractSmartComponent {
-  constructor(commentsModel, emotion = null) {
+  constructor(comments, emotion = null) {
     super();
-    this._commentsModel = commentsModel;
-    this._comments = this._commentsModel.getComments();
+    // this._commentsModel = commentsModel;
+    // this._comments = this._commentsModel.getComments();
+    this._comments = comments;
     this._emotion = emotion;
     this._newComment = ``;
 

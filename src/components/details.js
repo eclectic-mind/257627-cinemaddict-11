@@ -147,9 +147,7 @@ export const makeDetails = (movie, options = {}) => {
       </section>
     </div>
     <div class="form-details__bottom-container">
-      <section class="film-details__comments-wrap">
 
-      </section>
     </div>
   </form>
 </section>`
@@ -235,4 +233,11 @@ export default class Details extends AbstractSmartComponent {
       .addEventListener(`click`, handler);
     this._popupCloserClickHandler = handler;
   }
+
+  /* setSubmitkHandler(handler) {
+    let commentField = document.querySelector(`.film-details__comment-input`);
+    const commentText = commentField.value;
+    commentField.addEventListener(`change`, handler);
+    this._submitHandler = handler;
+  } */
 }

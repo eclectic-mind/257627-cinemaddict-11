@@ -52,8 +52,7 @@ export const makeComments = (comments, emotion, newComment = ``) => {
   // const commentText = ``;
   // const encodedTextComment = encode(textComment);
 
-  return (
-    `<h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">
+  return (`<section class="film-details__comments-wrap"><h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">
         ${commentsQuantity}
         </span></h3>
         <ul class="film-details__comments-list">
@@ -67,7 +66,7 @@ export const makeComments = (comments, emotion, newComment = ``) => {
             <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${newComment}</textarea>
           </label>
           ${emotions}
-        </div>`
+        </div></section>`
   );
 };
 
@@ -96,36 +95,17 @@ export default class Comments extends AbstractSmartComponent {
 
   recoveryListeners() {
     this._subscribeOnEvents();
-    this.addNewCommentHandler();
+    // this.addNewCommentHandler();
   }
 
   _subscribeOnEvents() {
     const element = this.getElement();
-    /* element.querySelector(`.film-details__emoji-list`)
+    element.querySelector(`.film-details__emoji-list`)
       .addEventListener(`change`, this.setEmotionClickHandler);
     element.querySelector(`.film-details__comment-input`)
-      .addEventListener(`change`, this.setCommentFieldChangeHandler);
-      */
+      .addEventListener(`change`, this.setSubmitHandler);
+
   }
-
-  /* renderAllComments(box) {
-    // const box = this.getElement().querySelector(`.film-details__comments-list`);
-    this._comments = this._commentsModel.getComments();
-
-    this._comments.forEach((comment) => {
-      const commentController = new CommentController(commentItem, this._commentsModel, this);
-      commentController.render(comment, box);
-    });
-  } */
-
-  /* renderAllComments(box) {
-    this._comments = this._commentsModel.getComments();
-    this._comments.forEach((comment) => {
-      // const commentController = new CommentController(commentItem, this._commentsModel, this);
-      commentController.render(box, comment);
-    });
-  }
-  */
 
   setEmotionClickHandler(evt) {
     evt.preventDefault();
@@ -137,7 +117,24 @@ export default class Comments extends AbstractSmartComponent {
   setCommentFieldChangeHandler(evt) {
     let commentField = document.querySelector(`.film-details__comment-input`);
     const commentText = commentField.value;
-    console.log(commentText);
+    commentField.addEventListener(`change`, console.log(commentText));
+    this._newComment = commentText;
   }
 
+  setSubmitHandler(evt) {
+    let commentField = document.querySelector(`.film-details__comment-input`);
+    const commentText = commentField.value;
+    // commentField.addEventListener(`change`, handler);
+    commentField.addEventListener(`change`, console.log(commentText));
+    this._newComment = commentText;
+    // this._submitHandler = handler;
+  }
+
+/*
+  _onEnterKeyDown(evt) {
+    const isEnterKey = evt.key === `Enter`;
+    if (isEnterKey) {
+      console.log(`нажали на Enter`);
+    }
+*/
 }

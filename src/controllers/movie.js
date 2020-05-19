@@ -41,11 +41,11 @@ export default class MovieController {
     // const commentsData = generateComment();
     // const commentsData = generateCommentsArray();
     const commentsData = movie.comments;
-    console.log(commentsData);
+    // console.log(commentsData);
 
     this._commentsModel = new CommentsModel();
     this._commentsModel.setComments(commentsData);
-    this._comments =  this._commentsModel.getComments();
+    this._comments = this._commentsModel.getComments();
 
     // console.log(this._comments);
     // this._commentsComponent = new CommentsComponent(commentsModel, this._emotion);
@@ -82,7 +82,12 @@ export default class MovieController {
           isFavorite: !movie.isFavorite,
         }));
       });
-
+/*
+      this._popup.setSubmitHandler((evt) => {
+        evt.preventDefault();
+        console.log(`должен отправиться коммент`);
+      });
+*/
     };
 
     this._card.setAddToWatchlistClickHandler((evt) => {
@@ -114,20 +119,12 @@ export default class MovieController {
 
         const commentsComponent = new CommentsComponent(this._comments, this._emotion);
         const commentsController = new CommentsController(this._comments);
-
-        // const commentsContent = this._commentsModel.getComments();
-        const commentsBox = document.querySelector(`.film-details__comments-wrap`);
-        console.log(this._comments, commentsBox);
-
-        // commentsController.render(commentsBox, commentsContent);
-        // render(this._popup, commentsContent, RenderPosition.BEFOREEND);
-        // commentsController.renderAllComments(commentsBox);
-        // render(commentsBox, commentsContent, RenderPosition.BEFOREEND);
+        const commentsBox = document.querySelector(`.form-details__bottom-container`);
         commentsController.renderComments(commentsBox, this._comments);
 
         setPopupHandlers();
       }
-            console.log(movie.comments);
+
     });
 
     setPopupHandlers();
@@ -149,13 +146,14 @@ export default class MovieController {
     }
   }
 
-  /* _onEnterKeyDown(evt) {
+/*
+  _onEnterKeyDown(evt) {
     const isEnterKey = evt.key === `Enter`;
     if (isEnterKey) {
       console.log(`нажали на Enter`);
     }
-  } */
-
+  }
+*/
   destroy() {
     remove(this._popup);
     remove(this._card);

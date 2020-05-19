@@ -7,7 +7,7 @@ export const makeComment = (comment) => {
   const {id, text, emotion, author, dateComment} = comment;
   const dateFormatted = formatDateForComment(dateComment);
   return (
-  `<li class="film-details__comment" id="$comment-{id}">
+  `<li class="film-details__comment">
     <span class="film-details__comment-emoji">
     <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">
     </span>
@@ -16,7 +16,7 @@ export const makeComment = (comment) => {
     <p class="film-details__comment-info">
     <span class="film-details__comment-author">${author}</span>
     <span class="film-details__comment-day">${dateFormatted}</span>
-    <button class="film-details__comment-delete">Delete</button>
+    <button class="film-details__comment-delete" id="comment-${id}">Delete</button>
     </p>
     </div>
     </li>`
@@ -96,15 +96,47 @@ export default class Comments extends AbstractSmartComponent {
   recoveryListeners() {
     this._subscribeOnEvents();
     // this.addNewCommentHandler();
+    this.setDeleteCommentHandler(this._deleteCommentHandler);
   }
 
   _subscribeOnEvents() {
     const element = this.getElement();
-    element.querySelector(`.film-details__emoji-list`)
-      .addEventListener(`change`, this.setEmotionClickHandler);
-    element.querySelector(`.film-details__comment-input`)
-      .addEventListener(`change`, this.setSubmitHandler);
+    element.querySelector(`.film-details__emoji-list`).addEventListener(`change`, this.setEmotionClickHandler);
+    // element.querySelector(`.film-details__comment-input`).addEventListener(`keydown`, this.setSubmitHandler);
+    // element.querySelector(`.film-details__comment-input`).addEventListener(`keydown`, this._onPressEnter);
+    element.addEventListener(`keydown`, this._onPressEnter);
 
+    let commentItems = element.querySelectorAll(`li`);
+    // console.log(commentItems);
+    for (let i = 0; i < commentItems.length; i += 1) {
+      commentItems[i].addEventListener(`click`, this.setDeleteCommentHandler);
+    }
+
+    /* element.querySelector(`.film-details__comment-delete`)
+      .addEventListener(`click`, this.setDeleteCommentHandler); */
+  }
+
+  _onPressEnter(evt) {
+    const emotionField = this.querySelector(`.film-details__add-emoji-label`);
+    let currentEmotion = emotionField.querySelector(`img`).alt.slice(6);
+    let text = this.querySelector(`.film-details__comment-input`);
+
+    // console.log(currentEmotion, text);
+
+    // if ((evt.keyCode === 13 || evt.key === `Enter`) && (currentEmotion !== ``)) {
+
+    if (evt.keyCode === 13 || evt.key === `Enter`) {
+      evt.preventDefault();
+
+      let commentDate = new Date();
+      console.log(`Enter pressed!`, text.value, commentDate, currentEmotion);
+      text.value = ``;
+      // currentEmotion = ``;
+      this.removeEventListener(`keydown`, this._onPressEnter);
+      // currentEmotion.addEventListener(`change`, this.setEmotionClickHandler);
+      // console.log(text, currentEmotion);
+      this.rerender();
+    }
   }
 
   setEmotionClickHandler(evt) {
@@ -113,24 +145,51 @@ export default class Comments extends AbstractSmartComponent {
     this._emotion = value;
     this.rerender();
   }
-
+/* работает!
   setCommentFieldChangeHandler(evt) {
     let commentField = document.querySelector(`.film-details__comment-input`);
     const commentText = commentField.value;
     commentField.addEventListener(`change`, console.log(commentText));
     this._newComment = commentText;
   }
-
+*/
   setSubmitHandler(evt) {
-    let commentField = document.querySelector(`.film-details__comment-input`);
-    const commentText = commentField.value;
-    // commentField.addEventListener(`change`, handler);
-    commentField.addEventListener(`change`, console.log(commentText));
+
+    if (evt.keyCode === 13 || evt.key === `Enter`) {
+    evt.preventDefault();
+
+
+    const commentText = this.getElement().value;
+    console.log(commentText);
+
     this._newComment = commentText;
-    // this._submitHandler = handler;
+    this._comments.addComment(this._newComment);
+    this.rerender();
+
+    }
   }
 
-/*
+  setDeleteCommentHandler(handler) {
+      this._deleteCommentHandler = handler;
+
+      const element = this.getElement();
+
+      element.addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+
+      if (evt.target.tagName !== `button`) {
+        return;
+      }
+
+      const idToDelete = evt.target.id;
+      console.log(idToDelete);
+
+      element.comments.deleteComment(idToDelete);
+      element.rerender();
+    });
+  }
+
+  /*
   _onEnterKeyDown(evt) {
     const isEnterKey = evt.key === `Enter`;
     if (isEnterKey) {

@@ -1,6 +1,7 @@
 import {EMOTIONS} from '../constants.js';
 import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, makeControlLinkPopup, formatDate, formatDateForComment, formatDuration} from '../utils/common.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
+// import CommentsModel from "../models/comments.js";
 import {encode} from "he";
 
 export const makeComment = (comment) => {
@@ -48,10 +49,6 @@ export const makeComments = (comments, emotion, newComment = ``) => {
   const currentEmotion = emotion !== null && emotion !== undefined ? `<img src="images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">` : ``;
   const commentsAll = comments.map(item => makeComment(item)).join(``);
 
-  // console.log(commentsAll);
-  // const commentText = ``;
-  // const encodedTextComment = encode(textComment);
-
   return (`<section class="film-details__comments-wrap"><h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">
         ${commentsQuantity}
         </span></h3>
@@ -78,8 +75,8 @@ export default class Comments extends AbstractSmartComponent {
     this._comments = comments;
     this._emotion = emotion;
     this._newComment = ``;
-
     this.setEmotionClickHandler = this.setEmotionClickHandler.bind(this);
+    // this._onPressEnter = this._onPressEnter.bind(this);
     this._subscribeOnEvents();
   }
 
@@ -96,7 +93,7 @@ export default class Comments extends AbstractSmartComponent {
   recoveryListeners() {
     this._subscribeOnEvents();
     // this.addNewCommentHandler();
-    this.setDeleteCommentHandler(this._deleteCommentHandler);
+    // this.setDeleteCommentHandler(this._deleteCommentHandler);
   }
 
   _subscribeOnEvents() {
@@ -107,7 +104,6 @@ export default class Comments extends AbstractSmartComponent {
     element.addEventListener(`keydown`, this._onPressEnter);
 
     let commentItems = element.querySelectorAll(`li`);
-    // console.log(commentItems);
     for (let i = 0; i < commentItems.length; i += 1) {
       commentItems[i].addEventListener(`click`, this.setDeleteCommentHandler);
     }
@@ -117,26 +113,30 @@ export default class Comments extends AbstractSmartComponent {
   }
 
   _onPressEnter(evt) {
-    const emotionField = this.querySelector(`.film-details__add-emoji-label`);
-    let currentEmotion = emotionField.querySelector(`img`).alt.slice(6);
-    let text = this.querySelector(`.film-details__comment-input`);
 
-    // console.log(currentEmotion, text);
+    const currentEmotion = this.querySelector(`.film-details__add-emoji-label`).querySelector(`img`);
 
-    // if ((evt.keyCode === 13 || evt.key === `Enter`) && (currentEmotion !== ``)) {
-
-    if (evt.keyCode === 13 || evt.key === `Enter`) {
-      evt.preventDefault();
-
-      let commentDate = new Date();
-      console.log(`Enter pressed!`, text.value, commentDate, currentEmotion);
-      text.value = ``;
-      // currentEmotion = ``;
-      this.removeEventListener(`keydown`, this._onPressEnter);
-      // currentEmotion.addEventListener(`change`, this.setEmotionClickHandler);
-      // console.log(text, currentEmotion);
-      this.rerender();
+    if (evt.keyCode !== 13 || evt.key !== `Enter`) {
+      return;
     }
+
+    if (!currentEmotion) {
+      return;
+    }
+
+    evt.preventDefault();
+    let currentEmotionValue = currentEmotion.alt.slice(6);
+    let text = this.querySelector(`.film-details__comment-input`);
+    let commentDate = new Date();
+
+    console.log(`Enter pressed!`, text.value, commentDate, currentEmotionValue);
+    text.value = ``;
+    currentEmotion.remove();
+    this.removeEventListener(`keydown`, this._onPressEnter);
+
+    // this._newComment = createComment(text, emotion, dateComment);
+    // this._comments.addComment(this._newComment);
+    this.rerender();
   }
 
   setEmotionClickHandler(evt) {
@@ -152,7 +152,7 @@ export default class Comments extends AbstractSmartComponent {
     commentField.addEventListener(`change`, console.log(commentText));
     this._newComment = commentText;
   }
-*/
+
   setSubmitHandler(evt) {
 
     if (evt.keyCode === 13 || evt.key === `Enter`) {
@@ -168,13 +168,9 @@ export default class Comments extends AbstractSmartComponent {
 
     }
   }
-
+*/
   setDeleteCommentHandler(handler) {
-      this._deleteCommentHandler = handler;
 
-      const element = this.getElement();
-
-      element.addEventListener(`click`, (evt) => {
       evt.preventDefault();
 
       if (evt.target.tagName !== `button`) {
@@ -184,9 +180,9 @@ export default class Comments extends AbstractSmartComponent {
       const idToDelete = evt.target.id;
       console.log(idToDelete);
 
-      element.comments.deleteComment(idToDelete);
-      element.rerender();
-    });
+      this._comments.deleteComment(idToDelete);
+      this.rerender();
+
   }
 
   /*

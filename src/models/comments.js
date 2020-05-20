@@ -1,3 +1,6 @@
+import {getRandomNumber, getRandomArrayItem} from '../utils/common.js';
+import {AUTHORS} from '../constants.js';
+
 export default class Comments {
   constructor() {
     this._comments = [];
@@ -35,6 +38,16 @@ export default class Comments {
     this._comments = [].concat(this._comments.slice(0, index), this._comments.slice(index + 1));
     this._callHandlers(this._dataChangeHandlers);
     return true;
+  }
+
+  createComment(text, emotion, dateComment) {
+    return {
+      id: getRandomNumber(),
+      text: text,
+      emotion: emotion,
+      author: getRandomArrayItem(AUTHORS),
+      dateComment: dateComment
+    };
   }
 
   addComment(newComment) {

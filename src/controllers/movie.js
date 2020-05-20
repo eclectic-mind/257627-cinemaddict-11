@@ -1,16 +1,11 @@
 // import {EMOTIONS} from '../constants.js';
-
 import {render, replace, remove, RenderPosition} from "../utils/render.js";
-
 import CommentsComponent from "../components/comments.js";
 import CommentsModel from "../models/comments.js";
 import CommentsController from "../controllers/comments.js";
 import CardComponent from "../components/card.js";
 import DetailsComponent from "../components/details.js";
-
 import {generateComment, generateCommentsArray} from '../mock/data.js';
-
-
 
 export default class MovieController {
 
@@ -20,10 +15,7 @@ export default class MovieController {
     this._popup = null;
     this._onDataChange = onDataChange;
     this._onEscKeyDown = this._onEscKeyDown.bind(this);
-    // this._onEnterKeyDown = this._onEnterKeyDown.bind(this);
     this._body = document.querySelector(`body`);
-    // this._emotion = null;
-    // this._commentText = ``;
     this._commentsModel = null;
     this._commentsComponent = null;
   }
@@ -32,27 +24,14 @@ export default class MovieController {
     const oldCardController = this._card;
     const oldPopupController = this._popup;
 
-    // this._container = container;
-
     this._card = new CardComponent(movie);
     this._popup = new DetailsComponent(movie);
     this._emotion = null;
 
-    // const commentsData = generateComment();
-    // const commentsData = generateCommentsArray();
     const commentsData = movie.comments;
-    // console.log(commentsData);
-
     this._commentsModel = new CommentsModel();
     this._commentsModel.setComments(commentsData);
     this._comments = this._commentsModel.getComments();
-
-    // console.log(this._comments);
-    // this._commentsComponent = new CommentsComponent(commentsModel, this._emotion);
-    // this._commentsController = new CommentsController(this._container, commentsModel);
-
-    // this._commentsModel = new CommentsModel();
-    // this._commentsModel.setComments(movie);
 
     const body = this._body;
     const card = this._card.getElement();
@@ -82,12 +61,7 @@ export default class MovieController {
           isFavorite: !movie.isFavorite,
         }));
       });
-/*
-      this._popup.setSubmitHandler((evt) => {
-        evt.preventDefault();
-        console.log(`должен отправиться коммент`);
-      });
-*/
+
     };
 
     this._card.setAddToWatchlistClickHandler((evt) => {
@@ -146,19 +120,10 @@ export default class MovieController {
     }
   }
 
-/*
-  _onEnterKeyDown(evt) {
-    const isEnterKey = evt.key === `Enter`;
-    if (isEnterKey) {
-      console.log(`нажали на Enter`);
-    }
-  }
-*/
   destroy() {
     remove(this._popup);
     remove(this._card);
     document.removeEventListener(`keydown`, this._onEscKeyDown);
-    // document.removeEventListener(`keydown`, this._onEnterKeyDown);
   }
 
 };

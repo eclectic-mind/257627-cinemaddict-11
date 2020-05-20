@@ -15,7 +15,7 @@ export default class CommentsController {
     this._commentsComponent = new CommentsComponent(comments);
     render(commentBox, this._commentsComponent, RenderPosition.BEFOREEND);
 
-    console.log(comments);
+    // console.log(comments);
 
 /*
     this._commentsComponent.setDeleteLinkClickHandler(() => {

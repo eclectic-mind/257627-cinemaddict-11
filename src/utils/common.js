@@ -1,6 +1,7 @@
+import {FilterType} from "../constants.js";
 import moment from "moment";
 
-export const getRandomNumber = (min, max) => {
+export const getRandomNumber = (min = 0, max = 1000) => {
   return min + Math.floor(Math.random() * (max - min));
 };
 
@@ -16,6 +17,12 @@ export const getRandomFloat = (min, max) => {
 
 export const getRandomTime = () => {
   const start = new Date("January 01 1900");
+  const end = new Date();
+  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+};
+
+export const getRandomCommentTime = () => {
+  const start = new Date("January 2018 00:00");
   const end = new Date();
   return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 };
@@ -55,11 +62,57 @@ export const formatDate = (date) => {
   return moment(date).format(`DD MMMM YYYY`);
 };
 
+export const formatDateForComment = (date) => {
+  const now = moment();
+  let result = ``;
+
+  const startMinutes = 60;
+  const startHours = 60 * 60;
+  const startToday = startHours * 12;
+  const startDays = startHours * 24;
+  const endDays = startDays * 7;
+
+  const differenceSec = Math.round(moment.duration(now.diff(date)).asSeconds());
+  const differenceHour = Math.round(moment.duration(now.diff(date)).asHours());
+  const differenceDay = Math.round(moment.duration(now.diff(date)).asDays());
+
+  if (differenceSec <= startMinutes) {
+    result = `Now`;
+  }
+  else if (differenceSec <= startHours) {
+    result = `A few minutes ago`;
+  }
+  else if (differenceSec <= startToday && differenceHour === 1) {
+    result = `${differenceHour} hour ago`;
+  }
+  else if (differenceSec <= startToday) {
+    result = `${differenceHour} hours ago`;
+  }
+  else if (differenceSec > startToday && differenceSec <= startDays) {
+    result = `Today`;
+  }
+  else if (differenceSec > startDays && differenceDay === 1) {
+    result = `Yesterday`;
+  }
+  else if (differenceSec > startDays && differenceSec <= endDays) {
+    result = `${differenceDay} days ago`;
+  }
+  else if (differenceSec > endDays) {
+    result = moment(date).format(`YYYY/MM/DD HH:mm`)
+  }
+
+  return result;
+};
+
 export const formatDuration = (time) => {
   const hours = Math.floor(time / 60);
   const minutes = time % 60;
-  const text = hours != 0 ? `${hours}h${minutes}m` : `${minutes}m`;
+  const text = hours != 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
   return text;
+};
+
+export const getOnlyYear = (date) => {
+  return moment(date).format(`YYYY`);
 };
 
 export const makeControlLink = (name) => {
@@ -76,6 +129,20 @@ export const createElement = (template) => {
   const newElement = document.createElement(`div`);
   newElement.innerHTML = template;
   return newElement.firstChild;
+};
+
+export const generateFilters = (items) => {
+  const allCount = items.length;
+  const watchlistCount = getInWatchlist(items).length;
+  const historyCount = getWatched(items).length;
+  const favoritesCount = getFavorites(items).length;
+
+  return [
+    {title: `All`, count: allCount},
+    {title: `Watchlist`, count: watchlistCount},
+    {title: `History`, count: historyCount},
+    {title: `Favorites`, count: favoritesCount}
+  ];
 };
 
 export const doSorting = (data, param, from = 0, to = data.length) => {
@@ -98,4 +165,39 @@ export const doSorting = (data, param, from = 0, to = data.length) => {
       sorted = copy;
   }
   return sorted.slice(from, to);
+};
+
+// filtration
+
+export const getInWatchlist = (items) => {
+  return items.filter((item) => !!item.inWatchlist)
+};
+
+export const getWatched = (items) => {
+  return items.filter((item) => !!item.isWatched);
+};
+
+export const getFavorites = (items) => {
+  return items.filter((item) => !!item.isFavorite);
+};
+
+export const doFiltration = (data, param) => {
+  let copy = data.slice();
+  switch (param) {
+    case `Watchlist`:
+      return getInWatchlist(copy);
+    case `History`:
+      return getWatched(copy);
+    case `Favorites`:
+      return getFavorites(copy);
+    case `All`:
+      return copy;
+    default:
+      return copy;
+ }
+};
+
+export const collectAllComments = (movies) => {
+  let result = [];
+  movies.map((item) => result.push(item.comments));
 };

@@ -1,12 +1,10 @@
 import {CARDS_QUANTITY, CARDS_QUANTITY_ON_START, CARDS_QUANTITY_RATINGS, CARDS_QUANTITY_MORE, SUBTITLES} from './constants.js';
-import {generateMovie, generateMovies} from './mock/data.js';
-import {generateFilters} from './mock/menu.js';
-import {render, replace, remove, RenderPosition} from './utils/render.js';
-import {doSorting} from './utils/common.js';
-
+import {generateMovie, generateMovies, generateCommentsArray} from './mock/data.js';
+import {render, RenderPosition} from './utils/render.js';
+import MoviesModel from "./models/movies.js";
+import FilterController from './controllers/filter.js';
 import StatsComponent from './components/stats.js';
 import RankComponent from './components/rank.js';
-import MenuComponent from './components/menu.js';
 import BoardComponent from './components/board.js';
 import BoardController from './controllers/board.js';
 
@@ -21,14 +19,14 @@ render(statsContainer, stats, RenderPosition.AFTERBEGIN);
 
 const moviesData = generateMovie();
 const movies = generateMovies(CARDS_QUANTITY);
-
-const filters = generateFilters(movies);
-
-const menu = new MenuComponent(filters);
-render(pageMain, menu, RenderPosition.AFTERBEGIN);
+const moviesModel = new MoviesModel();
+moviesModel.setMovies(movies);
 
 const board = new BoardComponent();
-const boardController = new BoardController(board);
+const boardController = new BoardController(board, moviesModel);
 
 render(pageMain, board, RenderPosition.BEFOREEND);
 boardController.render(movies);
+
+const menu = new FilterController(pageMain, moviesModel);
+menu.render();

@@ -1,26 +1,7 @@
-import {CONTROLS_DETAILS, EMOTIONS} from '../constants.js';
-import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, formatDate, formatDuration, makeControlLinkPopup} from '../utils/common.js';
+import {CONTROLS_DETAILS} from '../constants.js';
+import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, makeControlLinkPopup, formatDate, formatDuration} from '../utils/common.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
-
-const makeComment = (comment) => {
-  const {text, emotion, author, dateComment} = comment;
-  const dateFormatted = dateComment.toLocaleDateString();
-  return (
-  `<li class="film-details__comment">
-    <span class="film-details__comment-emoji">
-    <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-smile">
-    </span>
-    <div>
-    <p class="film-details__comment-text">${text}</p>
-    <p class="film-details__comment-info">
-    <span class="film-details__comment-author">${author}</span>
-    <span class="film-details__comment-day">${dateFormatted}</span>
-    <button class="film-details__comment-delete">Delete</button>
-    </p>
-    </div>
-    </li>`
-  );
-};
+import {encode} from "he";
 
 const makeControl = (name, condition = true) => {
   const short = makeControlLinkPopup(name);
@@ -49,37 +30,20 @@ const makeCloseButton = () => {
   );
 }
 
-const makeEmotion = (name) => {
-  return (
-    `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${name}" value="${name}">
-     <label class="film-details__emoji-label" for="emoji-${name}">
-     <img src="./images/emoji/${name}.png" width="30" height="30" alt="emoji">
-     </label>`
-  );
-};
-
-const makeEmotionsList = () => {
-  const items = EMOTIONS;
-  const markup = items.map(item => makeEmotion(item)).join(``);
-  return (
-    `<div class="film-details__emoji-list">
-    ${markup}
-    </div>`
-  );
-};
-
 export const makeDetails = (movie, options = {}) => {
-  const {title, original, description, poster, genres, duration, date, comments, country, producer, writers, cast, rating, age, inWatchlist, isWatched, isFavorite} = movie;
-  const {emotion} = options;
+  const {title, original, description, poster, genres, duration, date, country, producer, writers, cast, rating, age, inWatchlist, isWatched, isFavorite} = movie;
   const durationFormatted = formatDuration(duration);
   const genresAll = genres.join(`, `);
   const dateFull = formatDate(date);
-  const commentsAll = comments.map(item => makeComment(item)).join(``);
-  const commentsQuantity = comments.length;
   const controls = makeControlsDetails(movie);
   const button = makeCloseButton();
-  const emotions = makeEmotionsList();
-  const currentEmotion = emotion !== null && emotion !== undefined ? `<img src="images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">` : ``;
+  const titleEncoded = encode(title);
+  const originalEncoded = encode(original);
+  const descriptionEncoded = encode(description);
+  const countryEncoded = encode(country);
+  const producerEncoded = encode(producer);
+  const writersEncoded = encode(writers);
+  const castEncoded = encode(cast);
 
   return (
     `<section class="film-details">
@@ -90,15 +54,15 @@ export const makeDetails = (movie, options = {}) => {
       </div>
       <div class="film-details__info-wrap">
         <div class="film-details__poster">
-          <img class="film-details__poster-img" src="./images/posters/${poster}" alt="${title}">
+          <img class="film-details__poster-img" src="./images/posters/${poster}" alt="${titleEncoded}">
           <p class="film-details__age">${age}+</p>
         </div>
 
         <div class="film-details__info">
           <div class="film-details__info-head">
             <div class="film-details__title-wrap">
-              <h3 class="film-details__title">${title}</h3>
-              <p class="film-details__title-original">Original: ${original}</p>
+              <h3 class="film-details__title">${titleEncoded}</h3>
+              <p class="film-details__title-original">Original: ${originalEncoded}</p>
             </div>
 
             <div class="film-details__rating">
@@ -109,15 +73,15 @@ export const makeDetails = (movie, options = {}) => {
           <table class="film-details__table">
             <tr class="film-details__row">
               <td class="film-details__term">Director</td>
-              <td class="film-details__cell">${producer}</td>
+              <td class="film-details__cell">${producerEncoded}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Writers</td>
-              <td class="film-details__cell">${writers}</td>
+              <td class="film-details__cell">${writersEncoded}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Actors</td>
-              <td class="film-details__cell">${cast}</td>
+              <td class="film-details__cell">${castEncoded}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
@@ -129,43 +93,27 @@ export const makeDetails = (movie, options = {}) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Country</td>
-              <td class="film-details__cell">${country}</td>
+              <td class="film-details__cell">${countryEncoded}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Genres</td>
               <td class="film-details__cell">${genresAll}</td>
             </tr>
           </table>
-          <p class="film-details__film-description">${description}</p>
+          <p class="film-details__film-description">${descriptionEncoded}</p>
         </div>
       </div>
       <section class="film-details__controls">
       ${controls}
       </section>
     </div>
-
     <div class="form-details__bottom-container">
-      <section class="film-details__comments-wrap">
-        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">
-        ${commentsQuantity}
-        </span></h3>
-        <ul class="film-details__comments-list">
-        ${commentsAll}
-        </ul>
-        <div class="film-details__new-comment">
-        <div for="add-emoji" class="film-details__add-emoji-label">
-          ${currentEmotion}
-          </div>
-          <label class="film-details__comment-label">
-            <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
-          </label>
-          ${emotions}
-        </div>
-      </section>
+
     </div>
   </form>
 </section>`
   );
+
 };
 
 export default class Details extends AbstractSmartComponent {
@@ -175,15 +123,13 @@ export default class Details extends AbstractSmartComponent {
     this._inWatchlist = !!movie.inWatchlist;
     this._isWatched = !!movie.isWatched;
     this._isFavorite = !!movie.isFavorite;
-    this.setEmotionClickHandler = this.setEmotionClickHandler.bind(this);
-    this._subscribeOnEvents();
   }
+
   getTemplate() {
     return makeDetails(this._movie, {
       inWatchlist: this._inWatchlist,
       isWatched: this._isWatched,
       isFavorite: this._isFavorite,
-      emotion: this._emotion
     });
   }
 
@@ -192,25 +138,11 @@ export default class Details extends AbstractSmartComponent {
   }
 
   recoveryListeners() {
-    this._subscribeOnEvents();
     this.setPopupCloserClickHandler(this._popupCloserClickHandler);
     this.setMarkAsFavoriteClickHandler(this._markAsFavoriteClickHandler);
     this.setMarkAsWatchedClickHandler(this._markAsWatchedClickHandler);
     this.setAddToWatchlistClickHandler(this._addToWatchListClickHandler);
   }
-
-  _subscribeOnEvents() {
-    const element = this.getElement();
-    element.querySelector(`.film-details__emoji-list`)
-      .addEventListener(`change`, this.setEmotionClickHandler);
-  }
-
-  setEmotionClickHandler(evt) {
-    evt.preventDefault();
-    let value = evt.target.value;
-    this._emotion = value;
-    this.rerender();
-  };
 
   setAddToWatchlistClickHandler(handler) {
     this.getElement().querySelector(`#watchlist`)
@@ -235,4 +167,5 @@ export default class Details extends AbstractSmartComponent {
       .addEventListener(`click`, handler);
     this._popupCloserClickHandler = handler;
   }
+
 }

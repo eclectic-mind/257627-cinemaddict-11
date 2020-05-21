@@ -1,6 +1,7 @@
-import {cutText, formatDuration, makeControlLink} from '../utils/common.js'
+import {cutText, makeControlLink, formatDuration, getOnlyYear} from '../utils/common.js'
 import {BRIEF_MAX, CONTROLS_CARD} from '../constants.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
+import {encode} from "he";
 
 const makeControlButton = (name, condition = true) => {
   const short = makeControlLink(name);
@@ -22,17 +23,19 @@ const makeControlsCard = (movie) => {
 };
 
   const makeCard = (movie) => {
-  const {title, original, description, poster, genres, duration, date, comments, country, producer, writers, cast, rating, age, inWatchlist, isWatched, isFavorite} = movie;
-  const year = date.getFullYear();
+  const {title, original, description, poster, genres, duration, date, country, producer, writers, cast, rating, age, inWatchlist, isWatched, isFavorite, comments} = movie;
+  const titleEncoded = encode(title);
+  const descriptionEncoded = encode(description);
+  const brief = descriptionEncoded > BRIEF_MAX ? cutText(descriptionEncoded, BRIEF_MAX) : descriptionEncoded;
+  const year = getOnlyYear(date);
   const durationFormatted = formatDuration(duration);
-  const brief = description > BRIEF_MAX ? cutText(description, BRIEF_MAX) : description;
   const genreMain = genres[0];
   const commentsQuantity = comments.length;
   const controlsAll = makeControlsCard(movie);
 
   return (
     `<article class="film-card">
-          <h3 class="film-card__title">${title}</h3>
+          <h3 class="film-card__title">${titleEncoded}</h3>
           <p class="film-card__rating">${rating}</p>
           <p class="film-card__info">
             <span class="film-card__year">${year}</span>

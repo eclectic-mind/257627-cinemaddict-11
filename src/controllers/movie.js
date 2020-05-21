@@ -1,4 +1,3 @@
-// import {EMOTIONS} from '../constants.js';
 import {render, replace, remove, RenderPosition} from "../utils/render.js";
 import CommentsComponent from "../components/comments.js";
 import CommentsModel from "../models/comments.js";
@@ -23,32 +22,26 @@ export default class MovieController {
 
   render(movie) {
     const oldCardController = this._card;
-    // const oldPopupController = this._popup;
-
     // временный массив комментов
     const commentsArray = movie.comments.map((id) => generateComment(id));
     //
 
     this._card = new CardComponent(movie);
-    // this._popup = new DetailsComponent(movie);
     this._emotion = null;
 
-    // const commentsData = movie.comments;
     if (!this._commentsModel) {
       this._commentsModel = new CommentsModel();
       this._commentsModel.setComments(commentsArray);
       this._comments = this._commentsModel.getComments();
     }
 
-
     const body = this._body;
     const card = this._card.getElement();
-    // const popup = this._popup.getElement();
 
     const onCommentsUpdate = (comments) => {
-    this._onDataChange(this, movie, Object.assign({}, movie, {
-      comments: comments
-    }));
+      this._onDataChange(this, movie, Object.assign({}, movie, {
+        comments: comments
+      }));
     }
 
     const setPopupHandlers = () => {
@@ -103,19 +96,17 @@ export default class MovieController {
     this._card.setPopupOpenerClickHandler((evt) => {
       evt.preventDefault();
 
-    this._popup = new DetailsComponent(movie);
-    const popup = this._popup.getElement();
-
-
-
+      this._popup = new DetailsComponent(movie);
+      const popup = this._popup.getElement();
       document.addEventListener(`keydown`, this._onEscKeyDown);
+
       if (!body.querySelector(`.film-details`)) {
         render(body, this._popup, RenderPosition.BEFOREEND);
 
-        // const commentsComponent = new CommentsComponent(this._comments, this._emotion);
         if (!this._commentsController) {
           this._commentsController = new CommentsController(this._commentsModel, onCommentsUpdate);
         }
+
         const commentsBox = document.querySelector(`.form-details__bottom-container`);
         this._commentsController.renderComments(commentsBox);
 
@@ -124,21 +115,13 @@ export default class MovieController {
 
     });
 
-    // setPopupHandlers();
-
     if (oldCardController) {
-
       replace(this._card, oldCardController);
-      // replace(this._popup, oldPopupController);
-      // const commentsBox = document.querySelector(`.form-details__bottom-container`);
-      // this._commentsController.renderComments(commentsBox);
-
     } else {
       render(this._container, this._card, RenderPosition.BEFOREEND);
     }
 
   }
-
 
   _onEscKeyDown(evt) {
     const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
@@ -149,7 +132,9 @@ export default class MovieController {
   }
 
   destroy() {
-    remove(this._popup);
+    if (this._popup) {
+      remove(this._popup);
+    }
     remove(this._card);
     document.removeEventListener(`keydown`, this._onEscKeyDown);
   }

@@ -37,8 +37,6 @@ export default class BoardController {
     this._onFilterTypeChange = this._onFilterTypeChange.bind(this);
     this._sorting.setSortTypeChangeHandler(this._onSortTypeChange);
     this._moviesModel.setFilterChangeHandler(this._onFilterTypeChange);
-    // this._comments = collectAllComments(this._moviesModel.getMovies());
-    // console.log(this._comments);
   }
 
   render() {

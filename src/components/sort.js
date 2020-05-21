@@ -34,18 +34,8 @@ export default class Sorting extends AbstractSmartComponent {
   }
 
   recoveryListeners() {
-    // this._subscribeOnEvents();
     this.setSortTypeChangeHandler(this._sortTypeChangeHandler);
-
   }
-
-/*
-  _subscribeOnEvents() {
-    document.querySelector(`.sort`)
-      .addEventListener(`click`, this.setSortTypeChangeHandler);
-    // this.getElement().addEventListener(`click`, this.setSortTypeChangeHandler);
-  }
-  */
 
   setSortTypeChangeHandler(handler) {
 

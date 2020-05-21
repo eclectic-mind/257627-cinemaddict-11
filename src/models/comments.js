@@ -44,16 +44,6 @@ export default class Comments {
     return true;
   }
 
-  /* createComment(text, emotion, dateComment) {
-    return {
-      id: getRandomNumber(),
-      text: text,
-      emotion: emotion,
-      author: getRandomArrayItem(AUTHORS),
-      dateComment: dateComment
-    };
-  }
-*/
   addComment(newComment) {
     this._comments = [].concat(newComment, this._comments);
     this._callHandlers(this._dataChangeHandlers);

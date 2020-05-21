@@ -1,7 +1,6 @@
 import {EMOTIONS} from '../constants.js';
 import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, makeControlLinkPopup, formatDate, formatDateForComment, formatDuration} from '../utils/common.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
-// import CommentsModel from "../models/comments.js";
 import {encode} from "he";
 
 export const makeComment = (comment) => {
@@ -48,6 +47,7 @@ export const makeComments = (comments, emotion, newComment = ``) => {
   const emotions = makeEmotionsList();
   const currentEmotion = emotion !== null && emotion !== undefined ? `<img src="images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">` : ``;
   const commentsAll = comments.map(item => makeComment(item)).join(``);
+  const newCommentEncoded = encode(newComment);
 
   return (`<section class="film-details__comments-wrap"><h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">
         ${commentsQuantity}
@@ -60,7 +60,7 @@ export const makeComments = (comments, emotion, newComment = ``) => {
           ${currentEmotion}
           </div>
           <label class="film-details__comment-label">
-            <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${newComment}</textarea>
+            <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${newCommentEncoded}</textarea>
           </label>
           ${emotions}
         </div></section>`
@@ -70,13 +70,10 @@ export const makeComments = (comments, emotion, newComment = ``) => {
 export default class Comments extends AbstractSmartComponent {
   constructor(comments, emotion = null) {
     super();
-    // this._commentsModel = commentsModel;
-    // this._comments = this._commentsModel.getComments();
     this._comments = comments;
     this._emotion = emotion;
     this._newComment = ``;
     this.setEmotionClickHandler = this.setEmotionClickHandler.bind(this);
-    // this.onSubmit = this.onSubmit.bind(this);
     this._subscribeOnEvents();
   }
 
@@ -86,8 +83,6 @@ export default class Comments extends AbstractSmartComponent {
 
   rerender() {
     super.rerender();
-    // this._comments = this._commentsModel.getComments();
-    // this.renderAllComments();
   }
 
   updateComments(comments) {
@@ -98,66 +93,29 @@ export default class Comments extends AbstractSmartComponent {
   recoveryListeners() {
     this._subscribeOnEvents();
     this.onSubmit(this._submitHandler);
-    // this.addNewCommentHandler();
     this.setDeleteCommentHandler(this._deleteCommentHandler);
   }
 
   _subscribeOnEvents() {
     const element = this.getElement();
     element.querySelector(`.film-details__emoji-list`).addEventListener(`change`, this.setEmotionClickHandler);
-
     this.setCommentFieldChangeHandler();
-    // element.querySelector(`.film-details__comment-input`).addEventListener(`keydown`, this.setSubmitHandler);
-    // element.querySelector(`.film-details__comment-input`).addEventListener(`keydown`, this.onSubmit);
-
-
-    /* let commentItems = element.querySelectorAll(`li`);
-    for (let i = 0; i < commentItems.length; i += 1) {
-      commentItems[i].addEventListener(`click`, this.setDeleteCommentHandler);
-    }
-    */
-
-    /* element.querySelector(`.film-details__comment-delete`)
-      .addEventListener(`click`, this.setDeleteCommentHandler); */
   }
 
   onSubmit(handler) {
 
     this._submitHandler = handler;
-
-    // element.addEventListener(`keydown`, this.onSubmit);
     this.getElement().querySelector(`.film-details__comment-input`).addEventListener(`keydown`, (evt) => {
 
-      // evt.preventDefault();
-
       if (evt.key === `Enter` && (evt.ctrlKey || evt.metaKey) && this._emotion) {
-
-      // let currentEmotionValue = this._emotion.alt.slice(6);
-      let dateComment = new Date();
-
-      // let text = this.querySelector(`.film-details__comment-input`);
-
-
-      // console.log(`Enter pressed!`, text.value, commentDate, currentEmotionValue);
-      // text.value = ``;
-
-      // currentEmotion.remove();
-      // this.removeEventListener(`keydown`, this.onSubmit);
-
-      handler({dateComment, text: this._newComment, id: (Date.now() + ``), author: `user`, emotion: this._emotion});
-
-      this._emotion = null;
-      this._newComment = ``;
-      this.rerender();
-
-    }
-
-
+        let dateComment = new Date();
+        const newCommentEncoded = encode(this._newComment);
+        handler({dateComment, text: newCommentEncoded, id: (Date.now() + ``), author: `user`, emotion: this._emotion});
+        this._emotion = null;
+        this._newComment = ``;
+        this.rerender();
+      }
     });
-
-    // const currentEmotion = this.querySelector(`.film-details__add-emoji-label`).querySelector(`img`);
-
-
   }
 
   setEmotionClickHandler(evt) {
@@ -168,36 +126,15 @@ export default class Comments extends AbstractSmartComponent {
   }
 
   setCommentFieldChangeHandler(evt) {
-
     let commentField = this.getElement().querySelector(`.film-details__comment-input`);
-
     commentField.addEventListener(`change`, () => {
       const commentText = commentField.value;
       this._newComment = commentText;
     });
   }
 
-/* работает!
-  setSubmitHandler(evt) {
-
-    if (evt.keyCode === 13 || evt.key === `Enter`) {
-    evt.preventDefault();
-
-
-    const commentText = this.getElement().value;
-    console.log(commentText);
-
-    this._newComment = commentText;
-    this._comments.addComment(this._newComment);
-    this.rerender();
-
-    }
-  }
-*/
   setDeleteCommentHandler(handler) {
-
     this._deleteCommentHandler = handler;
-
     let commentItems = this.getElement().querySelectorAll(`.film-details__comment-delete`);
     for (let i = 0; i < commentItems.length; i += 1) {
       commentItems[i].addEventListener(`click`, (evt) => {
@@ -208,11 +145,4 @@ export default class Comments extends AbstractSmartComponent {
     }
   }
 
-  /*
-  _onEnterKeyDown(evt) {
-    const isEnterKey = evt.key === `Enter`;
-    if (isEnterKey) {
-      console.log(`нажали на Enter`);
-    }
-*/
 }

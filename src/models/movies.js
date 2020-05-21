@@ -7,7 +7,6 @@ export default class Movies {
     this._activeFilterType = FilterType.ALL;
     this._dataChangeHandlers = [];
     this._filterChangeHandlers = [];
-    // this._comments = collectAllComments(this._movies);
   }
 
   getMovies() {

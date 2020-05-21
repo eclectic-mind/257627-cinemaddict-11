@@ -38,12 +38,15 @@ export default class Menu extends AbstractSmartComponent {
     super();
     this._filters = filters;
   }
+
   getTemplate() {
     return makeMenuMarkup(this._filters);
   }
+
   getFilterType() {
     return this._currentFilterType;
   }
+
   setFilterChangeHandler(handler) {
     this._filterChangeHandler = handler;
     this.getElement().addEventListener(`click`, (evt) => {

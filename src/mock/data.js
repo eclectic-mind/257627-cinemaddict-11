@@ -4,7 +4,6 @@ import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getR
 
 export const generateComment = (id) => {
   return {
-    // id: getRandomNumber(),
     id: id,
     text: getRandomArrayItem(TEXTS),
     emotion: getRandomArrayItem(EMOTIONS),
@@ -42,7 +41,6 @@ export const generateMovie = () => {
     inWatchlist: getRandomBoolean(),
     isWatched: getRandomBoolean(),
     isFavorite: getRandomBoolean(),
-    // comments: generateCommentsArray()
     comments: (new Array(getRandomNumber(1, COMMENTS_MAX)).fill(``).map((item) => getRandomNumber() + ``))
   };
 };

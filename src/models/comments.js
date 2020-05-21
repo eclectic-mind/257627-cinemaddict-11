@@ -15,6 +15,10 @@ export default class Comments {
     return this._comments.find((item) => item.id === id);
   }
 
+  getCommentsIds() {
+    return this._comments.map((item) => item.id);
+  }
+
   setComments(comments) {
     this._comments = Array.from(comments);
     this._callHandlers(this._dataChangeHandlers);
@@ -40,7 +44,7 @@ export default class Comments {
     return true;
   }
 
-  createComment(text, emotion, dateComment) {
+  /* createComment(text, emotion, dateComment) {
     return {
       id: getRandomNumber(),
       text: text,
@@ -49,7 +53,7 @@ export default class Comments {
       dateComment: dateComment
     };
   }
-
+*/
   addComment(newComment) {
     this._comments = [].concat(newComment, this._comments);
     this._callHandlers(this._dataChangeHandlers);

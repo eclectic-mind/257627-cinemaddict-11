@@ -2,9 +2,10 @@ import {FILM_TITLES, GENRES, GENRE_MIN, GENRE_MAX, POSTER_FILES, DESCR_SENTENCES
 import {AGES, RATING_MAX, DURATION_MIN, DURATION_MAX, CAST, WRITERS, PRODUCER, TEXTS, EMOTIONS, AUTHORS} from '../constants.js';
 import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomCommentTime, getRandomBoolean, createFishText, getSomeItems} from '../utils/common.js';
 
-export const generateComment = () => {
+export const generateComment = (id) => {
   return {
-    id: getRandomNumber(),
+    // id: getRandomNumber(),
+    id: id,
     text: getRandomArrayItem(TEXTS),
     emotion: getRandomArrayItem(EMOTIONS),
     author: getRandomArrayItem(AUTHORS),
@@ -41,7 +42,8 @@ export const generateMovie = () => {
     inWatchlist: getRandomBoolean(),
     isWatched: getRandomBoolean(),
     isFavorite: getRandomBoolean(),
-    comments: generateCommentsArray()
+    // comments: generateCommentsArray()
+    comments: (new Array(getRandomNumber(1, COMMENTS_MAX)).fill(``).map((item) => getRandomNumber() + ``))
   };
 };
 

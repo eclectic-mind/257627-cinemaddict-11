@@ -76,7 +76,7 @@ export default class Comments extends AbstractSmartComponent {
     this._emotion = emotion;
     this._newComment = ``;
     this.setEmotionClickHandler = this.setEmotionClickHandler.bind(this);
-    // this._onPressEnter = this._onPressEnter.bind(this);
+    // this.onSubmit = this.onSubmit.bind(this);
     this._subscribeOnEvents();
   }
 
@@ -90,53 +90,74 @@ export default class Comments extends AbstractSmartComponent {
     // this.renderAllComments();
   }
 
+  updateComments(comments) {
+    this._comments = comments;
+    this.rerender();
+  }
+
   recoveryListeners() {
     this._subscribeOnEvents();
+    this.onSubmit(this._submitHandler);
     // this.addNewCommentHandler();
-    // this.setDeleteCommentHandler(this._deleteCommentHandler);
+    this.setDeleteCommentHandler(this._deleteCommentHandler);
   }
 
   _subscribeOnEvents() {
     const element = this.getElement();
     element.querySelector(`.film-details__emoji-list`).addEventListener(`change`, this.setEmotionClickHandler);
-    // element.querySelector(`.film-details__comment-input`).addEventListener(`keydown`, this.setSubmitHandler);
-    // element.querySelector(`.film-details__comment-input`).addEventListener(`keydown`, this._onPressEnter);
-    element.addEventListener(`keydown`, this._onPressEnter);
 
-    let commentItems = element.querySelectorAll(`li`);
+    this.setCommentFieldChangeHandler();
+    // element.querySelector(`.film-details__comment-input`).addEventListener(`keydown`, this.setSubmitHandler);
+    // element.querySelector(`.film-details__comment-input`).addEventListener(`keydown`, this.onSubmit);
+
+
+    /* let commentItems = element.querySelectorAll(`li`);
     for (let i = 0; i < commentItems.length; i += 1) {
       commentItems[i].addEventListener(`click`, this.setDeleteCommentHandler);
     }
+    */
 
     /* element.querySelector(`.film-details__comment-delete`)
       .addEventListener(`click`, this.setDeleteCommentHandler); */
   }
 
-  _onPressEnter(evt) {
+  onSubmit(handler) {
 
-    const currentEmotion = this.querySelector(`.film-details__add-emoji-label`).querySelector(`img`);
+    this._submitHandler = handler;
 
-    if (evt.keyCode !== 13 || evt.key !== `Enter`) {
-      return;
+    // element.addEventListener(`keydown`, this.onSubmit);
+    this.getElement().querySelector(`.film-details__comment-input`).addEventListener(`keydown`, (evt) => {
+
+      // evt.preventDefault();
+
+      if (evt.key === `Enter` && (evt.ctrlKey || evt.metaKey) && this._emotion) {
+
+      // let currentEmotionValue = this._emotion.alt.slice(6);
+      let dateComment = new Date();
+
+      // let text = this.querySelector(`.film-details__comment-input`);
+
+
+      // console.log(`Enter pressed!`, text.value, commentDate, currentEmotionValue);
+      // text.value = ``;
+
+      // currentEmotion.remove();
+      // this.removeEventListener(`keydown`, this.onSubmit);
+
+      handler({dateComment, text: this._newComment, id: (Date.now() + ``), author: `user`, emotion: this._emotion});
+
+      this._emotion = null;
+      this._newComment = ``;
+      this.rerender();
+
     }
 
-    if (!currentEmotion) {
-      return;
-    }
 
-    evt.preventDefault();
-    let currentEmotionValue = currentEmotion.alt.slice(6);
-    let text = this.querySelector(`.film-details__comment-input`);
-    let commentDate = new Date();
+    });
 
-    console.log(`Enter pressed!`, text.value, commentDate, currentEmotionValue);
-    text.value = ``;
-    currentEmotion.remove();
-    this.removeEventListener(`keydown`, this._onPressEnter);
+    // const currentEmotion = this.querySelector(`.film-details__add-emoji-label`).querySelector(`img`);
 
-    // this._newComment = createComment(text, emotion, dateComment);
-    // this._comments.addComment(this._newComment);
-    this.rerender();
+
   }
 
   setEmotionClickHandler(evt) {
@@ -145,14 +166,18 @@ export default class Comments extends AbstractSmartComponent {
     this._emotion = value;
     this.rerender();
   }
-/* работает!
+
   setCommentFieldChangeHandler(evt) {
-    let commentField = document.querySelector(`.film-details__comment-input`);
-    const commentText = commentField.value;
-    commentField.addEventListener(`change`, console.log(commentText));
-    this._newComment = commentText;
+
+    let commentField = this.getElement().querySelector(`.film-details__comment-input`);
+
+    commentField.addEventListener(`change`, () => {
+      const commentText = commentField.value;
+      this._newComment = commentText;
+    });
   }
 
+/* работает!
   setSubmitHandler(evt) {
 
     if (evt.keyCode === 13 || evt.key === `Enter`) {
@@ -171,18 +196,16 @@ export default class Comments extends AbstractSmartComponent {
 */
   setDeleteCommentHandler(handler) {
 
+    this._deleteCommentHandler = handler;
+
+    let commentItems = this.getElement().querySelectorAll(`.film-details__comment-delete`);
+    for (let i = 0; i < commentItems.length; i += 1) {
+      commentItems[i].addEventListener(`click`, (evt) => {
       evt.preventDefault();
-
-      if (evt.target.tagName !== `button`) {
-        return;
-      }
-
-      const idToDelete = evt.target.id;
-      console.log(idToDelete);
-
-      this._comments.deleteComment(idToDelete);
-      this.rerender();
-
+      const id = evt.target.id.slice(8);
+      handler(id);
+      });
+    }
   }
 
   /*

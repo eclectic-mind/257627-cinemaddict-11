@@ -1,4 +1,4 @@
-import {AVATAR_SIZE, STATS_SORT_BY, STATS_TITLES, StartSortType} from '../constants.js';
+import {AVATAR_SIZE, STATS_SORT_BY, STATS_TITLES, StatsSortType} from '../constants.js';
 import AbstractSmartComponent from "./abstract-smart-component.js";
 import {getWatched, getTotalDuration, getTopGenre, calculateRank} from "../utils/common.js";
 
@@ -12,7 +12,6 @@ const makeRankBlock = (movies) => {
   if (quantity < 1) {
     return ` `;
   }
-
   else {
     return (
       `<p class="statistic__rank">
@@ -24,7 +23,7 @@ const makeRankBlock = (movies) => {
   }
 };
 
-const makeStatisticsBlock = (movies) => {
+const makeStatsBlock = (movies) => {
   const watched = getWatched(movies).length;
   const total = getTotalDuration(movies);
   const top = getTopGenre(movies);
@@ -48,9 +47,13 @@ const makeStatisticsBlock = (movies) => {
 };
 
 const makeStatsSortLink = (name, currentSortType) => {
-  const active = !!condition ? `checked` : ``;
-  return (
+  const active = currentSortType === name ? `checked` : ``;
+  /* return (
     `<input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-${name}" value="${name}" ${currentSortType === name ? ${active} : ``}>
+    <label for="statistic-${name}" class="statistic__filters-label">${name}</label>`
+  ); */
+  return (
+    `<input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-${name}" value="${name}" ${active}}>
     <label for="statistic-${name}" class="statistic__filters-label">${name}</label>`
   );
 };
@@ -66,6 +69,71 @@ const makeStatsSorting = (currentSortType) => {
   );
 }
 
+const makeChartsBlock = () => {
+  return (
+    `<div class="statistic__chart-wrap">
+      <canvas class="statistic__chart" width="1000"></canvas>
+    </div>`
+  );
+};
+
+const makeFullStatsMarkup = (movies, currentSortType) => {
+  const rank = makeRankBlock(movies);
+  const sort = makeStatsSorting(currentSortType);
+  const stats = makeStatsBlock(movies);
+  const charts = makeChartsBlock();
+  return (
+    `<section class="statistic">
+    ${rank}
+    ${sort}
+    ${stats}
+    ${charts}
+    </section>`
+  );
+};
+
+export default class Charts extends AbstractSmartComponent {
+  constructor(movies) {
+    super();
+    this._movies = movies;
+    this._currentSortType = StatsSortType.ALL;
+  }
+  getTemplate() {
+    return makeFullStatsMarkup(this._movies, this._currentSortType);
+  }
+  getSortType() {
+    return this._currentSortType;
+  }
+
+  rerender() {
+    super.rerender();
+  }
+
+  recoveryListeners() {
+    this.setSortTypeChangeHandler(this._sortTypeChangeHandler);
+  }
+
+  setStatsSortTypeChangeHandler(handler) {
+
+    this.getElement().addEventListener(`input`, (evt) => {
+      evt.preventDefault();
+
+      if (evt.target.tagName !== `A`) {
+        return;
+      }
+
+      const sortType = evt.target.value;
+      if (this._currentSortType === sortType) {
+        return;
+      }
+
+      this._currentSortType = sortType;
+      handler(this._currentSortType);
+      this.rerender();
+    });
+    this._statsSortTypeChangeHandler = handler;
+  }
+}
 
 /*
 const colorToHex = {
@@ -340,22 +408,5 @@ export default class Statistics extends AbstractSmartComponent {
     }
   }
 
-  _applyFlatpickr(element) {
-    if (this._flatpickr) {
-      this._flatpickr.destroy();
-    }
-
-    this._flatpickr = flatpickr(element, {
-      altInput: true,
-      allowInput: true,
-      defaultDate: [this._startDate, this._endDate],
-      mode: `range`,
-      onChange: (dates) => {
-        if (dates.length === 2) {
-          this.rerender(this._tasks, dates[0], dates[1]);
-        }
-      }
-    });
-  }
 }
 */

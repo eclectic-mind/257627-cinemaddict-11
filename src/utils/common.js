@@ -1,4 +1,5 @@
 import {FilterType} from "../constants.js";
+import {USER_RANKS} from '../constants.js';
 import moment from "moment";
 
 export const getRandomNumber = (min = 0, max = 1000) => {
@@ -111,6 +112,14 @@ export const formatDuration = (time) => {
   return text;
 };
 
+export const formatDurationStats = (time) => {
+  const hours = Math.floor(time / 60);
+  const minutes = time % 60;
+  const text = hours != 0 ? `${hours} <span class="statistic__item-description">h</span> ${minutes}<span class="statistic__item-description">m</span>`
+  : `${minutes}<span class="statistic__item-description">m</span>`;
+  return text;
+};
+
 export const getOnlyYear = (date) => {
   return moment(date).format(`YYYY`);
 };
@@ -200,4 +209,38 @@ export const doFiltration = (data, param) => {
 export const collectAllComments = (movies) => {
   let result = [];
   movies.map((item) => result.push(item.comments));
+};
+
+export const countAllMovies = (movies) => {
+  return movies.length;
+};
+
+export const getTotalDuration = (movies) => {
+  const watched = getWatched(movies);
+  const time = watched.reduce((prev, next) => {
+    return (prev += next.duration);
+  }, 0);
+  const result = formatDurationStats(time);
+  return result;
+};
+
+export const getTopGenre = (movies) => {
+  const watched = getWatched(movies);
+  let allGenres = [];
+  watched.forEach((item) => allGenres.push(item.genres));
+  allGenres = allGenres.reduce((a, b) => a.concat(b), []).sort();
+  const result = [...allGenres.reduce((a, b) => a.set(b, (a.get(b) || 0) + 1), new Map())].reduce((a, c) => c[1] > a[1] ? c : a)[0];
+  return result;
+};
+
+export const calculateRank = (quantity) => {
+  if (quantity >= 1 && quantity <= 10) {
+    return USER_RANKS[0];
+  }
+  if (quantity >= 11 && quantity <= 20) {
+    return USER_RANKS[1];
+  }
+  if (quantity >= 21) {
+    return USER_RANKS[2];
+  }
 };

@@ -9,7 +9,7 @@ const makeSortLink = (name, currentSortType) => {
 
 export const makeSortMarkup = (currentSortType) => {
   const names = SORT_BY;
-  const links = names.map((item) => makeSortLink(item, currentSortType)).join(``);;
+  const links = names.map((item) => makeSortLink(item, currentSortType)).join(``);
   return (
     `<ul class="sort">
     ${links}

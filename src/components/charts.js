@@ -1,6 +1,6 @@
-import {AVATAR_SIZE, STATS_SORT_BY, STATS_TITLES, StatsSortType} from '../constants.js';
+import {AVATAR_SIZE, STATS_FILTER_BY, STATS_TITLES, StatsFilterType} from '../constants.js';
 import AbstractSmartComponent from "./abstract-smart-component.js";
-import {getWatched, getTotalDuration, getTopGenre, calculateRank, filterByWatchingDate, getWatchedGenres, countWatchedByGenres} from "../utils/common.js";
+import {getWatched, getTotalDuration, getTopGenre, calculateRank, filterByWatchingDate, getWatchedGenres, getUniqueGenres, countWatchedByGenres} from "../utils/common.js";
 
 import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -46,10 +46,10 @@ const makeStatsBlock = (movies) => {
   );
 };
 
-const makeStatsSortLink = (name, currentStatsSortType) => {
-  const active = currentStatsSortType === name ? `checked` : ``;
+const makeStatsFilterLink = (name, currentStatsFilterType) => {
+  const active = currentStatsFilterType === name ? `checked` : ``;
   /* return (
-    `<input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-${name}" value="${name}" ${currentStatsSortType === name ? ${active} : ``}>
+    `<input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-${name}" value="${name}" ${currentStatsFilterType === name ? ${active} : ``}>
     <label for="statistic-${name}" class="statistic__filters-label">${name}</label>`
   ); */
   return (
@@ -58,9 +58,9 @@ const makeStatsSortLink = (name, currentStatsSortType) => {
   );
 };
 
-const makeStatsSorting = (currentStatsSortType) => {
-  const names = STATS_SORT_BY;
-  const links = names.map((item) => makeStatsSortLink(item, currentStatsSortType)).join(``);
+const makeStatsFilters = (currentStatsFilterType) => {
+  const names = STATS_FILTER_BY;
+  const links = names.map((item) => makeStatsFilterLink(item, currentStatsFilterType)).join(``);
   return (
     `<form action="https://echo.htmlacademy.ru/" method="get" class="statistic__filters">
       <p class="statistic__filters-description">Show stats:</p>
@@ -85,7 +85,7 @@ const createCharts = (movies, statisticCtx) => {
   // console.log(statisticCtx);
   statisticCtx.height = BAR_HEIGHT * 5;
 
-  const genresWatched = getWatchedGenres(movies);
+  const genresWatched = getUniqueGenres(movies);
   const quantities = countWatchedByGenres(movies);
 
   return new Chart(statisticCtx, {
@@ -156,15 +156,15 @@ const createCharts = (movies, statisticCtx) => {
 };
 */
 
-const makeFullStatsMarkup = (movies, currentStatsSortType) => {
+const makeFullStatsMarkup = (movies, currentStatsFilterType) => {
   const rank = makeRankBlock(movies);
-  const sort = makeStatsSorting(currentStatsSortType);
+  const filters = makeStatsFilters(currentStatsFilterType);
   const stats = makeStatsBlock(movies);
   const charts = makeChartsBlock();
   return (
     `<section class="statistic">
     ${rank}
-    ${sort}
+    ${filters}
     ${stats}
     ${charts}
     </section>`
@@ -173,16 +173,17 @@ const makeFullStatsMarkup = (movies, currentStatsSortType) => {
 
 export default class Charts extends AbstractSmartComponent {
 
-  constructor(movies, currentStatsSortType) {
+  constructor(movies, currentStatsFilterType) {
     super();
     this._movies = movies;
-    this._currentStatsSortType = StatsSortType.ALL;
+    this._currentStatsFilterType = StatsFilterType.ALL;
     this._filmsChart = null;
+    this._onDataChange = this._onDataChange.bind(this);
     this._renderCharts(this._movies);
   }
 
   getTemplate() {
-    return makeFullStatsMarkup(this._movies, this._currentStatsSortType);
+    return makeFullStatsMarkup(this._movies, this._currentStatsFilterType);
   }
 
   _renderCharts(movies) {
@@ -196,8 +197,8 @@ export default class Charts extends AbstractSmartComponent {
     this.rerender();
   }
 
-  getSortType() {
-    return this._currentStatsSortType;
+  getFilterType() {
+    return this._currentStatsFilterType;
   }
 
   rerender() {
@@ -205,10 +206,10 @@ export default class Charts extends AbstractSmartComponent {
   }
 
   recoveryListeners() {
-    this.setstatsSortTypeChangeHandler(this._statsSortTypeChangeHandler);
+    this.setStatsFilterTypeChangeHandler(this._StatsFilterTypeChangeHandler);
   }
 
-  setStatsSortTypeChangeHandler(handler) {
+  setStatsFilterTypeChangeHandler(handler) {
 
     this.getElement().addEventListener(`input`, (evt) => {
       evt.preventDefault();
@@ -217,16 +218,20 @@ export default class Charts extends AbstractSmartComponent {
         return;
       }
 
-      const sortType = evt.target.value;
-      if (this._currentStatsSortType === sortType) {
+      const filterType = evt.target.value;
+      if (this._currentStatsFilterType === filterType) {
         return;
       }
 
-      this._currentStatsSortType = sortType;
-      handler(this._currentStatsSortType);
+      this._currentStatsFilterType = filterType;
+      handler(this._currentStatsFilterType);
       this.rerender();
     });
-    this._statsSortTypeChangeHandler = handler;
+    this._StatsFilterTypeChangeHandler = handler;
+  }
+
+  _onDataChange() {
+    this.render();
   }
 }
 

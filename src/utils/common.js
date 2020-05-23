@@ -206,11 +206,6 @@ export const doFiltration = (data, param) => {
  }
 };
 
-/* export const collectAllComments = (movies) => {
-  let result = [];
-  movies.map((item) => result.push(item.comments));
-};
-*/
 export const countAllMovies = (movies) => {
   return movies.length;
 };
@@ -226,38 +221,46 @@ export const getTotalDuration = (movies) => {
 
 export const getWatchedGenres = (movies) => {
   const watched = getWatched(movies);
-  // console.log(watched);
   let allGenres = [];
   watched.forEach((item) => allGenres.push(item.genres));
   const merged = [].concat.apply([], allGenres);
-  // console.log(`merged: `, merged);
-  const unique = [...new Set(merged)];
-  // console.log(unique);
+  return merged;
+};
+
+export const getUniqueGenres = (movies) => {
+  const genres = getWatchedGenres(movies);
+  const unique = [...new Set(genres)];
   return unique;
 };
+
+export const findMostPopular = (array) => {
+  let keyCounts = {};
+  let maxCount = 0;
+  let maxKey = {};
+
+  array.forEach((item, val) => {
+    keyCounts[item] = keyCounts[item] + 1 || 1;
+    if (keyCounts[item] > maxCount) {
+      maxKey = item;
+      maxCount = keyCounts[item];
+    }
+  });
+  return maxKey;
+}
 
 export const getTopGenre = (movies) => {
-  let allGenres = getWatchedGenres(movies);
-  allGenres = allGenres.reduce((a, b) => a.concat(b), []).sort();
-  const result = [...allGenres.reduce((a, b) => a.set(b, (a.get(b) || 0) + 1), new Map())].reduce((a, c) => c[1] > a[1] ? c : a)[0];
-  return result;
+  const allGenres = getWatchedGenres(movies).sort();
+  return findMostPopular(allGenres);
 };
-
-/* export const getListOfGenres = (movies) => {
-  const allGenres = getWatchedGenres(movies);
-  const unique = [...new Set(allGenres)];
-  return unique;
-}; */
 
 export const countFilmsByGenre = (genre, movies) => {
   const films = movies.filter((item) => item.genres.includes(genre));
   const result = films.length;
-  // console.log(`фильмы жанра `, genre, films, result);
   return result;
 };
 
 export const countWatchedByGenres = (movies) => {
-  const genres = getWatchedGenres(movies);
+  const genres = getUniqueGenres(movies);
   const quantities = genres.map((item) => countFilmsByGenre(item, movies));
   return quantities;
 };

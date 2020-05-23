@@ -8,7 +8,7 @@ export const BUTTON_NAME = `Show more`;
 export const ACTIVE_MENU_CLASS = `main-navigation__item--active`;
 export const ACTIVE_SORT_CLASS = `sort__button--active`;
 export const SORT_BY = [`default`, `date`, `rating`];
-export const STATS_SORT_BY = [`All time`, `Today`, `Week`, `Month`, `Year`];
+export const STATS_FILTER_BY = [`All time`, `Today`, `Week`, `Month`, `Year`];
 export const STATS_TITLES = [`You watched`, `Total duration`, `Top genre`];
 export const Mode = {
   BOARD: `board`,
@@ -25,7 +25,7 @@ export const FilterType = {
   HISTORY: `History`,
   FAVORITES: `Favorites`,
 };
-export const StatsSortType = {
+export const StatsFilterType = {
   ALL: `all-time`,
   TODAY: `today`,
   WEEK: `week`,

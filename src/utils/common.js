@@ -115,7 +115,7 @@ export const formatDurationStats = (time) => {
   const hours = Math.floor(time / 60);
   const minutes = time % 60;
   const text = hours != 0 ? `${hours} <span class="statistic__item-description">h</span> ${minutes}<span class="statistic__item-description">m</span>`
-  : `${minutes}<span class="statistic__item-description">m</span>`;
+  : `0 <span class="statistic__item-description">h</span> ${minutes}<span class="statistic__item-description">m</span>`;
   return text;
 };
 
@@ -241,7 +241,7 @@ export const getUniqueGenres = (movies) => {
 export const findMostPopular = (array) => {
   let keyCounts = {};
   let maxCount = 0;
-  let maxKey = {};
+  let maxKey = null;
 
   array.forEach((item, val) => {
     keyCounts[item] = keyCounts[item] + 1 || 1;
@@ -254,6 +254,9 @@ export const findMostPopular = (array) => {
 }
 
 export const getTopGenre = (movies) => {
+  if (movies.length === 0) {
+    return ``;
+  }
   const allGenres = getWatchedGenres(movies).sort();
   return findMostPopular(allGenres);
 };

@@ -8,11 +8,11 @@ import moment from "moment";
 
 const makeRankBlock = (movies) => {
   const quantity = getWatched(movies).length;
+  if (quantity > 0) {
   const rank = calculateRank(quantity);
-  if (quantity < 1) {
-    return ` `;
-  }
-  else {
+  // if (quantity < 1) {
+  //   return ` `;
+  // }
     return (
       `<p class="statistic__rank">
       Your rank
@@ -20,6 +20,8 @@ const makeRankBlock = (movies) => {
       <span class="statistic__rank-label">${rank}</span>
       </p>`
     );
+  } else {
+    return ``;
   }
 };
 
@@ -75,11 +77,15 @@ const makeChartsBlock = () => {
   );
 };
 
-const createCharts = (movies, statisticCtx) => {
+const createCharts = (movies, statisticCtx, period) => {
   const BAR_HEIGHT = 50;
   statisticCtx.height = BAR_HEIGHT * 5;
-  const genresWatched = getUniqueGenres(movies);
-  const quantities = countWatchedByGenres(movies);
+
+  const moviesFiltered = filterByWatchingDate(movies, period);
+  // console.log(movies, moviesFiltered);
+
+  const genresWatched = getUniqueGenres(moviesFiltered);
+  const quantities = countWatchedByGenres(moviesFiltered);
 
   return new Chart(statisticCtx, {
     plugins: [ChartDataLabels],
@@ -141,10 +147,15 @@ const createCharts = (movies, statisticCtx) => {
   });
 };
 
-const makeFullStatsMarkup = (movies, currentStatsFilterType) => {
-  const rank = makeRankBlock(movies);
+const makeFullStatsMarkup = (movies, currentStatsFilterType, period) => {
+  // const period = `week`;
+
+  const moviesFiltered = filterByWatchingDate(movies, period);
+  console.log(movies, moviesFiltered, currentStatsFilterType, period);
+
+  const rank = makeRankBlock(moviesFiltered);
   const filters = makeStatsFilters(currentStatsFilterType);
-  const stats = makeStatsBlock(movies);
+  const stats = makeStatsBlock(moviesFiltered);
   const charts = makeChartsBlock();
   return (
     `<section class="statistic">
@@ -158,24 +169,27 @@ const makeFullStatsMarkup = (movies, currentStatsFilterType) => {
 
 export default class Charts extends AbstractSmartComponent {
 
-  constructor(movies, currentStatsFilterType) {
+  constructor(movies, period) {
     super();
     this._movies = movies;
     // this._statsFilters = statsFilters;
     this._currentStatsFilterType = StatsFilterType.ALL;
     this._filmsChart = null;
     this._onDataChange = this._onDataChange.bind(this);
-    this._renderCharts(this._movies);
+    this._period = period;
+    this._moviesFiltered = filterByWatchingDate(this._movies, this._period);
+    this._renderCharts(this._moviesFiltered);
   }
 
   getTemplate() {
-    return makeFullStatsMarkup(this._movies, this._currentStatsFilterType);
+    return makeFullStatsMarkup(this._movies, this._currentStatsFilterType, this._period);
   }
 
   _renderCharts(movies) {
     const element = this.getElement();
     const filmsCtx = element.querySelector(`.statistic__chart`);
-    this._filmsChart = createCharts(movies, filmsCtx);
+
+    this._filmsChart = createCharts(movies, filmsCtx, this._period);
   }
 
   show() {

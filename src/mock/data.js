@@ -42,8 +42,8 @@ export const generateMovie = () => {
     isWatched: getRandomBoolean(),
     isFavorite: getRandomBoolean(),
     comments: (new Array(getRandomNumber(1, COMMENTS_MAX)).fill(``).map((item) => getRandomNumber() + ``)),
-    watchingDate: null
-    // watchingDate: new Date(`May 20 2020`)
+    // watchingDate: null
+    watchingDate: new Date(`May 20 2020`)
   };
 };
 

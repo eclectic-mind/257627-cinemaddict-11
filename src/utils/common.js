@@ -206,11 +206,11 @@ export const doFiltration = (data, param) => {
  }
 };
 
-export const collectAllComments = (movies) => {
+/* export const collectAllComments = (movies) => {
   let result = [];
   movies.map((item) => result.push(item.comments));
 };
-
+*/
 export const countAllMovies = (movies) => {
   return movies.length;
 };
@@ -243,4 +243,43 @@ export const calculateRank = (quantity) => {
   if (quantity >= 21) {
     return USER_RANKS[2];
   }
+};
+
+export const filterByWatchingDay = (data) => {
+  const now = moment();
+  return data.filter((item) => moment(item.watchingDate).format(`DD`) === now.format(`DD`));
+};
+
+export const filterByWatchingWeek = (data) => {
+  const now = moment();
+  const currentWeek = moment(now).weeks();
+  return data.filter((item) => moment(item.watchingDate).weeks() === currentWeek);
+};
+
+export const filterByWatchingMonth = (data) => {
+  const now = moment();
+  return data.filter((item) => moment(item.watchingDate).format(`MM`) === now.format(`MM`));
+};
+
+export const filterByWatchingYear = (data) => {
+  const now = moment();
+  return data.filter((item) => moment(item.watchingDate).format(`YYYY`) === now.format(`YYYY`));
+};
+
+export const filterByWatchingDate = (data, period) => {
+  let copy = data.slice();
+  switch (period) {
+    case `all-time`:
+      return copy;
+    case `today`:
+      return filterByWatchingDay(copy);
+    case `week`:
+      return filterByWatchingWeek(copy);
+    case `month`:
+      return filterByWatchingMonth(copy);
+    case `year`:
+      return filterByWatchingYear(copy);
+    default:
+      return copy;
+ }
 };

@@ -9,6 +9,8 @@ import RankComponent from './components/header-rank.js';
 import BoardComponent from './components/board.js';
 import BoardController from './controllers/board.js';
 
+// import {filterByWatchingDate} from './utils/common.js';
+
 /* const dateTo = new Date();
 const dateFrom = (() => {
   const d = new Date(dateTo);
@@ -53,3 +55,5 @@ render(pageMain, charts, RenderPosition.BEFOREEND);
     break;
 }
 */
+// console.log(filterByWatchingDate(movies, `week`));
+

@@ -1,6 +1,6 @@
 import {AVATAR_SIZE, STATS_SORT_BY, STATS_TITLES, StatsSortType} from '../constants.js';
 import AbstractSmartComponent from "./abstract-smart-component.js";
-import {getWatched, getTotalDuration, getTopGenre, calculateRank} from "../utils/common.js";
+import {getWatched, getTotalDuration, getTopGenre, calculateRank, filterByWatchingDate} from "../utils/common.js";
 
 import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';

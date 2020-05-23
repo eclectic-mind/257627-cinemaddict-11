@@ -61,6 +61,7 @@ export default class MovieController {
       this._popup.setMarkAsWatchedClickHandler((evt) => {
         this._onDataChange(this, movie, Object.assign({}, movie, {
           isWatched: !movie.isWatched,
+          watchingDate: new Date()
         }));
       });
 
@@ -83,7 +84,9 @@ export default class MovieController {
       evt.preventDefault();
       this._onDataChange(this, movie, Object.assign({}, movie, {
         isWatched: !movie.isWatched,
+        watchingDate: new Date()
       }));
+      console.log(movie.watchingDate);
     });
 
     this._card.setMarkAsFavoriteClickHandler((evt) => {

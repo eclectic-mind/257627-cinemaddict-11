@@ -1,4 +1,4 @@
-import {CARDS_QUANTITY, CARDS_QUANTITY_ON_START, CARDS_QUANTITY_RATINGS, CARDS_QUANTITY_MORE, SUBTITLES} from './constants.js';
+import {CARDS_QUANTITY, CARDS_QUANTITY_ON_START, CARDS_QUANTITY_RATINGS, CARDS_QUANTITY_MORE, SUBTITLES, Mode} from './constants.js';
 import {generateMovie, generateMovies, generateCommentsArray} from './mock/data.js';
 import {render, RenderPosition} from './utils/render.js';
 import MoviesModel from "./models/movies.js";
@@ -9,7 +9,12 @@ import RankComponent from './components/header-rank.js';
 import BoardComponent from './components/board.js';
 import BoardController from './controllers/board.js';
 
-// import {getTotalDuration} from './utils/common.js';
+/* const dateTo = new Date();
+const dateFrom = (() => {
+  const d = new Date(dateTo);
+  d.setDate(d.getDate() - 7);
+  return d;
+})(); */
 
 const pageMain = document.querySelector(`main`);
 const header = document.querySelector(`header`);
@@ -35,7 +40,16 @@ const menu = new FilterController(pageMain, moviesModel);
 menu.render();
 
 const charts = new ChartsComponent(movies);
-console.log(charts);
 render(pageMain, charts, RenderPosition.BEFOREEND);
 
-// getTotalDuration(movies);
+/* switch (mode) {
+  case Mode.BOARD:
+    charts.hide();
+    boardController.show();
+    break;
+  case Mode.CHARTS:
+    boardController.hide();
+    charts.show();
+    break;
+}
+*/

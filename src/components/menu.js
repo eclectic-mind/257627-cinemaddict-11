@@ -74,4 +74,14 @@ export default class Menu extends AbstractSmartComponent {
   recoveryListeners() {
     this.setFilterChangeHandler(this._filterChangeHandler);
   }
+
+  /* setOnChange(handler) {
+    this.getElement().addEventListener(`click`, (evt) => {
+      if (evt.target.tagName !== `A`) {
+        return;
+      }
+      const menuItem = evt.target.id;
+      handler(menuItem);
+    });
+  } */
 }

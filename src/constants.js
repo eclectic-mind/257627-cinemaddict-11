@@ -3,12 +3,17 @@ export const CARDS_QUANTITY = 20;
 export const CARDS_QUANTITY_ON_START = 5;
 export const CARDS_QUANTITY_MORE = 5;
 export const CARDS_QUANTITY_RATINGS = 2;
+export const HIDDEN_CLASS = `visually-hidden`;
 export const BUTTON_NAME = `Show more`;
 export const ACTIVE_MENU_CLASS = `main-navigation__item--active`;
 export const ACTIVE_SORT_CLASS = `sort__button--active`;
 export const SORT_BY = [`default`, `date`, `rating`];
 export const STATS_SORT_BY = [`All time`, `Today`, `Week`, `Month`, `Year`];
 export const STATS_TITLES = [`You watched`, `Total duration`, `Top genre`];
+export const Mode = {
+  BOARD: `board`,
+  CHARTS: `charts`,
+};
 export const SortType = {
   DATE: `date`,
   RATING: `rating`,

@@ -49,11 +49,11 @@ const makeStatsBlock = (movies) => {
 };
 
 export const makeStatsFilterLink = (name, currentStatsFilterType) => {
-  // const {name, checked} = filter;
+  const short = name.toLowerCase().split(` `).join(`-`);
   const active = currentStatsFilterType === name ? `checked` : ``;
   return (
-    `<input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-${name}" value="${name}" ${active}}>
-    <label for="statistic-${name}" class="statistic__filters-label">${name}</label>`
+    `<input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-${short}" value="${short}" ${active}>
+    <label for="statistic-${short}" class="statistic__filters-label">${name}</label>`
   );
 };
 
@@ -80,10 +80,7 @@ const makeChartsBlock = () => {
 const createCharts = (movies, statisticCtx, period) => {
   const BAR_HEIGHT = 50;
   statisticCtx.height = BAR_HEIGHT * 5;
-
   const moviesFiltered = filterByWatchingDate(movies, period);
-  // console.log(movies, moviesFiltered);
-
   const genresWatched = getUniqueGenres(moviesFiltered);
   const quantities = countWatchedByGenres(moviesFiltered);
 
@@ -92,10 +89,8 @@ const createCharts = (movies, statisticCtx, period) => {
     type: `horizontalBar`,
     data: {
       labels: genresWatched,
-      // labels: [`Sci-Fi`, `Animation`, `Fantasy`, `Comedy`, `TV Series`],
       datasets: [{
         data: quantities,
-        // data: [11, 8, 7, 4, 3],
         backgroundColor: `#ffe800`,
         hoverBackgroundColor: `#ffe800`,
         anchor: `start`
@@ -148,11 +143,8 @@ const createCharts = (movies, statisticCtx, period) => {
 };
 
 const makeFullStatsMarkup = (movies, currentStatsFilterType, period) => {
-  // const period = `week`;
-
   const moviesFiltered = filterByWatchingDate(movies, period);
   console.log(movies, moviesFiltered, currentStatsFilterType, period);
-
   const rank = makeRankBlock(moviesFiltered);
   const filters = makeStatsFilters(currentStatsFilterType);
   const stats = makeStatsBlock(moviesFiltered);
@@ -169,27 +161,26 @@ const makeFullStatsMarkup = (movies, currentStatsFilterType, period) => {
 
 export default class Charts extends AbstractSmartComponent {
 
-  constructor(movies, period) {
+  constructor(movies) {
     super();
     this._movies = movies;
     // this._statsFilters = statsFilters;
     this._currentStatsFilterType = StatsFilterType.ALL;
     this._filmsChart = null;
-    this._onDataChange = this._onDataChange.bind(this);
-    this._period = period;
+    // this._onDataChange = this._onDataChange.bind(this);
+    this._period = StatsFilterType.ALL;
     this._moviesFiltered = filterByWatchingDate(this._movies, this._period);
-    this._renderCharts(this._moviesFiltered);
+    this._renderCharts(this._moviesFiltered, this._period);
   }
 
   getTemplate() {
     return makeFullStatsMarkup(this._movies, this._currentStatsFilterType, this._period);
   }
 
-  _renderCharts(movies) {
+  _renderCharts(movies, period) {
     const element = this.getElement();
     const filmsCtx = element.querySelector(`.statistic__chart`);
-
-    this._filmsChart = createCharts(movies, filmsCtx, this._period);
+    this._filmsChart = createCharts(movies, filmsCtx, period);
   }
 
   show() {
@@ -233,75 +224,7 @@ export default class Charts extends AbstractSmartComponent {
     this._statsFilterTypeChangeHandler = handler;
   }
 
-  _onDataChange() {
+  /* _onDataChange() {
     this.render();
-  }
+  } */
 }
-
-/*
-export default class Statistics extends AbstractSmartComponent {
-  constructor({tasks, startDate, endDate}) {
-    super();
-
-    this._tasks = tasks;
-    this._startDate = startDate;
-    this._endDate = endDate;
-
-    this._daysChart = null;
-    this._colorsChart = null;
-
-    this._applyFlatpickr(this.getElement().querySelector(`.statistic__period-input`));
-
-    this._renderCharts();
-  }
-
-  getTemplate() {
-    return createStatisticsTemplate({tasks: this._tasks.getTasks(), startDate: this._startDate, endDate: this._endDate});
-  }
-
-  show() {
-    super.show();
-
-    this.rerender(this._tasks, this._startDate, this._endDate);
-  }
-
-  recoveryListeners() {}
-
-  rerender(tasks, startDate, endDate) {
-    this._tasks = tasks;
-    this._startDate = startDate;
-    this._endDate = endDate;
-
-    super.rerender();
-
-    this._renderCharts();
-  }
-
-  _renderCharts() {
-    const element = this.getElement();
-
-    this._applyFlatpickr(this.getElement().querySelector(`.statistic__period-input`));
-
-    const daysCtx = element.querySelector(`.statistic__days`);
-    const colorsCtx = element.querySelector(`.statistic__colors`);
-
-    this._resetCharts();
-
-    this._daysChart = renderDaysChart(daysCtx, this._tasks.getTasks(), this._startDate, this._endDate);
-    this._colorsChart = renderColorsChart(colorsCtx, this._tasks.getTasks());
-  }
-
-  _resetCharts() {
-    if (this._daysChart) {
-      this._daysChart.destroy();
-      this._daysChart = null;
-    }
-
-    if (this._colorsChart) {
-      this._colorsChart.destroy();
-      this._colorsChart = null;
-    }
-  }
-
-}
-*/

@@ -42,7 +42,7 @@ boardController.render(movies);
 const menu = new FilterController(pageMain, moviesModel);
 menu.render();
 
-const charts = new ChartsComponent(movies, `week`);
+const charts = new ChartsComponent(movies);
 render(pageMain, charts, RenderPosition.BEFOREEND);
 
 const modeSwitcher = (mode) => {

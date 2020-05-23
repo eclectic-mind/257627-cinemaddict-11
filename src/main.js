@@ -9,7 +9,8 @@ import RankComponent from './components/header-rank.js';
 import BoardComponent from './components/board.js';
 import BoardController from './controllers/board.js';
 
-// import {filterByWatchingDate} from './utils/common.js';
+import {filterByWatchingDate, countWatchedByGenres, getWatchedGenres} from './utils/common.js';
+// import {renderCharts} from './components/charts.js'
 
 /* const dateTo = new Date();
 const dateFrom = (() => {
@@ -44,16 +45,20 @@ menu.render();
 const charts = new ChartsComponent(movies);
 render(pageMain, charts, RenderPosition.BEFOREEND);
 
-/* switch (mode) {
-  case Mode.BOARD:
-    charts.hide();
-    boardController.show();
-    break;
-  case Mode.CHARTS:
-    boardController.hide();
-    charts.show();
-    break;
-}
-*/
+const modeSwitcher = (mode) => {
+  switch (mode) {
+    case Mode.BOARD:
+      charts.hide();
+      boardController.show();
+      break;
+    case Mode.CHARTS:
+      boardController.hide();
+      charts.show();
+      break;
+  }
+};
+
 // console.log(filterByWatchingDate(movies, `week`));
 
+//console.log(countWatchedByGenres(movies));
+// renderCharts(movies);

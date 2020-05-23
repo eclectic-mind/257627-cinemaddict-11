@@ -224,13 +224,41 @@ export const getTotalDuration = (movies) => {
   return result;
 };
 
-export const getTopGenre = (movies) => {
+export const getWatchedGenres = (movies) => {
   const watched = getWatched(movies);
   let allGenres = [];
   watched.forEach((item) => allGenres.push(item.genres));
+  const merged = [].concat.apply([], allGenres);
+  // console.log(`merged: `, merged);
+  const unique = [...new Set(merged)];
+  // console.log(unique);
+  return unique;
+};
+
+export const getTopGenre = (movies) => {
+  let allGenres = getWatchedGenres(movies);
   allGenres = allGenres.reduce((a, b) => a.concat(b), []).sort();
   const result = [...allGenres.reduce((a, b) => a.set(b, (a.get(b) || 0) + 1), new Map())].reduce((a, c) => c[1] > a[1] ? c : a)[0];
   return result;
+};
+
+/* export const getListOfGenres = (movies) => {
+  const allGenres = getWatchedGenres(movies);
+  const unique = [...new Set(allGenres)];
+  return unique;
+}; */
+
+export const countFilmsByGenre = (genre, movies) => {
+  const films = movies.filter((item) => item.genres.includes(genre));
+  const result = films.length;
+  // console.log(`фильмы жанра `, genre, films, result);
+  return result;
+};
+
+export const countWatchedByGenres = (movies) => {
+  const genres = getWatchedGenres(movies);
+  const quantities = genres.map((item) => countFilmsByGenre(item, movies));
+  return quantities;
 };
 
 export const calculateRank = (quantity) => {

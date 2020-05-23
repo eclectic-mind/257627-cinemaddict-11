@@ -101,7 +101,6 @@ export const formatDateForComment = (date) => {
   else if (differenceSec > endDays) {
     result = moment(date).format(`YYYY/MM/DD HH:mm`)
   }
-
   return result;
 };
 
@@ -122,6 +121,12 @@ export const formatDurationStats = (time) => {
 
 export const getOnlyYear = (date) => {
   return moment(date).format(`YYYY`);
+};
+
+export const makeMenuLink = (name) => {
+  let array = name.split(` `);
+  let className = array[0].toLowerCase();
+  return className;
 };
 
 export const makeControlLink = (name) => {
@@ -261,8 +266,7 @@ export const countFilmsByGenre = (genre, movies) => {
 
 export const countWatchedByGenres = (movies) => {
   const genres = getUniqueGenres(movies);
-  const quantities = genres.map((item) => countFilmsByGenre(item, movies));
-  return quantities;
+  return genres.map((item) => countFilmsByGenre(item, movies));
 };
 
 export const calculateRank = (quantity) => {

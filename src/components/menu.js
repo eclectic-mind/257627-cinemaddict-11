@@ -1,12 +1,6 @@
 import {MENU_ITEMS, FilterType, ACTIVE_MENU_CLASS} from '../constants.js';
-import {getRandomNumber} from '../utils/common.js';
+import {getRandomNumber, makeMenuLink} from '../utils/common.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
-
-const makeMenuLink = (name) => {
-  let array = name.split(` `);
-  let className = array[0].toLowerCase();
-  return className;
-};
 
 const menuLinks = MENU_ITEMS.map(item => makeMenuLink(item));
 

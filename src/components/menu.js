@@ -1,12 +1,6 @@
 import {MENU_ITEMS, FilterType, ACTIVE_MENU_CLASS} from '../constants.js';
-import {getRandomNumber} from '../utils/common.js';
+import {getRandomNumber, makeMenuLink} from '../utils/common.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
-
-const makeMenuLink = (name) => {
-  let array = name.split(` `);
-  let className = array[0].toLowerCase();
-  return className;
-};
 
 const menuLinks = MENU_ITEMS.map(item => makeMenuLink(item));
 
@@ -34,9 +28,10 @@ export const makeMenuMarkup = (filters, currentFilterType) => {
 };
 
 export default class Menu extends AbstractSmartComponent {
-  constructor(filters) {
+  constructor(filters /*, mode*/) {
     super();
     this._filters = filters;
+    // this._mode = Mode.BOARD;
   }
 
   getTemplate() {
@@ -47,8 +42,8 @@ export default class Menu extends AbstractSmartComponent {
     return this._currentFilterType;
   }
 
-  setFilterChangeHandler(handler) {
-    this._filterChangeHandler = handler;
+  setFilterChangeHandler(handlerFiltering, handlerShowStats) {
+    this._filterChangeHandler = handlerFiltering;
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
       if (evt.target.tagName !== `A`) {
@@ -59,19 +54,42 @@ export default class Menu extends AbstractSmartComponent {
       const filterType = filterName.split(' ')[0];
 
       if (filterType === `Stats`) {
-        return;
+        console.log(`режим stats`);
+        // this._mode = Mode.STATS;
+        handlerShowStats(`showStats`);
+        // return;
       }
       if (this._currentFilterType === filterType) {
         return;
       }
 
       this._currentFilterType = filterType;
-      handler(this._currentFilterType);
+      handlerFiltering(this._currentFilterType);
 
     });
   }
 
+  /* setOnModeChange(handler) {
+    this._handler = handler;
+    if (this._currentFilterType === `Stats`) {
+      console.log(`переключили в режим stats`);
+      handler(`showStats`);
+    } else {
+      handler(`filtering`);
+    }
+  } */
+
   recoveryListeners() {
     this.setFilterChangeHandler(this._filterChangeHandler);
   }
+
+  /* setOnChange(handler) {
+    this.getElement().addEventListener(`click`, (evt) => {
+      if (evt.target.tagName !== `A`) {
+        return;
+      }
+      const menuItem = evt.target.id;
+      handler(menuItem);
+    });
+  } */
 }

@@ -41,7 +41,9 @@ export const generateMovie = () => {
     inWatchlist: getRandomBoolean(),
     isWatched: getRandomBoolean(),
     isFavorite: getRandomBoolean(),
-    comments: (new Array(getRandomNumber(1, COMMENTS_MAX)).fill(``).map((item) => getRandomNumber() + ``))
+    comments: (new Array(getRandomNumber(1, COMMENTS_MAX)).fill(``).map((item) => getRandomNumber() + ``)),
+    // watchingDate: null
+    watchingDate: new Date(`May 20 2020`)
   };
 };
 

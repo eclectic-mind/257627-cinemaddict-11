@@ -31,7 +31,7 @@ const makeCloseButton = () => {
 }
 
 export const makeDetails = (movie, options = {}) => {
-  const {title, original, description, poster, genres, duration, date, country, producer, writers, cast, rating, age, inWatchlist, isWatched, isFavorite} = movie;
+  const {title, original, description, poster, genres, duration, date, country, producer, writers, cast, rating, age, inWatchlist, isWatched, isFavorite, watchingDate} = movie;
   const durationFormatted = formatDuration(duration);
   const genresAll = genres.join(`, `);
   const dateFull = formatDate(date);
@@ -123,6 +123,7 @@ export default class Details extends AbstractSmartComponent {
     this._inWatchlist = !!movie.inWatchlist;
     this._isWatched = !!movie.isWatched;
     this._isFavorite = !!movie.isFavorite;
+    this._watchingDate = movie.watchingDate;
   }
 
   getTemplate() {
@@ -130,6 +131,7 @@ export default class Details extends AbstractSmartComponent {
       inWatchlist: this._inWatchlist,
       isWatched: this._isWatched,
       isFavorite: this._isFavorite,
+      watchingDate: this._watchingDate,
     });
   }
 

@@ -3,10 +3,17 @@ export const CARDS_QUANTITY = 20;
 export const CARDS_QUANTITY_ON_START = 5;
 export const CARDS_QUANTITY_MORE = 5;
 export const CARDS_QUANTITY_RATINGS = 2;
+export const HIDDEN_CLASS = `visually-hidden`;
 export const BUTTON_NAME = `Show more`;
 export const ACTIVE_MENU_CLASS = `main-navigation__item--active`;
 export const ACTIVE_SORT_CLASS = `sort__button--active`;
 export const SORT_BY = [`default`, `date`, `rating`];
+export const STATS_FILTER_BY = [`All time`, `Today`, `Week`, `Month`, `Year`];
+export const STATS_TITLES = [`You watched`, `Total duration`, `Top genre`];
+export const Mode = {
+  BOARD: `board`,
+  CHARTS: `charts`,
+};
 export const SortType = {
   DATE: `date`,
   RATING: `rating`,
@@ -18,7 +25,15 @@ export const FilterType = {
   HISTORY: `History`,
   FAVORITES: `Favorites`,
 };
+export const StatsFilterType = {
+  ALL: `all-time`,
+  TODAY: `today`,
+  WEEK: `week`,
+  MONTH: `month`,
+  YEAR: `year`,
+};
 export const USER_RANKS = [`Novice`, `Fan`, `Movie Buff`];
+export const AVATAR_SIZE = 35;
 export const MENU_ITEMS = [`All movies`, `Watchlist`, `History`, `Favorites`, `Stats`];
 export const STATS_ALL = 130291;
 export const SUBTITLES = [`Top rated`, `Most commented`];

@@ -23,7 +23,7 @@ const makeControlsCard = (movie) => {
 };
 
   const makeCard = (movie) => {
-  const {title, original, description, poster, genres, duration, date, country, producer, writers, cast, rating, age, inWatchlist, isWatched, isFavorite, comments} = movie;
+  const {title, original, description, poster, genres, duration, date, country, producer, writers, cast, rating, age, inWatchlist, isWatched, isFavorite, comments, watchingDate} = movie;
   const titleEncoded = encode(title);
   const descriptionEncoded = encode(description);
   const brief = descriptionEncoded > BRIEF_MAX ? cutText(descriptionEncoded, BRIEF_MAX) : descriptionEncoded;
@@ -59,13 +59,15 @@ export default class Card extends AbstractSmartComponent {
     this._inWatchlist = !!movie.inWatchlist;
     this._isWatched = !!movie.isWatched;
     this._isFavorite = !!movie.isFavorite;
+    this._watchingDate = movie.watchingDate;
   }
 
   getTemplate() {
     return makeCard(this._movie, {
       inWatchlist: this._inWatchlist,
       isWatched: this._isWatched,
-      isFavorite: this._isFavorite
+      isFavorite: this._isFavorite,
+      watchingDate: this._watchingDate,
     });
   }
 

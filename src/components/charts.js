@@ -46,10 +46,10 @@ const makeStatsBlock = (movies) => {
   );
 };
 
-const makeStatsSortLink = (name, currentSortType) => {
-  const active = currentSortType === name ? `checked` : ``;
+const makeStatsSortLink = (name, currentStatsSortType) => {
+  const active = currentStatsSortType === name ? `checked` : ``;
   /* return (
-    `<input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-${name}" value="${name}" ${currentSortType === name ? ${active} : ``}>
+    `<input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-${name}" value="${name}" ${currentStatsSortType === name ? ${active} : ``}>
     <label for="statistic-${name}" class="statistic__filters-label">${name}</label>`
   ); */
   return (
@@ -58,9 +58,9 @@ const makeStatsSortLink = (name, currentSortType) => {
   );
 };
 
-const makeStatsSorting = (currentSortType) => {
+const makeStatsSorting = (currentStatsSortType) => {
   const names = STATS_SORT_BY;
-  const links = names.map((item) => makeStatsSortLink(item, currentSortType)).join(``);
+  const links = names.map((item) => makeStatsSortLink(item, currentStatsSortType)).join(``);
   return (
     `<form action="https://echo.htmlacademy.ru/" method="get" class="statistic__filters">
       <p class="statistic__filters-description">Show stats:</p>
@@ -78,16 +78,17 @@ const makeChartsBlock = () => {
   );
 };
 
-const makeCharts = (movies) => {
+
+const createCharts = (movies, statisticCtx) => {
   const BAR_HEIGHT = 50;
-  const statisticCtx = document.querySelector(`.statistic__chart`);
-  console.log(statisticCtx);
+  // const statisticCtx = document.querySelector(`.statistic__chart`);
+  // console.log(statisticCtx);
   statisticCtx.height = BAR_HEIGHT * 5;
 
   const genresWatched = getWatchedGenres(movies);
   const quantities = countWatchedByGenres(movies);
 
-  const myChart = new Chart(statisticCtx, {
+  return new Chart(statisticCtx, {
     plugins: [ChartDataLabels],
     type: `horizontalBar`,
     data: {
@@ -145,16 +146,19 @@ const makeCharts = (movies) => {
       }
     }
   });
+
+  console.log(myChart(movies));
 };
 
-const renderCharts = (movies) => {
+/* const renderCharts = (movies) => {
   const content = makeCharts(movies);
   console.log(content);
 };
+*/
 
-const makeFullStatsMarkup = (movies, currentSortType) => {
+const makeFullStatsMarkup = (movies, currentStatsSortType) => {
   const rank = makeRankBlock(movies);
-  const sort = makeStatsSorting(currentSortType);
+  const sort = makeStatsSorting(currentStatsSortType);
   const stats = makeStatsBlock(movies);
   const charts = makeChartsBlock();
   return (
@@ -168,16 +172,32 @@ const makeFullStatsMarkup = (movies, currentSortType) => {
 };
 
 export default class Charts extends AbstractSmartComponent {
-  constructor(movies) {
+
+  constructor(movies, currentStatsSortType) {
     super();
     this._movies = movies;
-    this._currentSortType = StatsSortType.ALL;
+    this._currentStatsSortType = StatsSortType.ALL;
+    this._filmsChart = null;
+    this._renderCharts(this._movies);
   }
+
   getTemplate() {
-    return makeFullStatsMarkup(this._movies, this._currentSortType);
+    return makeFullStatsMarkup(this._movies, this._currentStatsSortType);
   }
+
+  _renderCharts(movies) {
+    const element = this.getElement();
+    const filmsCtx = element.querySelector(`.statistic__chart`);
+    this._filmsChart = createCharts(movies, filmsCtx);
+  }
+
+  show() {
+    super.show();
+    this.rerender();
+  }
+
   getSortType() {
-    return this._currentSortType;
+    return this._currentStatsSortType;
   }
 
   rerender() {
@@ -185,7 +205,7 @@ export default class Charts extends AbstractSmartComponent {
   }
 
   recoveryListeners() {
-    this.setSortTypeChangeHandler(this._sortTypeChangeHandler);
+    this.setstatsSortTypeChangeHandler(this._statsSortTypeChangeHandler);
   }
 
   setStatsSortTypeChangeHandler(handler) {
@@ -198,12 +218,12 @@ export default class Charts extends AbstractSmartComponent {
       }
 
       const sortType = evt.target.value;
-      if (this._currentSortType === sortType) {
+      if (this._currentStatsSortType === sortType) {
         return;
       }
 
-      this._currentSortType = sortType;
-      handler(this._currentSortType);
+      this._currentStatsSortType = sortType;
+      handler(this._currentStatsSortType);
       this.rerender();
     });
     this._statsSortTypeChangeHandler = handler;

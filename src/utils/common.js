@@ -226,6 +226,7 @@ export const getTotalDuration = (movies) => {
 
 export const getWatchedGenres = (movies) => {
   const watched = getWatched(movies);
+  // console.log(watched);
   let allGenres = [];
   watched.forEach((item) => allGenres.push(item.genres));
   const merged = [].concat.apply([], allGenres);

@@ -1,6 +1,6 @@
 import {AVATAR_SIZE, STATS_FILTER_BY, STATS_TITLES, StatsFilterType} from '../constants.js';
 import AbstractSmartComponent from "./abstract-smart-component.js";
-import {getWatched, getTotalDuration, getTopGenre, calculateRank, filterByWatchingDate, getWatchedGenres, getUniqueGenres, countWatchedByGenres, makeMenuLink /*, modeSwitcher */} from "../utils/common.js";
+import {getWatched, getTotalDuration, getTopGenre, calculateRank, filterByWatchingDate, getWatchedGenres, getUniqueGenres, countWatchedByGenres, makeMenuLink} from "../utils/common.js";
 
 import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -141,7 +141,7 @@ const createCharts = (movies, statisticCtx, period) => {
 
 const makeFullStatsMarkup = (movies, period) => {
   const moviesFiltered = filterByWatchingDate(movies, period);
-  console.log(movies, moviesFiltered, period);
+  // console.log(movies, moviesFiltered, period);
   const rank = makeRankBlock(moviesFiltered);
   const filters = makeStatsFilters(period);
   const stats = makeStatsBlock(moviesFiltered);

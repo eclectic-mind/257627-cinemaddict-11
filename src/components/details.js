@@ -3,6 +3,11 @@ import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getR
 import AbstractSmartComponent from './abstract-smart-component.js';
 import {encode} from "he";
 
+/* const DefaultData = {
+  deleteButtonText: `Delete`,
+  saveButtonText: `Save`,
+}; */
+
 const makeControl = (name, condition = true) => {
   const short = makeControlLinkPopup(name);
   const active = !!condition ? `checked` : ``;
@@ -31,7 +36,9 @@ const makeCloseButton = () => {
 }
 
 export const makeDetails = (movie, options = {}) => {
-  const {title, original, description, poster, genres, duration, date, country, producer, writers, cast, rating, age, inWatchlist, isWatched, isFavorite, watchingDate} = movie;
+  // const {title, original, description, poster, genres, duration, date, country, producer, writers, cast, rating, age, inWatchlist, isWatched, isFavorite, watchingDate} = movie;
+  const {title, original, description, poster, genres, duration, date, country, producer, writers, cast, rating, age} = movie;
+  const {inWatchlist, isWatched, isFavorite, watchingDate, comments} = options;
   const durationFormatted = formatDuration(duration);
   const genresAll = genres.join(`, `);
   const dateFull = formatDate(date);
@@ -124,6 +131,8 @@ export default class Details extends AbstractSmartComponent {
     this._isWatched = !!movie.isWatched;
     this._isFavorite = !!movie.isFavorite;
     this._watchingDate = movie.watchingDate;
+
+    this._externalData = DefaultData;
   }
 
   getTemplate() {
@@ -132,6 +141,8 @@ export default class Details extends AbstractSmartComponent {
       isWatched: this._isWatched,
       isFavorite: this._isFavorite,
       watchingDate: this._watchingDate,
+
+      externalData: this._externalData,
     });
   }
 
@@ -144,6 +155,11 @@ export default class Details extends AbstractSmartComponent {
     this.setMarkAsFavoriteClickHandler(this._markAsFavoriteClickHandler);
     this.setMarkAsWatchedClickHandler(this._markAsWatchedClickHandler);
     this.setAddToWatchlistClickHandler(this._addToWatchListClickHandler);
+  }
+
+  setData(data) {
+    this._externalData = Object.assign({}, DefaultData, data);
+    this.rerender();
   }
 
   setAddToWatchlistClickHandler(handler) {

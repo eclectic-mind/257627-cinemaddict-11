@@ -335,7 +335,7 @@ export const showElement = (element) => {
 };
 
 export const modeSwitcher = (value, charts, board, sort) => {
-  console.log(value, charts, board, sort);
+  // console.log(value, charts, board, sort);
   switch (value) {
     case Mode.BOARD:
       hideElement(charts);

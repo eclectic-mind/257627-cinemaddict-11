@@ -7,25 +7,55 @@ export default class Movie {
     this.color = data[`color`];
     this.isFavorite = Boolean(data[`is_favorite`]);
     this.isArchive = Boolean(data[`is_archived`]); */
-    this._id = data[`id`];
-    this._title = data[`film_info`.title];
-    this._original: data[`film_info`.alternative_title];
-    this._description: data[`description`];
-    this._poster: data[`film_info`.poster];
-    this._genres: data[`genre`];
-    this._duration: data[`runtime`];
-    this._date: data[`release`.date];
-    this._country: data[`release`.release_country];
-    this._producer: data[`film_info`.director];
-    this._writers: data[`film_info`.writers];
-    this._cast: data[`actors`];
-    this._rating: data[`film_info`.total_rating];
-    this._age: data[`film_info`.age_rating];
-    this._inWatchlist: Boolean(data[`user_details`.watchlist]);
-    this._isWatched: Boolean(data[`user_details`.already_watched]);
-    this._isFavorite: Boolean(data[`user_details`.favorite]);
-    this._comments: data[`comments`];
-    this._watchingDate: data[`user_details`.watching_date]
+    this.id = data[`id`];
+    this.title = data[`film_info`.title];
+    this.original: data[`film_info`.alternative_title];
+    this.description: data[`film_info`.description];
+    this.poster: data[`film_info`.poster];
+    this.genres: data[`film_info`.genre];
+    this.duration: data[`film_info`.runtime];
+    this.date: data[`film_info`.release.date];
+    this.country: data[`film_info`.release.release_country];
+    this.producer: data[`film_info`.director];
+    this.writers: data[`film_info`.writers];
+    this.cast: data[`film_info`.actors];
+    this.rating: data[`film_info`.total_rating];
+    this.age: data[`film_info`.age_rating];
+    this.inWatchlist: Boolean(data[`user_details`.watchlist]);
+    this.isWatched: Boolean(data[`user_details`.already_watched]);
+    this.isFavorite: Boolean(data[`user_details`.favorite]);
+    this.comments: data[`comments`];
+    this.watchingDate: data[`user_details`.watching_date]
+  }
+
+  toRAW() {
+    return {
+      "id": this.id,
+      "comments": this.comments,
+      "film_info": {
+        "title": this.title,
+        "alternative_title": this.original,
+        "total_rating": this.rating,
+        "poster": this.poster,
+        "age_rating": this.age,
+        "director": this.producer,
+        "writers": this.writers,
+        "actors": this.cast,
+        "release": {
+          "date": this.date.toISOString(),
+          "release_country": this.country
+        },
+        "runtime": this.duration,
+        "genre": this.genres,
+        "description": this.description
+      },
+      "user_details": {
+        "watchlist": this.inWatchlist,
+        "already_watched": this.isWatched,
+        "watching_date": this.watchingDate ? this.watchingDate.toISOString() : null,
+        "favorite": this.isFavorite
+      }
+    }
   }
 
   static parseMovie(data) {
@@ -34,5 +64,9 @@ export default class Movie {
 
   static parseMovies(data) {
     return data.map(Movie.parseMovie);
+  }
+
+  static clone(data) {
+    return new Movie(data.toRAW());
   }
 }

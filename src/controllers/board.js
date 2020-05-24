@@ -18,10 +18,11 @@ const renderFilms = (filmsListContainer, items, onDataChange) => {
 };
 
 export default class BoardController {
-  constructor(container, moviesModel) {
+  constructor(container, moviesModel, api) {
     this._container = container;
     this._pageMain = document.querySelector(`main`);
     this._moviesModel = moviesModel;
+    this._api = api;
     this._noFilms = new NoFilmsComponent();
     this._sorting = new SortingComponent();
     this._films = new FilmsContainerComponent();
@@ -116,10 +117,19 @@ export default class BoardController {
   }
 
   _onDataChange(movieController, oldData, newData) {
-    const isSuccess = this._moviesModel.updateMovie(oldData.id, newData);
+    /* const isSuccess = this._moviesModel.updateMovie(oldData.id, newData);
     if (isSuccess) {
       movieController.render(newData);
-    }
+    }*/
+    this._api.updateMovie(oldData.id, newData)
+        .then((movieModel) => {
+          const isSuccess = this._moviesModel.updateMovie(oldData.id, movieModel);
+
+          if (isSuccess) {
+            movieController.render(movieModel);
+            // this._updateMovies(this._showingMoviesCount);
+         }
+        });
   }
 
   _onSortTypeChange(sortType) {

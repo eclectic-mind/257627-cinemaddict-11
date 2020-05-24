@@ -1,6 +1,7 @@
 import {cutText, makeControlLink, formatDuration, getOnlyYear} from '../utils/common.js'
 import {BRIEF_MAX, CONTROLS_CARD} from '../constants.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
+import MovieModel from "../models/movies.js";
 import {encode} from "he";
 
 const makeControlButton = (name, condition = true) => {

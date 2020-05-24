@@ -11,6 +11,7 @@ import BoardComponent from './components/board.js';
 import BoardController from './controllers/board.js';
 
 const AUTHORIZATION = `Basic kjdf8975jkdfhkd84745fg`;
+const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
 
 const pageMain = document.querySelector(`main`);
 const header = document.querySelector(`header`);
@@ -19,7 +20,7 @@ const statsContainer = document.querySelector(`.footer__statistics`);
 // const moviesData = generateMovie();
 // const movies = generateMovies(CARDS_QUANTITY);
 // const api = new API();
-const api = new API(AUTHORIZATION);
+const api = new API(END_POINT, AUTHORIZATION);
 const moviesModel = new MoviesModel();
 // moviesModel.setMovies(movies);
 
@@ -29,7 +30,7 @@ render(header, userRank, RenderPosition.BEFOREEND);
 render(statsContainer, stats, RenderPosition.AFTERBEGIN);
 
 const board = new BoardComponent();
-const boardController = new BoardController(board, moviesModel);
+const boardController = new BoardController(board, moviesModel, api);
 
 render(pageMain, board, RenderPosition.BEFOREEND);
 // boardController.render();

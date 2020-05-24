@@ -9,16 +9,6 @@ import RankComponent from './components/header-rank.js';
 import BoardComponent from './components/board.js';
 import BoardController from './controllers/board.js';
 
-import {filterByWatchingDate, countWatchedByGenres, getWatchedGenres} from './utils/common.js';
-// import {renderCharts} from './components/charts.js'
-
-/* const dateTo = new Date();
-const dateFrom = (() => {
-  const d = new Date(dateTo);
-  d.setDate(d.getDate() - 7);
-  return d;
-})(); */
-
 const pageMain = document.querySelector(`main`);
 const header = document.querySelector(`header`);
 const statsContainer = document.querySelector(`.footer__statistics`);
@@ -45,20 +35,14 @@ menu.render();
 const charts = new ChartsComponent(movies);
 render(pageMain, charts, RenderPosition.BEFOREEND);
 
-const modeSwitcher = (mode) => {
-  switch (mode) {
-    case Mode.BOARD:
-      charts.hide();
-      boardController.show();
-      break;
-    case Mode.CHARTS:
-      boardController.hide();
-      charts.show();
-      break;
+/* menu.setToggleMode((value) => {
+  if (value === Mode.BOARD) {
+    boardController.show();
+    charts.hide();
   }
-};
-
-// console.log(filterByWatchingDate(movies, `week`));
-
-//console.log(countWatchedByGenres(movies));
-// renderCharts(movies);
+  if (value === Mode.CHARTS) {
+    boardController.hide();
+    charts.show();
+  }
+});
+*/

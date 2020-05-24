@@ -50,7 +50,7 @@ export default class BoardController {
     const sorting = this._sorting;
     const comments = this._comments;
 
-    console.log(comments);
+    // console.log(comments);
 
     if (movies.length === 0) {
       const allFilmsTitle = list.querySelector(`h2`);

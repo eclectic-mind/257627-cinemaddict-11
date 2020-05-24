@@ -29,6 +29,7 @@ export default class FilterController {
     const oldComponent = this._menu;
     this._menu = new MenuComponent(filters);
     this._menu.setFilterChangeHandler(this._onFilterChange);
+    // this._menu.setToggleMode(this._toggleModehandler);
 
     if (oldComponent) {
       replace(this._menu, oldComponent);
@@ -40,9 +41,11 @@ export default class FilterController {
   _onFilterChange(filterType) {
     this._activeFilterType = filterType;
     this._moviesModel.setFilter(filterType);
+    // this._menu.setToggleMode(this._toggleModehandler);
   }
 
   _onDataChange() {
     this.render();
   }
+
 }

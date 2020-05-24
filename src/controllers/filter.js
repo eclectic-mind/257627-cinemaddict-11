@@ -5,9 +5,6 @@ import {doFiltration, generateFilters, modeSwitcher} from "../utils/common.js";
 
 export default class FilterController {
   constructor(container, moviesModel) {
-    // this._boardController = boardController;
-    // this._charts = charts;
-
     this._container = container;
     this._moviesModel = moviesModel;
     this._activeFilterType = FilterType.ALL;
@@ -56,16 +53,6 @@ export default class FilterController {
   }
 
   _toggleModehandler(value, charts, board, sort) {
-    console.log(`смена режима на `, value);
-
-    /* if (value === Mode.BOARD) {
-      this._boardController.show();
-      this._charts.hide();
-    }
-    if (value === Mode.CHARTS) {
-      this._boardController.hide();
-      this._charts.show();
-    } */
     modeSwitcher(value, charts, board, sort);
   }
 

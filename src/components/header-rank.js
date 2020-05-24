@@ -23,9 +23,7 @@ export default class Rank extends AbstractSmartComponent {
   constructor(moviesModel) {
     super();
     this._moviesModel = moviesModel;
-    // this._movies = this._moviesModel.getMoviesAll();
     this._onDataChange = this._onDataChange.bind(this);
-    // this._movies = movies;
   }
 
   getTemplate() {

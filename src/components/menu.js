@@ -30,9 +30,7 @@ export const makeMenuMarkup = (filters, currentFilterType) => {
 export default class Menu extends AbstractSmartComponent {
   constructor(filters) {
     super();
-
     this._filters = filters;
-    // this._mode = Mode.BOARD;
   }
 
   getTemplate() {
@@ -43,7 +41,7 @@ export default class Menu extends AbstractSmartComponent {
     return this._currentFilterType;
   }
 
-  setFilterChangeHandler(handlerFiltering /*, modeSwitcher*/) {
+  setFilterChangeHandler(handlerFiltering) {
     this._filterChangeHandler = handlerFiltering;
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
@@ -56,11 +54,6 @@ export default class Menu extends AbstractSmartComponent {
       const filterType = filterName.split(' ')[0];
 
       if (filterType === `Stats`) {
-        // console.log(`режим stats`);
-        // this._mode = Mode.CHARTS;
-        //  modeSwitcher(mode);
-        // this._mode = Mode.STATS;
-        // showStatsHideBoard();
         return;
       }
 
@@ -81,20 +74,12 @@ export default class Menu extends AbstractSmartComponent {
 
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
-
       if (evt.target.tagName !== `A`) {
         return;
       }
-
       const clicked = evt.target.href;
       const link = clicked.toLowerCase().split('#')[1];
-      // const link = clicked.toLowerCase().slice(1);
-
-
       const value = link === `stats` ? Mode.CHARTS : Mode.BOARD;
-
-      console.log(`переход в режим `, value);
-
       this._toggleModehandler(value, charts, board, sort);
     });
   }

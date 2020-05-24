@@ -34,15 +34,3 @@ render(pageMain, charts, RenderPosition.BEFOREEND);
 
 const menu = new FilterController(pageMain, moviesModel);
 menu.render();
-
-/* menu.setToggleMode((value) => {
-  if (value === Mode.BOARD) {
-    boardController.show();
-    charts.hide();
-  }
-  if (value === Mode.CHARTS) {
-    boardController.hide();
-    charts.show();
-  }
-});
-*/

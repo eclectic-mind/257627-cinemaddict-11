@@ -10,16 +10,13 @@ const makeRankBlock = (movies) => {
   const quantity = getWatched(movies).length;
   if (quantity > 0) {
   const rank = calculateRank(quantity);
-  // if (quantity < 1) {
-  //   return ` `;
-  // }
-    return (
-      `<p class="statistic__rank">
+  return (
+    `<p class="statistic__rank">
       Your rank
       <img class="statistic__img" src="images/bitmap@2x.png" alt="Avatar" width="${AVATAR_SIZE}" height="${AVATAR_SIZE}">
       <span class="statistic__rank-label">${rank}</span>
-      </p>`
-    );
+    </p>`
+  );
   } else {
     return ``;
   }
@@ -142,7 +139,7 @@ const createCharts = (movies, statisticCtx, period) => {
   });
 };
 
-const makeFullStatsMarkup = (movies, period /*, mode */) => {
+const makeFullStatsMarkup = (movies, period) => {
   const moviesFiltered = filterByWatchingDate(movies, period);
   console.log(movies, moviesFiltered, period);
   const rank = makeRankBlock(moviesFiltered);
@@ -161,23 +158,14 @@ const makeFullStatsMarkup = (movies, period /*, mode */) => {
 };
 
 export default class Charts extends AbstractSmartComponent {
-
   constructor(moviesModel) {
     super();
-
     this._moviesModel = moviesModel;
     this._movies = this._moviesModel.getMoviesAll();
-
-    // this._statsFilters = statsFilters;
     this._currentStatsFilterType = StatsFilterType.ALL;
     this._filmsChart = null;
-    // this._onDataChange = this._onDataChange.bind(this);
-    // this._period = this._currentStatsFilterType;
     this._moviesFiltered = filterByWatchingDate(this._movies, this._currentStatsFilterType);
     this._renderCharts(this._moviesFiltered, this._currentStatsFilterType);
-    // this.render(this._moviesFiltered, this._period);
-    // this._onStatsFilterChange = this._onStatsFilterChange.bind(this);
-    //this.setStatsFilterTypeChangeHandler.bind(this);
     this.setStatsFilterTypeChangeHandler();
     this.hide();
   }
@@ -185,16 +173,6 @@ export default class Charts extends AbstractSmartComponent {
   getTemplate() {
     return makeFullStatsMarkup(this._movies, this._currentStatsFilterType);
   }
-
-  /*render(movies, period) {
-    this._renderCharts(this._moviesFiltered, this._period);
-    const filtersBlock = document.querySelector(`.statistic__filters`);
-    console.log(filtersBlock);
-    filtersBlock.addEventListener(`click`, (evt) => {
-      console.log(`где-то кликнули по фильтрам`);
-    });
-  }*/
-
   _renderCharts(movies, period) {
     const element = this.getElement();
     const filmsCtx = element.querySelector(`.statistic__chart`);
@@ -225,35 +203,23 @@ export default class Charts extends AbstractSmartComponent {
   }
 
   setStatsFilterTypeChangeHandler() {
-    // this._statsFilterTypeChangeHandler = handler;
-
     this.getElement().querySelector(`.statistic__filters`).addEventListener(`input`, (evt) => {
-
       evt.preventDefault();
-      // console.log(evt.target.tagName);
 
       if (evt.target.tagName !== `INPUT`) {
         return;
       }
 
       const filterType = evt.target.value;
-      console.log(filterType);
-
       if (this._currentStatsFilterType === filterType) {
         return;
       }
 
       this._currentStatsFilterType = filterType;
-      // handler(this._currentStatsFilterType);
       this.rerender();
       this._renderCharts(this._movies, this._currentStatsFilterType);
-      // console.log(this._currentStatsFilterType);
     });
 
   }
-
-  /* _onStatsFilterChange(statsFilterType) {
-    this._currentStatsFilterType = statsFilterType;
-  } */
 
 }

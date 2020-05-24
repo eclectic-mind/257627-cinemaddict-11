@@ -221,18 +221,17 @@ export default class Charts extends AbstractSmartComponent {
     filtersBlock.addEventListener(`click`, (evt) => {
       evt.preventDefault();
       console.log(`где-то кликнули по фильтрам`);
-    });
+
 
     // this.getElement().addEventListener(`.statistic__filters`, (evt) => {
-      /*
-    this.getElement().addEventListener(`click`, (evt) => {
-      evt.preventDefault();
 
+    // this.getElement().addEventListener(`click`, (evt) => {
+      // evt.preventDefault();
 
       if (evt.target.tagName !== `input`) {
         return;
       }
-      console.log(`клик по фильтру`);
+
       const filterType = evt.target.value;
 
       if (this._currentStatsFilterType === filterType) {
@@ -245,7 +244,7 @@ export default class Charts extends AbstractSmartComponent {
 
       console.log(this._currentStatsFilterType);
     });
-    */
+
   }
 
   _onStatsFilterChange(statsFilterType) {

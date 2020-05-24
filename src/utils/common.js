@@ -1,4 +1,4 @@
-import {FilterType, USER_RANKS, Mode} from "../constants.js";
+import {FilterType, USER_RANKS, Mode, HIDDEN_CLASS} from "../constants.js";
 import moment from "moment";
 
 export const getRandomNumber = (min = 0, max = 1000) => {
@@ -322,7 +322,35 @@ export const filterByWatchingDate = (data, period) => {
  }
 };
 
+export const hideElement = (element) => {
+  if (element) {
+    element.classList.add(HIDDEN_CLASS);
+  }
+};
+
+export const showElement = (element) => {
+  if (element) {
+    element.classList.remove(HIDDEN_CLASS);
+  }
+};
+
 export const modeSwitcher = (value, charts, board, sort) => {
+  console.log(value, charts, board, sort);
+  switch (value) {
+    case Mode.BOARD:
+      hideElement(charts);
+      showElement(board);
+      showElement(sort);
+      break;
+    case Mode.CHARTS:
+      showElement(charts);
+      hideElement(board);
+      hideElement(sort);
+      break;
+  }
+};
+
+/* export const modeSwitcher = (value, charts, board, sort) => {
   console.log(value, charts, board, sort);
   switch (value) {
     case Mode.BOARD:
@@ -336,4 +364,4 @@ export const modeSwitcher = (value, charts, board, sort) => {
       charts.show();
       break;
   }
-};
+}; */

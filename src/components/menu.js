@@ -75,6 +75,10 @@ export default class Menu extends AbstractSmartComponent {
   setToggleMode(handler) {
     this._toggleModehandler = handler;
 
+    const charts = document.querySelector(`.statistic`);
+    const board = document.querySelector(`.films`);
+    const sort = document.querySelector(`.sort`);
+
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
 

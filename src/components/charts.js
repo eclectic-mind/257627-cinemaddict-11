@@ -179,6 +179,7 @@ export default class Charts extends AbstractSmartComponent {
     // this._onStatsFilterChange = this._onStatsFilterChange.bind(this);
     //this.setStatsFilterTypeChangeHandler.bind(this);
     this.setStatsFilterTypeChangeHandler();
+    this.hide();
   }
 
   getTemplate() {
@@ -198,6 +199,7 @@ export default class Charts extends AbstractSmartComponent {
     const element = this.getElement();
     const filmsCtx = element.querySelector(`.statistic__chart`);
     this._filmsChart = createCharts(movies, filmsCtx, period);
+    this.hide();
   }
 
   show() {

@@ -1,4 +1,4 @@
-import {AVATAR_SIZE, STATS_FILTER_BY, STATS_TITLES, StatsFilterType, HIDDEN_CLASS /*, Mode*/} from '../constants.js';
+import {AVATAR_SIZE, STATS_FILTER_BY, STATS_TITLES, StatsFilterType} from '../constants.js';
 import AbstractSmartComponent from "./abstract-smart-component.js";
 import {getWatched, getTotalDuration, getTopGenre, calculateRank, filterByWatchingDate, getWatchedGenres, getUniqueGenres, countWatchedByGenres, makeMenuLink /*, modeSwitcher */} from "../utils/common.js";
 
@@ -149,9 +149,9 @@ const makeFullStatsMarkup = (movies, period /*, mode */) => {
   const filters = makeStatsFilters(period);
   const stats = makeStatsBlock(moviesFiltered);
   const charts = makeChartsBlock();
-  /* const additionalClass = mode === `board` ? HIDDEN_CLASS : ``; */
+
   return (
-    `<section class="statistic ${HIDDEN_CLASS}">
+    `<section class="statistic">
     ${rank}
     ${filters}
     ${stats}
@@ -177,8 +177,8 @@ export default class Charts extends AbstractSmartComponent {
     this._renderCharts(this._moviesFiltered, this._currentStatsFilterType);
     // this.render(this._moviesFiltered, this._period);
     // this._onStatsFilterChange = this._onStatsFilterChange.bind(this);
-    // this.setStatsFilterTypeChangeHandler(this._statsFilterTypeChangeHandler);
-    this.setStatsFilterTypeChangeHandler.bind(this);
+    //this.setStatsFilterTypeChangeHandler.bind(this);
+    this.setStatsFilterTypeChangeHandler();
   }
 
   getTemplate() {
@@ -219,11 +219,11 @@ export default class Charts extends AbstractSmartComponent {
   }
 
   recoveryListeners() {
-    this.setStatsFilterTypeChangeHandler(this._statsFilterTypeChangeHandler);
+    this.setStatsFilterTypeChangeHandler();
   }
 
-  setStatsFilterTypeChangeHandler(handler) {
-    this._statsFilterTypeChangeHandler = handler;
+  setStatsFilterTypeChangeHandler() {
+    // this._statsFilterTypeChangeHandler = handler;
 
     this.getElement().querySelector(`.statistic__filters`).addEventListener(`input`, (evt) => {
 
@@ -242,9 +242,9 @@ export default class Charts extends AbstractSmartComponent {
       }
 
       this._currentStatsFilterType = filterType;
-      handler(this._currentStatsFilterType);
+      // handler(this._currentStatsFilterType);
       this.rerender();
-
+      this._renderCharts(this._movies, this._currentStatsFilterType);
       // console.log(this._currentStatsFilterType);
     });
 

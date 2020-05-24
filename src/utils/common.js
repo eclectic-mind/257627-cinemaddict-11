@@ -1,5 +1,4 @@
-import {FilterType} from "../constants.js";
-import {USER_RANKS} from '../constants.js';
+import {FilterType, USER_RANKS, Mode} from "../constants.js";
 import moment from "moment";
 
 export const getRandomNumber = (min = 0, max = 1000) => {
@@ -323,8 +322,9 @@ export const filterByWatchingDate = (data, period) => {
  }
 };
 
-export const modeSwitcher = (mode) => {
-  switch (mode) {
+export const modeSwitcher = (value, charts, boardController) => {
+  console.log(value, charts, boardController);
+  switch (value) {
     case Mode.BOARD:
       charts.hide();
       boardController.show();

@@ -216,23 +216,17 @@ export default class Charts extends AbstractSmartComponent {
   setStatsFilterTypeChangeHandler(handler) {
     this._statsFilterTypeChangeHandler = handler;
 
-    const filtersBlock = document.querySelector(`form`);
-    // console.log(filtersBlock);
-    filtersBlock.addEventListener(`click`, (evt) => {
+    this.getElement().querySelector(`.statistic__filters`).addEventListener(`input`, (evt) => {
+
       evt.preventDefault();
-      console.log(`где-то кликнули по фильтрам`);
+      console.log(`где-то кликнули по фильтрам `, evt.target.tagName);
 
-
-    // this.getElement().addEventListener(`.statistic__filters`, (evt) => {
-
-    // this.getElement().addEventListener(`click`, (evt) => {
-      // evt.preventDefault();
-
-      if (evt.target.tagName !== `input`) {
+      if (evt.target.tagName !== `INPUT`) {
         return;
       }
 
       const filterType = evt.target.value;
+      console.log(filterType);
 
       if (this._currentStatsFilterType === filterType) {
         return;
@@ -242,7 +236,7 @@ export default class Charts extends AbstractSmartComponent {
       handler(this._currentStatsFilterType);
       this.rerender();
 
-      console.log(this._currentStatsFilterType);
+      // console.log(this._currentStatsFilterType);
     });
 
   }

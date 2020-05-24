@@ -1,5 +1,5 @@
 import {MENU_ITEMS, FilterType, ACTIVE_MENU_CLASS, Mode} from '../constants.js';
-import {getRandomNumber, makeMenuLink /*, modeSwitcher,*/ } from '../utils/common.js';
+import {getRandomNumber, makeMenuLink, modeSwitcher} from '../utils/common.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
 
 const menuLinks = MENU_ITEMS.map(item => makeMenuLink(item));
@@ -30,6 +30,7 @@ export const makeMenuMarkup = (filters, currentFilterType) => {
 export default class Menu extends AbstractSmartComponent {
   constructor(filters) {
     super();
+
     this._filters = filters;
     // this._mode = Mode.BOARD;
   }
@@ -71,7 +72,7 @@ export default class Menu extends AbstractSmartComponent {
     });
   }
 
-  setToggleMode(handler) {
+  setToggleMode(handler, charts, boardController) {
     this._toggleModehandler = handler;
 
     this.getElement().addEventListener(`click`, (evt) => {
@@ -82,11 +83,15 @@ export default class Menu extends AbstractSmartComponent {
       }
 
       const clicked = evt.target.href;
-      const link = clicked.toLowerCase().slice(1);
-      console.log(link);
+      const link = clicked.toLowerCase().split('#')[1];
+      // const link = clicked.toLowerCase().slice(1);
+
 
       const value = link === `stats` ? Mode.CHARTS : Mode.BOARD;
-      this._toggleModehandler(value);
+
+      console.log(value);
+
+      this._toggleModehandler(value, charts, boardController);
     });
   }
 

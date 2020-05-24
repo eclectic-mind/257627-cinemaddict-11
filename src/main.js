@@ -29,11 +29,11 @@ const boardController = new BoardController(board, moviesModel);
 render(pageMain, board, RenderPosition.BEFOREEND);
 boardController.render(movies);
 
-const menu = new FilterController(pageMain, moviesModel);
-menu.render();
-
 const charts = new ChartsComponent(movies);
 render(pageMain, charts, RenderPosition.BEFOREEND);
+
+const menu = new FilterController(pageMain, moviesModel, boardController, charts);
+menu.render();
 
 /* menu.setToggleMode((value) => {
   if (value === Mode.BOARD) {

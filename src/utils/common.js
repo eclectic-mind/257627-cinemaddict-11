@@ -322,15 +322,17 @@ export const filterByWatchingDate = (data, period) => {
  }
 };
 
-export const modeSwitcher = (value, charts, boardController) => {
-  console.log(value, charts, boardController);
+export const modeSwitcher = (value, charts, board, sort) => {
+  console.log(value, charts, board, sort);
   switch (value) {
     case Mode.BOARD:
       charts.hide();
-      boardController.show();
+      board.show();
+      sort.show();
       break;
     case Mode.CHARTS:
-      boardController.hide();
+      board.hide();
+      sort.hide();
       charts.show();
       break;
   }

@@ -72,7 +72,7 @@ export default class Menu extends AbstractSmartComponent {
     });
   }
 
-  setToggleMode(handler, charts, boardController) {
+  setToggleMode(handler) {
     this._toggleModehandler = handler;
 
     this.getElement().addEventListener(`click`, (evt) => {
@@ -91,7 +91,7 @@ export default class Menu extends AbstractSmartComponent {
 
       console.log(value);
 
-      this._toggleModehandler(value, charts, boardController);
+      this._toggleModehandler(value, charts, board, sort);
     });
   }
 

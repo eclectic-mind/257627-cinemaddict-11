@@ -32,7 +32,7 @@ boardController.render();
 const charts = new ChartsComponent(moviesModel);
 render(pageMain, charts, RenderPosition.BEFOREEND);
 
-const menu = new FilterController(pageMain, moviesModel, boardController, charts);
+const menu = new FilterController(pageMain, moviesModel);
 menu.render();
 
 /* menu.setToggleMode((value) => {

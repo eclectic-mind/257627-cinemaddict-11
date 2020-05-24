@@ -4,9 +4,9 @@ import {render, replace, RenderPosition} from "../utils/render.js";
 import {doFiltration, generateFilters, modeSwitcher} from "../utils/common.js";
 
 export default class FilterController {
-  constructor(container, moviesModel, boardController, charts) {
-    this._boardController = boardController;
-    this._charts = charts;
+  constructor(container, moviesModel) {
+    // this._boardController = boardController;
+    // this._charts = charts;
 
     this._container = container;
     this._moviesModel = moviesModel;
@@ -17,6 +17,10 @@ export default class FilterController {
     this._onFilterChange = this._onFilterChange.bind(this);
     this._moviesModel.setDataChangeHandler(this.render);
     this._moviesModel.setFilterChangeHandler(this.render);
+
+    const charts = document.querySelector(`.statistic`);
+    const board = document.querySelector(`.films`);
+    const sort = document.querySelector(`.sort`);
   }
 
   render() {
@@ -51,7 +55,7 @@ export default class FilterController {
     this.render();
   }
 
-  _toggleModehandler(value, charts, boardController) {
+  _toggleModehandler(value, charts, board, sort) {
     console.log(`смена режима на `, value);
 
     /* if (value === Mode.BOARD) {
@@ -62,7 +66,7 @@ export default class FilterController {
       this._boardController.hide();
       this._charts.show();
     } */
-    modeSwitcher(value, charts, boardController);
+    modeSwitcher(value, charts, board, sort);
   }
 
 }

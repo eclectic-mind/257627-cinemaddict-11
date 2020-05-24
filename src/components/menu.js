@@ -89,7 +89,7 @@ export default class Menu extends AbstractSmartComponent {
 
       const value = link === `stats` ? Mode.CHARTS : Mode.BOARD;
 
-      console.log(value);
+      console.log(`переход в режим `, value);
 
       this._toggleModehandler(value, charts, board, sort);
     });

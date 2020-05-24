@@ -27,9 +27,9 @@ const board = new BoardComponent();
 const boardController = new BoardController(board, moviesModel);
 
 render(pageMain, board, RenderPosition.BEFOREEND);
-boardController.render(movies);
+boardController.render();
 
-const charts = new ChartsComponent(movies);
+const charts = new ChartsComponent(moviesModel);
 render(pageMain, charts, RenderPosition.BEFOREEND);
 
 const menu = new FilterController(pageMain, moviesModel, boardController, charts);

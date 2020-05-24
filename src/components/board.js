@@ -1,4 +1,4 @@
-import AbstractComponent from './abstract-component.js';
+import AbstractSmartComponent from './abstract-smart-component.js';
 
 export const makeBoard = () => {
   return (
@@ -10,8 +10,18 @@ export const makeBoard = () => {
   );
 };
 
-export default class Board extends AbstractComponent {
+export default class Board extends AbstractSmartComponent {
   getTemplate() {
     return makeBoard();
+  }
+
+  show() {
+    super.show();
+    this.rerender();
+  }
+
+  hide() {
+    super.hide();
+    this.rerender();
   }
 }

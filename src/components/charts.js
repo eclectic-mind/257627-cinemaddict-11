@@ -162,23 +162,27 @@ const makeFullStatsMarkup = (movies, period /*, mode */) => {
 
 export default class Charts extends AbstractSmartComponent {
 
-  constructor(movies) {
+  constructor(moviesModel) {
     super();
-    this._movies = movies;
+
+    this._moviesModel = moviesModel;
+    this._movies = this._moviesModel.getMoviesAll();
+
     // this._statsFilters = statsFilters;
     this._currentStatsFilterType = StatsFilterType.ALL;
     this._filmsChart = null;
     // this._onDataChange = this._onDataChange.bind(this);
-    this._period = this._currentStatsFilterType;
-    this._moviesFiltered = filterByWatchingDate(this._movies, this._period);
-    this._renderCharts(this._moviesFiltered, this._period);
+    // this._period = this._currentStatsFilterType;
+    this._moviesFiltered = filterByWatchingDate(this._movies, this._currentStatsFilterType);
+    this._renderCharts(this._moviesFiltered, this._currentStatsFilterType);
     // this.render(this._moviesFiltered, this._period);
-    this._onStatsFilterChange = this._onStatsFilterChange.bind(this);
-    this.setStatsFilterTypeChangeHandler(this._statsFilterTypeChangeHandler);
+    // this._onStatsFilterChange = this._onStatsFilterChange.bind(this);
+    // this.setStatsFilterTypeChangeHandler(this._statsFilterTypeChangeHandler);
+    this.setStatsFilterTypeChangeHandler.bind(this);
   }
 
   getTemplate() {
-    return makeFullStatsMarkup(this._movies, this._period);
+    return makeFullStatsMarkup(this._movies, this._currentStatsFilterType);
   }
 
   /*render(movies, period) {
@@ -201,6 +205,11 @@ export default class Charts extends AbstractSmartComponent {
     this.rerender();
   }
 
+  hide() {
+    super.hide();
+    this.rerender();
+  }
+
   getFilterType() {
     return this._currentStatsFilterType;
   }
@@ -219,7 +228,7 @@ export default class Charts extends AbstractSmartComponent {
     this.getElement().querySelector(`.statistic__filters`).addEventListener(`input`, (evt) => {
 
       evt.preventDefault();
-      console.log(`где-то кликнули по фильтрам `, evt.target.tagName);
+      // console.log(evt.target.tagName);
 
       if (evt.target.tagName !== `INPUT`) {
         return;
@@ -241,34 +250,8 @@ export default class Charts extends AbstractSmartComponent {
 
   }
 
-  _onStatsFilterChange(statsFilterType) {
+  /* _onStatsFilterChange(statsFilterType) {
     this._currentStatsFilterType = statsFilterType;
-  }
-
-/*
-  setOnModeChange(handler) {
-    this._handler = handler;
-    const menuBlock = document.querySelector(`.main-navigation`);
-    console.log(menuBlock);
-
-    menuBlock.addEventListener(`click`, (evt) => {
-      console.log(`переключили в режим stats`);
-       evt.preventDefault();
-      if (evt.target.tagName !== `A`) {
-        return;
-      }
-      const filterName = evt.target.innerHTML;
-      const filterType = filterName.split(' ')[0];
-
-      if (filterType === `Stats`) {
-        console.log(`переключили в режим stats`);
-        modeSwitcher(Mode.CHARTS);
-      }
-
-    });
-  }
-*/
-  /* _onDataChange() {
-    this.render();
   } */
+
 }

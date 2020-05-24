@@ -151,7 +151,7 @@ const makeFullStatsMarkup = (movies, period /*, mode */) => {
   const charts = makeChartsBlock();
   /* const additionalClass = mode === `board` ? HIDDEN_CLASS : ``; */
   return (
-    `<section class="statistic">
+    `<section class="statistic ${HIDDEN_CLASS}">
     ${rank}
     ${filters}
     ${stats}

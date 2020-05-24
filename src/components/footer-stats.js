@@ -10,9 +10,10 @@ export const makeStats = (movies) => {
 };
 
 export default class Stats extends AbstractSmartComponent {
-  constructor(movies) {
+  constructor(moviesModel) {
     super();
-    this._movies = movies;
+    this._moviesModel = moviesModel;
+    this._movies = this._moviesModel.getMoviesAll();
   }
 
   getTemplate() {

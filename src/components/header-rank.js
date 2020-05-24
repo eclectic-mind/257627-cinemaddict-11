@@ -20,16 +20,23 @@ export const makeUserRank = (movies) => {
 };
 
 export default class Rank extends AbstractSmartComponent {
-  constructor(movies) {
+  constructor(moviesModel) {
     super();
-    this._movies = movies;
+    this._moviesModel = moviesModel;
+    // this._movies = this._moviesModel.getMoviesAll();
+    this._onDataChange = this._onDataChange.bind(this);
+    // this._movies = movies;
   }
 
   getTemplate() {
-    return makeUserRank(this._movies);
+    return makeUserRank(this._moviesModel.getMoviesAll());
   }
 
   rerender() {
     super.rerender();
+  }
+
+  _onDataChange() {
+    this.rerender();
   }
 }

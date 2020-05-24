@@ -18,8 +18,8 @@ const movies = generateMovies(CARDS_QUANTITY);
 const moviesModel = new MoviesModel();
 moviesModel.setMovies(movies);
 
-const userRank = new RankComponent(movies);
-const stats = new StatsComponent(movies);
+const userRank = new RankComponent(moviesModel);
+const stats = new StatsComponent(moviesModel);
 render(header, userRank, RenderPosition.BEFOREEND);
 render(statsContainer, stats, RenderPosition.AFTERBEGIN);
 

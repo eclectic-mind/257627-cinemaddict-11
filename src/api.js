@@ -1,4 +1,5 @@
-import Movie from "./models/movies.js";
+import Movie from "./models/movie.js";
+import Comment from "./models/comment.js";
 
 const Method = {
   GET: `GET`,
@@ -28,7 +29,14 @@ const API = class {
       .then(Movie.parseMovies);
   }
 
-  /* createComment(comment) {
+  getComments() {
+    // return fetch(`https://11.ecmascript.pages.academy/cinemaddict`);
+    return this._load({url: `comments`})
+      .then((response) => response.json())
+      .then(Movie.parseComments);
+  }
+
+  createComment(comment) {
     return this._load({
       url: `comments`,
       method: Method.POST,
@@ -43,7 +51,6 @@ const API = class {
     return this._load({url: `comments/${id}`, method: Method.DELETE});
   }
 
-*/
   updateMovie(id, data) {
     return this._load({
       url: `movies/${id}`,

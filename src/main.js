@@ -46,3 +46,10 @@ api.getMovies()
     moviesModel.setMovies(movies);
     boardController.render();
   });
+
+/* api.getComments()
+  .then((comments) => {
+    commentsModel.setComments(comments);
+    boardController.render(); // ???
+  });
+*/

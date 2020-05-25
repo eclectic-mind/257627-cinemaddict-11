@@ -61,7 +61,7 @@ export const makeDetails = (movie, options = {}) => {
       </div>
       <div class="film-details__info-wrap">
         <div class="film-details__poster">
-          <img class="film-details__poster-img" src="./images/posters/${poster}" alt="${titleEncoded}">
+          <img class="film-details__poster-img" src="./${poster}" alt="${titleEncoded}">
           <p class="film-details__age">${age}+</p>
         </div>
 
@@ -132,7 +132,7 @@ export default class Details extends AbstractSmartComponent {
     this._isFavorite = !!movie.isFavorite;
     this._watchingDate = movie.watchingDate;
 
-    this._externalData = DefaultData;
+    // this._externalData = DefaultData;
   }
 
   getTemplate() {
@@ -142,7 +142,7 @@ export default class Details extends AbstractSmartComponent {
       isFavorite: this._isFavorite,
       watchingDate: this._watchingDate,
 
-      externalData: this._externalData,
+      // externalData: this._externalData,
     });
   }
 
@@ -158,7 +158,7 @@ export default class Details extends AbstractSmartComponent {
   }
 
   setData(data) {
-    this._externalData = Object.assign({}, DefaultData, data);
+    this._externalData = Object.assign({}, /* DefaultData, */ data);
     this.rerender();
   }
 

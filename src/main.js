@@ -1,5 +1,6 @@
 import API from "./api.js";
 import {CARDS_QUANTITY, CARDS_QUANTITY_ON_START, CARDS_QUANTITY_RATINGS, CARDS_QUANTITY_MORE, SUBTITLES, Mode} from './constants.js';
+import {hideElement, showElement} from './utils/common.js';
 // import {generateMovie, generateMovies, generateCommentsArray} from './mock/data.js';
 import {render, RenderPosition} from './utils/render.js';
 import MoviesModel from "./models/movies.js";
@@ -29,17 +30,19 @@ const stats = new StatsComponent(moviesModel);
 render(header, userRank, RenderPosition.BEFOREEND);
 render(statsContainer, stats, RenderPosition.AFTERBEGIN);
 
+const menu = new FilterController(pageMain, moviesModel);
+menu.render();
+
 const board = new BoardComponent();
 const boardController = new BoardController(board, moviesModel, api);
 
 render(pageMain, board, RenderPosition.BEFOREEND);
-// boardController.render();
+// boardController.render();(charts);
 
 const charts = new ChartsComponent(moviesModel);
 render(pageMain, charts, RenderPosition.BEFOREEND);
+// showElement(charts);
 
-const menu = new FilterController(pageMain, moviesModel);
-menu.render();
 
 api.getMovies()
   .then((movies) => {

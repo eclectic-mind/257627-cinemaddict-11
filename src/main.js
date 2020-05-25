@@ -56,3 +56,4 @@ api.getMovies()
     boardController.render(); // ???
   });
 */
+// console.log(movies);

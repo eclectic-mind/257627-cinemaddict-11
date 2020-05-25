@@ -74,6 +74,8 @@ export default class BoardController {
 
     this._renderMovies(moviesSorted);
     this._renderButton(moviesSorted);
+
+    console.log(movies);
   }
 
   _renderMovies(movies = this._moviesModel.getMovies()) {

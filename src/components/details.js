@@ -49,8 +49,8 @@ export const makeDetails = (movie, options = {}) => {
   const descriptionEncoded = encode(description);
   const countryEncoded = encode(country);
   const producerEncoded = encode(producer);
-  const writersEncoded = encode(writers);
-  const castEncoded = encode(cast);
+  const writersEncoded = writers.forEach((item) => encode(item));
+  const castEncoded = cast.forEach((item) => encode(item));
 
   return (
     `<section class="film-details">

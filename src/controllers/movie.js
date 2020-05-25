@@ -4,6 +4,7 @@ import CommentsModel from "../models/comments.js";
 import CommentsController from "../controllers/comments.js";
 import CardComponent from "../components/card.js";
 import DetailsComponent from "../components/details.js";
+import MovieModel from '../models/movie.js';
 // import {generateComment, generateCommentsArray} from '../mock/data.js';
 
 const parseFormData = (formData) => {

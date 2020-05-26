@@ -26,8 +26,9 @@ export default class AbstractComponent {
     }
   }
   hide() {
-    if (this._element) {
-      this._element.classList.add(HIDDEN_CLASS);
-    }
+    this.getElement().classList.add(HIDDEN_CLASS);
+    //if (this._element) {
+      //this._element.classList.add(HIDDEN_CLASS);
+    //}
   }
 }

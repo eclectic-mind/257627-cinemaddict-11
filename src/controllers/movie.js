@@ -1,11 +1,14 @@
 import {render, replace, remove, RenderPosition} from "../utils/render.js";
 import CommentsComponent from "../components/comments.js";
 import CommentsModel from "../models/comments.js";
+import CommentModel from "../models/comment.js";
 import CommentsController from "../controllers/comments.js";
 import CardComponent from "../components/card.js";
 import DetailsComponent from "../components/details.js";
 import MovieModel from '../models/movie.js';
-// import {generateComment, generateCommentsArray} from '../mock/data.js';
+import API from "../api.js";
+// моковые комменты
+// import {generateComment, generatecomments} from '../__mock/__data.js';
 
 const parseFormData = (formData) => {
 
@@ -22,7 +25,7 @@ const parseFormData = (formData) => {
 
 export default class MovieController {
 
-  constructor(container, movie, onDataChange) {
+  constructor(container, movie, api, onDataChange) {
     this._container = container;
     this._card = null;
     this._popup = null;
@@ -32,32 +35,36 @@ export default class MovieController {
     this._commentsModel = null;
     this._commentsComponent = null;
     this._commentsController = null;
+    this._api = api;
   }
 
   render(movie) {
     const oldCardController = this._card;
     // временный массив комментов
-    // const commentsArray = movie.comments.map((id) => generateComment(id));
-    //
+    // const comments = movie.comments.map((id) => generateComment(id));
 
+
+
+    // const comments = this._commentsModel.getComments();
     this._card = new CardComponent(movie);
     this._emotion = null;
 
-    if (!this._commentsModel) {
-      this._commentsModel = new CommentsModel();
-      // this._commentsModel.setComments(commentsArray);
-      this._comments = this._commentsModel.getComments();
-    }
+
 
     const body = this._body;
     const card = this._card.getElement();
 
-    const onCommentsUpdate = (comments) => {
-      this._onDataChange(this, movie, Object.assign({}, movie, {
-        comments: comments
-      }));
-    }
+    /* const onCommentsUpdate = (newMovie) => {
+      this._onDataChange(this, movie, newMovie);
+    } */
 
+
+    const onCommentsUpdate = (comments) => {
+      const newMovie = MovieModel.clone(movie);
+      newMovie.comments = comments;
+      this._onDataChange(this, movie, newMovie);
+
+    }
     const setPopupHandlers = () => {
       this._popup.setPopupCloserClickHandler((evt) => {
         evt.preventDefault();
@@ -138,16 +145,35 @@ export default class MovieController {
       document.addEventListener(`keydown`, this._onEscKeyDown);
 
       if (!body.querySelector(`.film-details`)) {
-        render(body, this._popup, RenderPosition.BEFOREEND);
+
+
+      this._api.getComments(movie.id)
+      .then((comments) => {
+        // commentsModel.setComments(comments);
+        console.log(comments);
+
+        if (!this._commentsModel) {
+          this._commentsModel = new CommentsModel();
+          // CommentModel.parseComments(comments);
+          this._commentsModel.setComments(CommentModel.parseComments(comments));
+          this._comments = this._commentsModel.getComments();
+        }
+
+          render(body, this._popup, RenderPosition.BEFOREEND);
 
         if (!this._commentsController) {
-          this._commentsController = new CommentsController(this._commentsModel, onCommentsUpdate);
+          this._commentsController = new CommentsController(this._commentsModel, onCommentsUpdate, movie.id, this._api);
         }
 
         const commentsBox = document.querySelector(`.form-details__bottom-container`);
         this._commentsController.renderComments(commentsBox);
-
         setPopupHandlers();
+
+        //}
+      });
+
+
+
       }
 
     });

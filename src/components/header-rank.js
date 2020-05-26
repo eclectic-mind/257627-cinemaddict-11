@@ -24,6 +24,7 @@ export default class Rank extends AbstractSmartComponent {
     super();
     this._moviesModel = moviesModel;
     this._onDataChange = this._onDataChange.bind(this);
+    this.rerender = this.rerender.bind(this);
   }
 
   getTemplate() {
@@ -36,5 +37,9 @@ export default class Rank extends AbstractSmartComponent {
 
   _onDataChange() {
     this.rerender();
+  }
+
+  recoveryListeners() {
+
   }
 }

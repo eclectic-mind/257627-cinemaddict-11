@@ -38,7 +38,7 @@ export default class FilterController {
     if (oldComponent) {
       replace(this._menu, oldComponent);
     } else {
-      render(this._container, this._menu, RenderPosition.BEFOREEND);
+      render(this._container, this._menu, RenderPosition.AFTERBEGIN);
     }
   }
 

@@ -343,6 +343,8 @@ export const modeSwitcher = (value, charts, board, sort) => {
       showElement(sort);
       break;
     case Mode.CHARTS:
+      // charts.rerender();
+      console.log(`!`);
       showElement(charts);
       hideElement(board);
       hideElement(sort);

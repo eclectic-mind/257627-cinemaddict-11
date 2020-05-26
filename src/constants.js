@@ -1,5 +1,5 @@
 // export const CARDS_QUANTITY = 5;
-export const CARDS_QUANTITY = 20;
+export const CARDS_QUANTITY = 120;
 export const CARDS_QUANTITY_ON_START = 5;
 export const CARDS_QUANTITY_MORE = 5;
 export const CARDS_QUANTITY_RATINGS = 2;

@@ -109,8 +109,10 @@ export default class Comments extends AbstractSmartComponent {
 
       if (evt.key === `Enter` && (evt.ctrlKey || evt.metaKey) && this._emotion) {
         let dateComment = new Date();
+        // console.log(this._newComment);
         const newCommentEncoded = encode(this._newComment);
-        handler({dateComment, text: newCommentEncoded, id: (Date.now() + ``), author: `user`, emotion: this._emotion});
+        // console.log(this._newComment, newCommentEncoded);
+        handler({date: dateComment, comment: newCommentEncoded, emotion: this._emotion});
         this._emotion = null;
         this._newComment = ``;
         this.rerender();
@@ -130,6 +132,7 @@ export default class Comments extends AbstractSmartComponent {
     commentField.addEventListener(`change`, () => {
       const commentText = commentField.value;
       this._newComment = commentText;
+
     });
   }
 

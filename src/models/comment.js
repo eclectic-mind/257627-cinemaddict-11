@@ -18,11 +18,11 @@ export default class Comment {
   }
 
   static parseComment(data) {
-    return new Movie(data);
+    return new Comment(data);
   }
 
   static parseComments(data) {
-    return data.map(Movie.parseMovie);
+    return data.map(Comment.parseComment);
   }
 
   static clone(data) {

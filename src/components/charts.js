@@ -171,13 +171,13 @@ export default class Charts extends AbstractSmartComponent {
   }
 
   getTemplate() {
-    return makeFullStatsMarkup(this._movies, this._currentStatsFilterType);
+    return makeFullStatsMarkup(this._moviesModel.getMoviesAll(), this._currentStatsFilterType);
   }
   _renderCharts(movies, period) {
     const element = this.getElement();
     const filmsCtx = element.querySelector(`.statistic__chart`);
     this._filmsChart = createCharts(movies, filmsCtx, period);
-    hideElement(element);
+    // hideElement(element);
     // this.hide();
   }
 
@@ -218,7 +218,7 @@ export default class Charts extends AbstractSmartComponent {
 
       this._currentStatsFilterType = filterType;
       this.rerender();
-      this._renderCharts(this._movies, this._currentStatsFilterType);
+      this._renderCharts(this._moviesModel.getMoviesAll(), this._currentStatsFilterType);
     });
 
   }

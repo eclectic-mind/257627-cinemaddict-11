@@ -16,7 +16,7 @@ const checkStatus = (response) => {
   }
 };
 
-const API = class {
+export default class API {
   constructor(endPoint, authorization) {
     this._endPoint = endPoint;
     this._authorization = authorization;
@@ -29,22 +29,22 @@ const API = class {
       .then(Movie.parseMovies);
   }
 
-  getComments() {
+  getComments(id) {
     // return fetch(`https://11.ecmascript.pages.academy/cinemaddict`);
-    return this._load({url: `comments`})
+    return this._load({url: `comments/${id}`})
       .then((response) => response.json())
       .then(Movie.parseComments);
   }
 
-  createComment(comment) {
+  createComment(comment, movieId) {
     return this._load({
-      url: `comments`,
+      url: `comments/${movieId}`,
       method: Method.POST,
-      body: JSON.stringify(comment.toRAW()),
+      body: JSON.stringify(comment/* .toRAW()*/),
       headers: new Headers({"Content-Type": `application/json`})
     })
       .then((response) => response.json())
-      .then(Comment.parseComment);
+      // .then(Comment.parseComment);
   }
 
   deleteComment(id) {
@@ -73,4 +73,3 @@ const API = class {
 
 };
 
-export default API;

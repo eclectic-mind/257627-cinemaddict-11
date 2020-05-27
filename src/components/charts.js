@@ -81,6 +81,8 @@ const createCharts = (movies, statisticCtx, period) => {
   const genresWatched = getUniqueGenres(moviesFiltered);
   const quantities = countWatchedByGenres(moviesFiltered);
 
+  console.log(moviesFiltered, genresWatched, quantities);
+
   return new Chart(statisticCtx, {
     plugins: [ChartDataLabels],
     type: `horizontalBar`,

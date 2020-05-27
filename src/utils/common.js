@@ -247,6 +247,10 @@ export const findMostPopular = (array) => {
   let maxCount = 0;
   let maxKey = null;
 
+  if (array.length === 0) {
+    return ``;
+  }
+
   array.forEach((item, val) => {
     keyCounts[item] = keyCounts[item] + 1 || 1;
     if (keyCounts[item] > maxCount) {
@@ -262,6 +266,7 @@ export const getTopGenre = (movies) => {
     return ``;
   }
   const allGenres = getWatchedGenres(movies).sort();
+  // console.log(getWatched(movies), allGenres, findMostPopular(allGenres));
   return findMostPopular(allGenres);
 };
 
@@ -273,7 +278,10 @@ export const countFilmsByGenre = (genre, movies) => {
 
 export const countWatchedByGenres = (movies) => {
   const genres = getUniqueGenres(movies);
-  return genres.map((item) => countFilmsByGenre(item, movies));
+
+  const result = genres.map((item) => countFilmsByGenre(item, movies));
+  // console.log(getWatchedGenres(movies), getUniqueGenres(movies), result);
+  return result;
 };
 
 export const calculateRank = (quantity) => {

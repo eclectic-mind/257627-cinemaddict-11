@@ -50,9 +50,10 @@ const makeStatsBlock = (movies, period) => {
   );
 };
 
-export const makeStatsFilterLink = (name, period) => {
+export const makeStatsFilterLink = (name, period, condition = true) => {
   const short = name.toLowerCase().split(` `).join(`-`);
-  const active = period === name ? `checked` : ``;
+  // const active = period === name ? `checked` : ``;
+  const active = !!condition ? `checked` : ``;
   return (
     `<input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-${short}" value="${short}" ${active}>
     <label for="statistic-${short}" class="statistic__filters-label">${name}</label>`

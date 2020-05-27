@@ -3,6 +3,7 @@ import {doSorting, doFiltration, collectAllComments} from '../utils/common.js';
 import {render, remove, RenderPosition} from "../utils/render.js";
 import LoadMoreButtonComponent from '../components/button.js';
 import FilmsContainerComponent from '../components/films.js';
+import FilterController from '../controllers/filter.js';
 import SortingComponent from '../components/sort.js';
 import MovieController from "./movie.js";
 import SpecialFilmsComponent from '../components/special.js';
@@ -25,6 +26,7 @@ export default class BoardController {
     this._api = api;
     this._noFilms = new NoFilmsComponent();
     this._sorting = new SortingComponent();
+    // this._menu = new FilterController(this._pageMain, this._moviesModel);
     this._films = new FilmsContainerComponent();
     this._button = new LoadMoreButtonComponent();
     this._top = new SpecialFilmsComponent(SUBTITLES[0]);
@@ -49,9 +51,8 @@ export default class BoardController {
     const boxMost = this._most.getElement().querySelector(`.films-list__container`);
     const movies = this._moviesModel.getMovies();
     const sorting = this._sorting;
+    // const menu = this._menu;
     const comments = this._comments;
-
-    // console.log(comments);
 
     if (movies.length === 0) {
       const allFilmsTitle = list.querySelector(`h2`);
@@ -61,6 +62,7 @@ export default class BoardController {
     }
 
     render(this._pageMain, sorting, RenderPosition.AFTERBEGIN);
+    // menu.render();
     render(list, this._films, RenderPosition.BEFOREEND);
     render(container, this._top, RenderPosition.BEFOREEND);
     render(container, this._most, RenderPosition.BEFOREEND);
@@ -74,8 +76,6 @@ export default class BoardController {
 
     this._renderMovies(moviesSorted);
     this._renderButton(moviesSorted);
-
-    console.log(movies);
   }
 
   _renderMovies(movies = this._moviesModel.getMovies()) {
@@ -119,18 +119,13 @@ export default class BoardController {
   }
 
   _onDataChange(movieController, oldData, newData) {
-    /* const isSuccess = this._moviesModel.updateMovie(oldData.id, newData);
-    if (isSuccess) {
-      movieController.render(newData);
-    }*/
     this._api.updateMovie(oldData.id, newData)
         .then((movieModel) => {
           const isSuccess = this._moviesModel.updateMovie(oldData.id, movieModel);
 
           if (isSuccess) {
             movieController.render(movieModel);
-            // this._updateMovies(this._showingMoviesCount);
-         }
+          }
         });
   }
 
@@ -143,8 +138,8 @@ export default class BoardController {
     const newFilmCards = renderFilms(list, firstMovies, this._api, this._onDataChange);
     this._showedMovieControllers = newFilmCards;
 
-    remove(this._button);
-    this._button.removeElement();
+    // remove(this._button);
+    // this._button.removeElement();
   }
 
   _onFilterTypeChange() {

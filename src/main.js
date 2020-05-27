@@ -28,34 +28,30 @@ const moviesModel = new MoviesModel();
 const menu = new FilterController(pageMain, moviesModel);
 menu.render();
 
-
-
 const board = new BoardComponent();
 const boardController = new BoardController(board, moviesModel, api);
 
 render(pageMain, board, RenderPosition.BEFOREEND);
 // boardController.render();(charts);
 
-
-
-
 api.getMovies()
   .then((movies) => {
     moviesModel.setMovies(movies);
     boardController.render();
 
-  const charts = new ChartsComponent(moviesModel);
-render(pageMain, charts, RenderPosition.BEFOREEND);
+    const charts = new ChartsComponent(moviesModel);
+    render(pageMain, charts, RenderPosition.BEFOREEND);
 // moviesModel.setDataChangeHandler(charts.rerender);
-// hideElement(charts.getElement());
+//hideElement(charts.getElement());
 // charts.hide();
 
-const userRank = new RankComponent(moviesModel);
-moviesModel.setDataChangeHandler(userRank.rerender);
-const stats = new StatsComponent(moviesModel);
-render(header, userRank, RenderPosition.BEFOREEND);
-render(statsContainer, stats, RenderPosition.AFTERBEGIN);
+    const userRank = new RankComponent(moviesModel);
+    moviesModel.setDataChangeHandler(userRank.rerender);
 
+    const stats = new StatsComponent(moviesModel);
+
+    render(header, userRank, RenderPosition.BEFOREEND);
+    render(statsContainer, stats, RenderPosition.AFTERBEGIN);
 
   });
 

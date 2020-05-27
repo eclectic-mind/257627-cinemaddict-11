@@ -13,7 +13,7 @@ export const makeFilter = (filter, currentFilterType) => {
 
 export const makeMenuMarkup = (filters, currentFilterType) => {
   const filterAll = `<a href="#${menuLinks[0]}" class="main-navigation__item ${filters[0].checked ? ACTIVE_MENU_CLASS : ``}">${MENU_ITEMS[0]}</a>`;
-  const aloneLink = `<a href="#${menuLinks[4]}" class="main-navigation__additional ${ACTIVE_MENU_CLASS}">${MENU_ITEMS[4]}</a>`;
+  const aloneLink = `<a href="#${menuLinks[4]}" class="main-navigation__additional">${MENU_ITEMS[4]}</a>`;
   const filtersVisible = filters.slice(1);
   const menuMarkup = filtersVisible.map((item) => makeFilter(item, currentFilterType)).join(`\n`);
   return (

@@ -1,5 +1,5 @@
 import {EMOTIONS} from '../constants.js';
-import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, makeControlLinkPopup, formatDate, formatDateForComment, formatDuration} from '../utils/common.js';
+import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, makeControlLinkPopup, formatDate, formatDateForComment, formatDuration, sortCommentsByDate} from '../utils/common.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
 import {encode} from "he";
 
@@ -46,14 +46,16 @@ export const makeComments = (comments, emotion, newComment = ``) => {
   const commentsQuantity = comments ? comments.length : 0;
   const emotions = makeEmotionsList();
   const currentEmotion = emotion !== null && emotion !== undefined ? `<img src="images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">` : ``;
-  const commentsAll = comments.map(item => makeComment(item)).join(``);
+  const commentsByDate = sortCommentsByDate(comments);
+  console.log(comments, commentsByDate);
+  const commentsMarkup = commentsByDate.map(item => makeComment(item)).join(``);
   const newCommentEncoded = encode(newComment);
 
   return (`<section class="film-details__comments-wrap"><h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">
         ${commentsQuantity}
         </span></h3>
         <ul class="film-details__comments-list">
-        ${commentsAll}
+        ${commentsMarkup}
         </ul>
         <div class="film-details__new-comment">
         <div for="add-emoji" class="film-details__add-emoji-label">

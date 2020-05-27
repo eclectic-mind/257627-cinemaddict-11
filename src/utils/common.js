@@ -210,6 +210,11 @@ export const doFiltration = (data, param) => {
  }
 };
 
+export const sortCommentsByDate = (comments) => {
+  let result = comments.sort((a, b) => new Date(b.dateComment) - new Date(a.dateComment));
+  return result;
+};
+
 export const countAllMovies = (movies) => {
   return movies.length;
 };
@@ -344,7 +349,7 @@ export const modeSwitcher = (value, charts, board, sort) => {
       break;
     case Mode.CHARTS:
       // charts.rerender();
-      console.log(`!`);
+      // console.log(`!`);
       showElement(charts);
       hideElement(board);
       hideElement(sort);

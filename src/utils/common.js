@@ -180,8 +180,6 @@ export const doSorting = (data, param, from = 0, to = data.length) => {
   return sorted.slice(from, to);
 };
 
-// filtration
-
 export const getInWatchlist = (items) => {
   return items.filter((item) => !!item.inWatchlist)
 };
@@ -266,7 +264,6 @@ export const getTopGenre = (movies) => {
     return ``;
   }
   const allGenres = getWatchedGenres(movies).sort();
-  // console.log(getWatched(movies), allGenres, findMostPopular(allGenres));
   return findMostPopular(allGenres);
 };
 
@@ -278,9 +275,7 @@ export const countFilmsByGenre = (genre, movies) => {
 
 export const countWatchedByGenres = (movies) => {
   const genres = getUniqueGenres(movies);
-
   const result = genres.map((item) => countFilmsByGenre(item, movies));
-  // console.log(getWatchedGenres(movies), getUniqueGenres(movies), result);
   return result;
 };
 
@@ -348,7 +343,6 @@ export const showElement = (element) => {
 };
 
 export const modeSwitcher = (value, charts, board, sort) => {
-  // console.log(value, charts, board, sort);
   switch (value) {
     case Mode.BOARD:
       hideElement(charts);

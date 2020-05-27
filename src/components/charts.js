@@ -6,8 +6,11 @@ import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import moment from "moment";
 
-const makeRankBlock = (movies) => {
-  const quantity = getWatched(movies).length;
+const makeRankBlock = (movies, period) => {
+  const watched = getWatched(movies);
+  const moviesFiltered = filterByWatchingDate(watched, period);
+
+  const quantity = moviesFiltered.length;
   if (quantity > 0) {
   const rank = calculateRank(quantity);
   return (
@@ -22,16 +25,18 @@ const makeRankBlock = (movies) => {
   }
 };
 
-const makeStatsBlock = (movies) => {
-  const watched = getWatched(movies).length;
-  const total = getTotalDuration(movies);
-  const top = getTopGenre(movies);
+const makeStatsBlock = (movies, period) => {
+  const watched = getWatched(movies);
+  const moviesFiltered = filterByWatchingDate(watched, period);
+  const total = getTotalDuration(moviesFiltered);
+  const top = getTopGenre(moviesFiltered);
+  const watchedQuantity = moviesFiltered.length;
 
   return (
     `<ul class="statistic__text-list">
       <li class="statistic__text-item">
         <h4 class="statistic__item-title">${STATS_TITLES[0]}</h4>
-        <p class="statistic__item-text">${watched} <span class="statistic__item-description">movies</span></p>
+        <p class="statistic__item-text">${watchedQuantity} <span class="statistic__item-description">movies</span></p>
       </li>
       <li class="statistic__text-item">
         <h4 class="statistic__item-title">${STATS_TITLES[1]}</h4>
@@ -77,11 +82,10 @@ const makeChartsBlock = () => {
 const createCharts = (movies, statisticCtx, period) => {
   const BAR_HEIGHT = 50;
   statisticCtx.height = BAR_HEIGHT * 5;
-  const moviesFiltered = filterByWatchingDate(movies, period);
+  const watched = getWatched(movies);
+  const moviesFiltered = filterByWatchingDate(watched, period);
   const genresWatched = getUniqueGenres(moviesFiltered);
   const quantities = countWatchedByGenres(moviesFiltered);
-
-  console.log(moviesFiltered, genresWatched, quantities);
 
   return new Chart(statisticCtx, {
     plugins: [ChartDataLabels],
@@ -142,11 +146,10 @@ const createCharts = (movies, statisticCtx, period) => {
 };
 
 const makeFullStatsMarkup = (movies, period) => {
-  const moviesFiltered = filterByWatchingDate(movies, period);
-  // console.log(movies, moviesFiltered, period);
-  const rank = makeRankBlock(moviesFiltered);
+
+  const rank = makeRankBlock(movies, period);
   const filters = makeStatsFilters(period);
-  const stats = makeStatsBlock(moviesFiltered);
+  const stats = makeStatsBlock(movies, period);
   const charts = makeChartsBlock();
 
   return (

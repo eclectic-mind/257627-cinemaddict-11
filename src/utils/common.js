@@ -301,3 +301,13 @@ export const modeSwitcher = (value) => {
       break;
   }
 };
+
+export const checkNoRatings = (data) => {
+  const ratings = data.filter((item) => item.rating > 0);
+  return ratings.length === 0 ? true : false;
+};
+
+export const checkNoComments = (data) => {
+  const commented = data.filter((item) => item.comments.length > 0);
+  return commented.length === 0 ? true : false;
+};

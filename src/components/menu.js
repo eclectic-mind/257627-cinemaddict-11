@@ -1,5 +1,5 @@
-import {MENU_ITEMS, FilterType, ACTIVE_MENU_CLASS} from '../constants.js';
-import {getRandomNumber, makeMenuLink} from '../utils/common.js';
+import {MENU_ITEMS, FilterType, ACTIVE_MENU_CLASS, Mode} from '../constants.js';
+import {makeMenuLink} from '../utils/common.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
 
 const menuLinks = MENU_ITEMS.map(item => makeMenuLink(item));
@@ -28,10 +28,9 @@ export const makeMenuMarkup = (filters, currentFilterType) => {
 };
 
 export default class Menu extends AbstractSmartComponent {
-  constructor(filters /*, mode*/) {
+  constructor(filters) {
     super();
     this._filters = filters;
-    // this._mode = Mode.BOARD;
   }
 
   getTemplate() {
@@ -42,10 +41,11 @@ export default class Menu extends AbstractSmartComponent {
     return this._currentFilterType;
   }
 
-  setFilterChangeHandler(handlerFiltering, handlerShowStats) {
+  setFilterChangeHandler(handlerFiltering) {
     this._filterChangeHandler = handlerFiltering;
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
+
       if (evt.target.tagName !== `A`) {
         return;
       }
@@ -54,10 +54,7 @@ export default class Menu extends AbstractSmartComponent {
       const filterType = filterName.split(' ')[0];
 
       if (filterType === `Stats`) {
-        console.log(`режим stats`);
-        // this._mode = Mode.STATS;
-        handlerShowStats(`showStats`);
-        // return;
+        return;
       }
       if (this._currentFilterType === filterType) {
         return;
@@ -65,31 +62,32 @@ export default class Menu extends AbstractSmartComponent {
 
       this._currentFilterType = filterType;
       handlerFiltering(this._currentFilterType);
-
     });
+
   }
 
-  /* setOnModeChange(handler) {
-    this._handler = handler;
-    if (this._currentFilterType === `Stats`) {
-      console.log(`переключили в режим stats`);
-      handler(`showStats`);
-    } else {
-      handler(`filtering`);
-    }
-  } */
+  setToggleMode(handler) {
+    this._toggleModehandler = handler;
 
-  recoveryListeners() {
-    this.setFilterChangeHandler(this._filterChangeHandler);
-  }
+    const charts = document.querySelector(`.statistic`);
+    const board = document.querySelector(`.films`);
+    const sort = document.querySelector(`.sort`);
 
-  /* setOnChange(handler) {
     this.getElement().addEventListener(`click`, (evt) => {
+      evt.preventDefault();
       if (evt.target.tagName !== `A`) {
         return;
       }
-      const menuItem = evt.target.id;
-      handler(menuItem);
+      const clicked = evt.target.href;
+      const link = clicked.toLowerCase().split('#')[1];
+      const value = link === `stats` ? Mode.CHARTS : Mode.BOARD;
+      this._toggleModehandler(value, charts, board, sort);
     });
-  } */
-}
+  }
+
+  recoveryListeners() {
+    this.setFilterChangeHandler(this._filterChangeHandler);
+    this.setToggleMode(this._toggleModehandler);
+  }
+
+};

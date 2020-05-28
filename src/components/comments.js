@@ -1,7 +1,7 @@
 import {EMOTIONS} from '../constants.js';
-import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, makeControlLinkPopup, formatDate, formatDateForComment, formatDuration} from '../utils/common.js';
+import {formatDate, formatDateForComment, formatDuration, sortCommentsByDate} from '../utils/common.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
-import {encode} from "he";
+import {encode} from 'he';
 
 export const makeComment = (comment) => {
   const {id, text, emotion, author, dateComment} = comment;
@@ -46,14 +46,15 @@ export const makeComments = (comments, emotion, newComment = ``) => {
   const commentsQuantity = comments ? comments.length : 0;
   const emotions = makeEmotionsList();
   const currentEmotion = emotion !== null && emotion !== undefined ? `<img src="images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">` : ``;
-  const commentsAll = comments.map(item => makeComment(item)).join(``);
+  const commentsByDate = sortCommentsByDate(comments);
+  const commentsMarkup = commentsByDate.map(item => makeComment(item)).join(``);
   const newCommentEncoded = encode(newComment);
 
   return (`<section class="film-details__comments-wrap"><h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">
         ${commentsQuantity}
         </span></h3>
         <ul class="film-details__comments-list">
-        ${commentsAll}
+        ${commentsMarkup}
         </ul>
         <div class="film-details__new-comment">
         <div for="add-emoji" class="film-details__add-emoji-label">
@@ -108,9 +109,9 @@ export default class Comments extends AbstractSmartComponent {
     this.getElement().querySelector(`.film-details__comment-input`).addEventListener(`keydown`, (evt) => {
 
       if (evt.key === `Enter` && (evt.ctrlKey || evt.metaKey) && this._emotion) {
-        let dateComment = new Date();
+        const dateComment = new Date();
         const newCommentEncoded = encode(this._newComment);
-        handler({dateComment, text: newCommentEncoded, id: (Date.now() + ``), author: `user`, emotion: this._emotion});
+        handler({date: dateComment, comment: newCommentEncoded, emotion: this._emotion});
         this._emotion = null;
         this._newComment = ``;
         this.rerender();
@@ -120,13 +121,13 @@ export default class Comments extends AbstractSmartComponent {
 
   setEmotionClickHandler(evt) {
     evt.preventDefault();
-    let value = evt.target.value;
+    const value = evt.target.value;
     this._emotion = value;
     this.rerender();
   }
 
   setCommentFieldChangeHandler(evt) {
-    let commentField = this.getElement().querySelector(`.film-details__comment-input`);
+    const commentField = this.getElement().querySelector(`.film-details__comment-input`);
     commentField.addEventListener(`change`, () => {
       const commentText = commentField.value;
       this._newComment = commentText;
@@ -135,14 +136,14 @@ export default class Comments extends AbstractSmartComponent {
 
   setDeleteCommentHandler(handler) {
     this._deleteCommentHandler = handler;
-    let commentItems = this.getElement().querySelectorAll(`.film-details__comment-delete`);
-    for (let i = 0; i < commentItems.length; i += 1) {
-      commentItems[i].addEventListener(`click`, (evt) => {
-      evt.preventDefault();
-      const id = evt.target.id.slice(8);
-      handler(id);
+    const commentItems = this.getElement().querySelectorAll(`.film-details__comment-delete`);
+    commentItems.forEach((item) => {
+      item.addEventListener(`click`, (evt) => {
+        evt.preventDefault();
+        const id = evt.target.id.slice(8);
+        handler(id);
       });
-    }
+    });
   }
 
-}
+};

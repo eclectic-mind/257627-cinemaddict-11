@@ -1,7 +1,8 @@
 import {cutText, makeControlLink, formatDuration, getOnlyYear} from '../utils/common.js'
 import {BRIEF_MAX, CONTROLS_CARD} from '../constants.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
-import {encode} from "he";
+import MovieModel from '../models/movies.js';
+import {encode} from 'he';
 
 const makeControlButton = (name, condition = true) => {
   const short = makeControlLink(name);
@@ -42,7 +43,7 @@ const makeControlsCard = (movie) => {
             <span class="film-card__duration">${durationFormatted}</span>
             <span class="film-card__genre">${genreMain}</span>
           </p>
-          <img src="./images/posters/${poster}" alt="" class="film-card__poster">
+          <img src="${poster}" alt="${titleEncoded}" class="film-card__poster">
           <p class="film-card__description">${brief}</p>
           <a class="film-card__comments">${commentsQuantity}  comments</a>
           <form class="film-card__controls">
@@ -99,4 +100,4 @@ export default class Card extends AbstractSmartComponent {
       .addEventListener(`click`, handler);
   }
 
-}
+};

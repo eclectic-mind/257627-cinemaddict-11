@@ -1,7 +1,7 @@
 import {CONTROLS_DETAILS} from '../constants.js';
-import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, makeControlLinkPopup, formatDate, formatDuration} from '../utils/common.js';
+import {makeControlLinkPopup, formatDate, formatDuration} from '../utils/common.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
-import {encode} from "he";
+import {encode} from 'he';
 
 const makeControl = (name, condition = true) => {
   const short = makeControlLinkPopup(name);
@@ -31,8 +31,10 @@ const makeCloseButton = () => {
 }
 
 export const makeDetails = (movie, options = {}) => {
-  const {title, original, description, poster, genres, duration, date, country, producer, writers, cast, rating, age, inWatchlist, isWatched, isFavorite, watchingDate} = movie;
+  const {title, original, description, poster, genres, duration, date, country, producer, writers, cast, rating, age} = movie;
+  const {inWatchlist, isWatched, isFavorite, watchingDate, comments} = options;
   const durationFormatted = formatDuration(duration);
+  const genresTitle = genres.length > 1 ? `Genres` : `Genre`;
   const genresAll = genres.join(`, `);
   const dateFull = formatDate(date);
   const controls = makeControlsDetails(movie);
@@ -42,8 +44,8 @@ export const makeDetails = (movie, options = {}) => {
   const descriptionEncoded = encode(description);
   const countryEncoded = encode(country);
   const producerEncoded = encode(producer);
-  const writersEncoded = encode(writers);
-  const castEncoded = encode(cast);
+  const writersEncoded = encode(writers.join(`, `));
+  const castEncoded = encode(cast.join(`, `));
 
   return (
     `<section class="film-details">
@@ -54,7 +56,7 @@ export const makeDetails = (movie, options = {}) => {
       </div>
       <div class="film-details__info-wrap">
         <div class="film-details__poster">
-          <img class="film-details__poster-img" src="./images/posters/${poster}" alt="${titleEncoded}">
+          <img class="film-details__poster-img" src="./${poster}" alt="${titleEncoded}">
           <p class="film-details__age">${age}+</p>
         </div>
 
@@ -96,7 +98,7 @@ export const makeDetails = (movie, options = {}) => {
               <td class="film-details__cell">${countryEncoded}</td>
             </tr>
             <tr class="film-details__row">
-              <td class="film-details__term">Genres</td>
+              <td class="film-details__term">${genresTitle}</td>
               <td class="film-details__cell">${genresAll}</td>
             </tr>
           </table>
@@ -108,7 +110,6 @@ export const makeDetails = (movie, options = {}) => {
       </section>
     </div>
     <div class="form-details__bottom-container">
-
     </div>
   </form>
 </section>`
@@ -146,6 +147,11 @@ export default class Details extends AbstractSmartComponent {
     this.setAddToWatchlistClickHandler(this._addToWatchListClickHandler);
   }
 
+  setData(data) {
+    this._externalData = Object.assign({}, data);
+    this.rerender();
+  }
+
   setAddToWatchlistClickHandler(handler) {
     this.getElement().querySelector(`#watchlist`)
       .addEventListener(`click`, handler);
@@ -170,4 +176,4 @@ export default class Details extends AbstractSmartComponent {
     this._popupCloserClickHandler = handler;
   }
 
-}
+};

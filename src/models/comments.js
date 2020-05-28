@@ -1,6 +1,3 @@
-import {getRandomNumber, getRandomArrayItem} from '../utils/common.js';
-import {AUTHORS} from '../constants.js';
-
 export default class Comments {
   constructor() {
     this._comments = [];
@@ -48,4 +45,4 @@ export default class Comments {
     this._comments = [].concat(newComment, this._comments);
     this._callHandlers(this._dataChangeHandlers);
   }
-}
+};

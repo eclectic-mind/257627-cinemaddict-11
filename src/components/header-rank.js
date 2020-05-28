@@ -1,6 +1,6 @@
-import {USER_RANKS, AVATAR_SIZE} from '../constants.js';
+import {AVATAR_SIZE} from '../constants.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
-import {countAllMovies, getWatched, calculateRank} from "../utils/common.js";
+import {getWatched, calculateRank} from '../utils/common.js';
 
 export const makeUserRank = (movies) => {
   const quantity = getWatched(movies).length;
@@ -20,16 +20,25 @@ export const makeUserRank = (movies) => {
 };
 
 export default class Rank extends AbstractSmartComponent {
-  constructor(movies) {
+  constructor(moviesModel) {
     super();
-    this._movies = movies;
+    this._moviesModel = moviesModel;
+    this._onDataChange = this._onDataChange.bind(this);
+    this.rerender = this.rerender.bind(this);
   }
 
   getTemplate() {
-    return makeUserRank(this._movies);
+    return makeUserRank(this._moviesModel.getMoviesAll());
   }
 
   rerender() {
     super.rerender();
   }
-}
+
+  _onDataChange() {
+    this.rerender();
+  }
+
+  recoveryListeners() {
+  }
+};

@@ -1,4 +1,4 @@
-import AbstractComponent from './abstract-component.js';
+import AbstractSmartComponent from './abstract-smart-component.js';
 
 export const makeBoard = () => {
   return (
@@ -6,12 +6,22 @@ export const makeBoard = () => {
     <section class="films-list">
       <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
       </section>
-    <section>`
+    </section>`
   );
 };
 
-export default class Board extends AbstractComponent {
+export default class Board extends AbstractSmartComponent {
   getTemplate() {
     return makeBoard();
   }
-}
+
+  /* show() {
+    super.show();
+    this.rerender();
+  }
+
+  hide() {
+    super.hide();
+    this.rerender();
+  } */
+};

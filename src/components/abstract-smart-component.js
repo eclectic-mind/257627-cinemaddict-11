@@ -1,4 +1,4 @@
-import AbstractComponent from "./abstract-component.js";
+import AbstractComponent from './abstract-component.js';
 
 export default class AbstractSmartComponent extends AbstractComponent {
   recoveryListeners() {
@@ -9,13 +9,10 @@ export default class AbstractSmartComponent extends AbstractComponent {
     const oldElement = this.getElement();
     const parent = oldElement.parentElement;
     this.removeElement();
-
     const newElement = this.getElement();
-
     const scrollPosition = oldElement.scrollTop;
     parent.replaceChild(newElement, oldElement);
     newElement.scrollTop = scrollPosition;
-
     this.recoveryListeners();
   }
-}
+};

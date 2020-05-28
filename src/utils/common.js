@@ -1,58 +1,5 @@
-import {FilterType} from "../constants.js";
-import {USER_RANKS} from '../constants.js';
-import moment from "moment";
-
-export const getRandomNumber = (min = 0, max = 1000) => {
-  return min + Math.floor(Math.random() * (max - min));
-};
-
-export const getRandomArrayItem = (array) => {
-  const randomIndex = getRandomNumber(0, array.length);
-  return array[randomIndex];
-};
-
-export const getRandomFloat = (min, max) => {
-  let number = Math.random() * (max - min) + min;
-  return number.toFixed(1);
-};
-
-export const getRandomTime = () => {
-  const start = new Date("January 01 1900");
-  const end = new Date();
-  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-};
-
-export const getRandomCommentTime = () => {
-  const start = new Date("January 2018 00:00");
-  const end = new Date();
-  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-};
-
-export const getRandomBoolean = () => {
-  return Math.random() >= 0.5;
-};
-
-export const getSomeItems = (min, max, array) => {
-  const length = getRandomNumber(min, max);
-  const count = array.length - 1;
-  let result = [];
-  for (let i = 0; i < length; i += 1) {
-    let j = getRandomNumber(0, count);
-    result.push(array[j]);
-  }
-  return result;
-};
-
-export const createFishText = (min, max, array) => {
-  const length = getRandomNumber(min, max);
-  const count = array.length - 1;
-  let result = [];
-  for (let i = 0; i < length; i += 1) {
-    let j = getRandomNumber(0, count);
-    result.push(array[j]);
-  }
-  return result.join(` `);
-};
+import {USER_RANKS, Mode, HIDDEN_CLASS} from '../constants.js';
+import moment from 'moment';
 
 export const cutText = (text, max) => {
   let result = text.split(``).slice(0, max).join(``);
@@ -124,25 +71,18 @@ export const getOnlyYear = (date) => {
 };
 
 export const makeMenuLink = (name) => {
-  let array = name.split(` `);
-  let className = array[0].toLowerCase();
+  const array = name.split(` `);
+  const className = array[0].toLowerCase();
   return className;
 };
 
 export const makeControlLink = (name) => {
-  let array = name.split(` `);
   return name === `Add to watchlist` ? `add-to-watchlist` : name === `Mark as watched` ? `mark-as-watched` : `favorite`;
 };
 
 export const makeControlLinkPopup = (name) => {
-  let array = name.split(` `);
+  const array = name.split(` `);
   return name === `Add to favorites` ? `favorite` : array[array.length - 1].toLowerCase();
-};
-
-export const createElement = (template) => {
-  const newElement = document.createElement(`div`);
-  newElement.innerHTML = template;
-  return newElement.firstChild;
 };
 
 export const generateFilters = (items) => {
@@ -150,7 +90,6 @@ export const generateFilters = (items) => {
   const watchlistCount = getInWatchlist(items).length;
   const historyCount = getWatched(items).length;
   const favoritesCount = getFavorites(items).length;
-
   return [
     {title: `All`, count: allCount},
     {title: `Watchlist`, count: watchlistCount},
@@ -181,8 +120,6 @@ export const doSorting = (data, param, from = 0, to = data.length) => {
   return sorted.slice(from, to);
 };
 
-// filtration
-
 export const getInWatchlist = (items) => {
   return items.filter((item) => !!item.inWatchlist)
 };
@@ -208,7 +145,12 @@ export const doFiltration = (data, param) => {
       return copy;
     default:
       return copy;
- }
+  }
+};
+
+export const sortCommentsByDate = (comments) => {
+  let result = comments.sort((prev, next) => new Date(next.dateComment) - new Date(prev.dateComment));
+  return result;
 };
 
 export const countAllMovies = (movies) => {
@@ -243,6 +185,10 @@ export const findMostPopular = (array) => {
   let maxCount = 0;
   let maxKey = null;
 
+  if (array.length === 0) {
+    return ``;
+  }
+
   array.forEach((item, val) => {
     keyCounts[item] = keyCounts[item] + 1 || 1;
     if (keyCounts[item] > maxCount) {
@@ -250,6 +196,7 @@ export const findMostPopular = (array) => {
       maxCount = keyCounts[item];
     }
   });
+
   return maxKey;
 }
 
@@ -269,7 +216,8 @@ export const countFilmsByGenre = (genre, movies) => {
 
 export const countWatchedByGenres = (movies) => {
   const genres = getUniqueGenres(movies);
-  return genres.map((item) => countFilmsByGenre(item, movies));
+  const result = genres.map((item) => countFilmsByGenre(item, movies));
+  return result;
 };
 
 export const calculateRank = (quantity) => {
@@ -320,5 +268,48 @@ export const filterByWatchingDate = (data, period) => {
       return filterByWatchingYear(copy);
     default:
       return copy;
- }
+  }
 };
+
+export const hideElement = (element) => {
+  if (element) {
+    element.classList.add(HIDDEN_CLASS);
+  }
+};
+
+export const showElement = (element) => {
+  if (element) {
+    element.classList.remove(HIDDEN_CLASS);
+  }
+};
+
+export const modeSwitcher = (value, charts, board, sort) => {
+  switch (value) {
+    case Mode.BOARD:
+      hideElement(charts);
+      showElement(board);
+      showElement(sort);
+      break;
+    case Mode.CHARTS:
+      showElement(charts);
+      hideElement(board);
+      hideElement(sort);
+      break;
+  }
+};
+
+/* export const modeSwitcher = (value, charts, board, sort) => {
+  console.log(value, charts, board, sort);
+  switch (value) {
+    case Mode.BOARD:
+      charts.hide();
+      board.show();
+      sort.show();
+      break;
+    case Mode.CHARTS:
+      board.hide();
+      sort.hide();
+      charts.show();
+      break;
+  }
+}; */

@@ -36,8 +36,6 @@ api.getMovies()
     const charts = new ChartsComponent(moviesModel);
     render(pageMain, charts, RenderPosition.BEFOREEND);
     moviesModel.setDataChangeHandler(charts.rerender);
-    // hideElement(charts.getElement());
-    // const sort =
     modeSwitcher(`board`);
 
     const userRank = new RankComponent(moviesModel);

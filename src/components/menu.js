@@ -69,8 +69,6 @@ export default class Menu extends AbstractSmartComponent {
   setToggleMode(handler) {
     this._toggleModehandler = handler;
 
-
-
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
       if (evt.target.tagName !== `A`) {

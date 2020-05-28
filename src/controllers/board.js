@@ -144,15 +144,5 @@ export default class BoardController {
     this._renderMovies(movies);
     this._renderButton(movies);
   }
-/*
-  show() {
-    super.show();
-    this.rerender();
-  }
 
-  hide() {
-    super.hide();
-    this.rerender();
-  }
-*/
 };

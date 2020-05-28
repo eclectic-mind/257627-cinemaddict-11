@@ -1,4 +1,4 @@
-import {AVATAR_SIZE, STATS_FILTER_BY, STATS_TITLES, StatsFilterType} from '../constants.js';
+import {AVATAR_SIZE, STATS_FILTER_BY, STATS_TITLES, StatsFilterType, HIDDEN_CLASS} from '../constants.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
 import {getWatched, getTotalDuration, getTopGenre, calculateRank, filterByWatchingDate, getUniqueGenres, countWatchedByGenres, hideElement, showElement} from '../utils/common.js';
 
@@ -171,7 +171,7 @@ export default class Charts extends AbstractSmartComponent {
     this._moviesFiltered = filterByWatchingDate(this._movies, this._currentStatsFilterType);
     this._renderCharts(this._moviesFiltered, this._currentStatsFilterType);
     this.setStatsFilterTypeChangeHandler();
-    // this.getElement().hide();
+    this.rerender = this.rerender.bind(this);
   }
 
   getTemplate() {
@@ -182,19 +182,7 @@ export default class Charts extends AbstractSmartComponent {
     const element = this.getElement();
     const filmsCtx = element.querySelector(`.statistic__chart`);
     this._filmsChart = createCharts(movies, filmsCtx, period);
-    // hideElement(element);
-    // this.hide();
   }
-
-  /* show() {
-    super.show();
-    this.rerender();
-  }
-
-  hide() {
-    super.hide();
-    this.rerender();
-  } */
 
   getFilterType() {
     return this._currentStatsFilterType;
@@ -206,6 +194,10 @@ export default class Charts extends AbstractSmartComponent {
 
   recoveryListeners() {
     this.setStatsFilterTypeChangeHandler();
+  }
+
+  _onDataChange() {
+    this.rerender();
   }
 
   setStatsFilterTypeChangeHandler() {

@@ -272,13 +272,13 @@ export const filterByWatchingDate = (data, period) => {
 };
 
 export const hideElement = (element) => {
-  if (element) {
+  if (element && !element.classList.contains(HIDDEN_CLASS)) {
     element.classList.add(HIDDEN_CLASS);
   }
 };
 
 export const showElement = (element) => {
-  if (element) {
+  if (element && element.classList.contains(HIDDEN_CLASS)) {
     element.classList.remove(HIDDEN_CLASS);
   }
 };
@@ -297,19 +297,3 @@ export const modeSwitcher = (value, charts, board, sort) => {
       break;
   }
 };
-
-/* export const modeSwitcher = (value, charts, board, sort) => {
-  console.log(value, charts, board, sort);
-  switch (value) {
-    case Mode.BOARD:
-      charts.hide();
-      board.show();
-      sort.show();
-      break;
-    case Mode.CHARTS:
-      board.hide();
-      sort.hide();
-      charts.show();
-      break;
-  }
-}; */

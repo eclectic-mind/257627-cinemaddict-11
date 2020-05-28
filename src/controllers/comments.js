@@ -9,7 +9,7 @@ export default class CommentsController {
     this._commentsModel = commentsModel;
     this._commentsComponent = null;
     this._onDataChange = onDataChange;
-    this.renderComments = this.renderComments.bind(this);
+    this._renderComments = this.renderComments.bind(this);
     this._api = api;
     this._movieId = movieId;
   }

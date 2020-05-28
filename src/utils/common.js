@@ -81,14 +81,8 @@ export const makeControlLink = (name) => {
 };
 
 export const makeControlLinkPopup = (name) => {
-  let array = name.split(` `);
+  const array = name.split(` `);
   return name === `Add to favorites` ? `favorite` : array[array.length - 1].toLowerCase();
-};
-
-export const createElement = (template) => {
-  const newElement = document.createElement(`div`);
-  newElement.innerHTML = template;
-  return newElement.firstChild;
 };
 
 export const generateFilters = (items) => {

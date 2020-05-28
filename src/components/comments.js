@@ -109,7 +109,7 @@ export default class Comments extends AbstractSmartComponent {
     this.getElement().querySelector(`.film-details__comment-input`).addEventListener(`keydown`, (evt) => {
 
       if (evt.key === `Enter` && (evt.ctrlKey || evt.metaKey) && this._emotion) {
-        let dateComment = new Date();
+        const dateComment = new Date();
         const newCommentEncoded = encode(this._newComment);
         handler({date: dateComment, comment: newCommentEncoded, emotion: this._emotion});
         this._emotion = null;
@@ -121,13 +121,13 @@ export default class Comments extends AbstractSmartComponent {
 
   setEmotionClickHandler(evt) {
     evt.preventDefault();
-    let value = evt.target.value;
+    const value = evt.target.value;
     this._emotion = value;
     this.rerender();
   }
 
   setCommentFieldChangeHandler(evt) {
-    let commentField = this.getElement().querySelector(`.film-details__comment-input`);
+    const commentField = this.getElement().querySelector(`.film-details__comment-input`);
     commentField.addEventListener(`change`, () => {
       const commentText = commentField.value;
       this._newComment = commentText;
@@ -136,14 +136,14 @@ export default class Comments extends AbstractSmartComponent {
 
   setDeleteCommentHandler(handler) {
     this._deleteCommentHandler = handler;
-    let commentItems = this.getElement().querySelectorAll(`.film-details__comment-delete`);
-    for (let i = 0; i < commentItems.length; i += 1) {
-      commentItems[i].addEventListener(`click`, (evt) => {
-      evt.preventDefault();
-      const id = evt.target.id.slice(8);
-      handler(id);
+    const commentItems = this.getElement().querySelectorAll(`.film-details__comment-delete`);
+    commentItems.forEach((item) => {
+      item.addEventListener(`click`, (evt) => {
+        evt.preventDefault();
+        const id = evt.target.id.slice(8);
+        handler(id);
       });
-    }
+    });
   }
 
-}
+};

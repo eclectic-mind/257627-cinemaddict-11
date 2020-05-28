@@ -71,13 +71,12 @@ export const getOnlyYear = (date) => {
 };
 
 export const makeMenuLink = (name) => {
-  let array = name.split(` `);
-  let className = array[0].toLowerCase();
+  const array = name.split(` `);
+  const className = array[0].toLowerCase();
   return className;
 };
 
 export const makeControlLink = (name) => {
-  let array = name.split(` `);
   return name === `Add to watchlist` ? `add-to-watchlist` : name === `Mark as watched` ? `mark-as-watched` : `favorite`;
 };
 
@@ -156,7 +155,7 @@ export const doFiltration = (data, param) => {
 };
 
 export const sortCommentsByDate = (comments) => {
-  let result = comments.sort((a, b) => new Date(b.dateComment) - new Date(a.dateComment));
+  let result = comments.sort((prev, next) => new Date(next.dateComment) - new Date(prev.dateComment));
   return result;
 };
 

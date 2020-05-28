@@ -20,6 +20,9 @@ export default class CommentsController {
 
     this._commentsComponent.setDeleteCommentHandler((id) => {
       this._api.deleteComment(id).then(() => {
+        this._commentsComponent.setData({
+          deleteButtonText: `Deleting...`,
+        });
         this._commentsModel.deleteComment(id);
         this._onDataChange(this._commentsModel.getCommentsIds());
         this._commentsComponent.updateComments(this._commentsModel.getComments());
@@ -43,6 +46,9 @@ export default class CommentsController {
     element.style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
     setTimeout(() => {
       element.style.animation = ``;
+      this._commentsComponent.setData({
+        deleteButtonText: `Delete`,
+      });
     }, SHAKE_ANIMATION_TIMEOUT);
   }
 

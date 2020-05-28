@@ -1,11 +1,12 @@
-import {EMOTIONS} from '../constants.js';
+import {EMOTIONS, DefaultData} from '../constants.js';
 import {formatDate, formatDateForComment, formatDuration, sortCommentsByDate} from '../utils/common.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
 import {encode} from 'he';
 
-export const makeComment = (comment) => {
+export const makeComment = (comment, externalData) => {
   const {id, text, emotion, author, dateComment} = comment;
   const dateFormatted = formatDateForComment(dateComment);
+  const deleteButtonText = externalData.deleteButtonText;
   return (
   `<li class="film-details__comment">
     <span class="film-details__comment-emoji">
@@ -16,7 +17,7 @@ export const makeComment = (comment) => {
     <p class="film-details__comment-info">
     <span class="film-details__comment-author">${author}</span>
     <span class="film-details__comment-day">${dateFormatted}</span>
-    <button class="film-details__comment-delete" id="comment-${id}">Delete</button>
+    <button class="film-details__comment-delete" id="comment-${id}">${deleteButtonText}</button>
     </p>
     </div>
     </li>`
@@ -42,12 +43,12 @@ export const makeEmotionsList = () => {
   );
 };
 
-export const makeComments = (comments, emotion, newComment = ``) => {
+export const makeComments = (comments, emotion, newComment = ``, externalData) => {
   const commentsQuantity = comments ? comments.length : 0;
   const emotions = makeEmotionsList();
   const currentEmotion = emotion !== null && emotion !== undefined ? `<img src="images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">` : ``;
   const commentsByDate = sortCommentsByDate(comments);
-  const commentsMarkup = commentsByDate.map(item => makeComment(item)).join(``);
+  const commentsMarkup = commentsByDate.map(item => makeComment(item, externalData)).join(``);
   const newCommentEncoded = encode(newComment);
 
   return (`<section class="film-details__comments-wrap"><h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">
@@ -69,17 +70,18 @@ export const makeComments = (comments, emotion, newComment = ``) => {
 };
 
 export default class Comments extends AbstractSmartComponent {
-  constructor(comments, emotion = null) {
+  constructor(comments, emotion = null, externalData) {
     super();
     this._comments = comments;
     this._emotion = emotion;
     this._newComment = ``;
+    this._externalData = DefaultData;
     this.setEmotionClickHandler = this.setEmotionClickHandler.bind(this);
     this._subscribeOnEvents();
   }
 
   getTemplate() {
-    return makeComments(this._comments, this._emotion, this._newComment);
+    return makeComments(this._comments, this._emotion, this._newComment, this._externalData);
   }
 
   rerender() {
@@ -101,6 +103,11 @@ export default class Comments extends AbstractSmartComponent {
     const element = this.getElement();
     element.querySelector(`.film-details__emoji-list`).addEventListener(`change`, this.setEmotionClickHandler);
     this.setCommentFieldChangeHandler();
+  }
+
+  setData(data) {
+    this._externalData = DefaultData;
+    this.rerender();
   }
 
   onSubmit(handler) {

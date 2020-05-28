@@ -14,10 +14,6 @@ export default class FilterController {
     this._onFilterChange = this._onFilterChange.bind(this);
     this._moviesModel.setDataChangeHandler(this.render);
     this._moviesModel.setFilterChangeHandler(this.render);
-
-    const charts = document.querySelector(`.statistic`);
-    const board = document.querySelector(`.films`);
-    const sort = document.querySelector(`.sort`);
   }
 
   render() {
@@ -52,8 +48,8 @@ export default class FilterController {
     this.render();
   }
 
-  toggleModehandler(value, charts, board, sort) {
-    modeSwitcher(value, charts, board, sort);
+  toggleModehandler(value) {
+    modeSwitcher(value);
   }
 
 }

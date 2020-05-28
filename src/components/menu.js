@@ -69,9 +69,7 @@ export default class Menu extends AbstractSmartComponent {
   setToggleMode(handler) {
     this._toggleModehandler = handler;
 
-    const charts = document.querySelector(`.statistic`);
-    const board = document.querySelector(`.films`);
-    const sort = document.querySelector(`.sort`);
+
 
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
@@ -81,7 +79,7 @@ export default class Menu extends AbstractSmartComponent {
       const clicked = evt.target.href;
       const link = clicked.toLowerCase().split('#')[1];
       const value = link === `stats` ? Mode.CHARTS : Mode.BOARD;
-      this._toggleModehandler(value, charts, board, sort);
+      this._toggleModehandler(value);
     });
   }
 

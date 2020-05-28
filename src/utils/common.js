@@ -283,7 +283,11 @@ export const showElement = (element) => {
   }
 };
 
-export const modeSwitcher = (value, charts, board, sort) => {
+export const modeSwitcher = (value) => {
+  const charts = document.querySelector(`.statistic`);
+  const board = document.querySelector(`.films`);
+  const sort = document.querySelector(`.sort`);
+
   switch (value) {
     case Mode.BOARD:
       hideElement(charts);

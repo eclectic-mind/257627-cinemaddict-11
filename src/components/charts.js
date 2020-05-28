@@ -176,6 +176,7 @@ export default class Charts extends AbstractSmartComponent {
 
   getTemplate() {
     return makeFullStatsMarkup(this._moviesModel.getMoviesAll(), this._currentStatsFilterType);
+
   }
 
   _renderCharts(movies, period) {

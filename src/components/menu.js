@@ -1,5 +1,5 @@
 import {MENU_ITEMS, FilterType, ACTIVE_MENU_CLASS, Mode} from '../constants.js';
-import {getRandomNumber, makeMenuLink, modeSwitcher} from '../utils/common.js';
+import {makeMenuLink} from '../utils/common.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
 
 const menuLinks = MENU_ITEMS.map(item => makeMenuLink(item));
@@ -56,13 +56,14 @@ export default class Menu extends AbstractSmartComponent {
       if (filterType === `Stats`) {
         return;
       }
-
       if (this._currentFilterType === filterType) {
         return;
       }
+
       this._currentFilterType = filterType;
       handlerFiltering(this._currentFilterType);
     });
+
   }
 
   setToggleMode(handler) {
@@ -89,4 +90,4 @@ export default class Menu extends AbstractSmartComponent {
     this.setToggleMode(this._toggleModehandler);
   }
 
-}
+};

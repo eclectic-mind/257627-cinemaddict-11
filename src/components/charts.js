@@ -1,6 +1,6 @@
 import {AVATAR_SIZE, STATS_FILTER_BY, STATS_TITLES, StatsFilterType} from '../constants.js';
-import AbstractSmartComponent from "./abstract-smart-component.js";
-import {getWatched, getTotalDuration, getTopGenre, calculateRank, filterByWatchingDate, getWatchedGenres, getUniqueGenres, countWatchedByGenres, makeMenuLink, hideElement, showElement} from "../utils/common.js";
+import AbstractSmartComponent from './abstract-smart-component.js';
+import {getWatched, getTotalDuration, getTopGenre, calculateRank, filterByWatchingDate, getUniqueGenres, countWatchedByGenres, hideElement, showElement} from '../utils/common.js';
 
 import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -12,14 +12,14 @@ const makeRankBlock = (movies, period) => {
 
   const quantity = moviesFiltered.length;
   if (quantity > 0) {
-  const rank = calculateRank(quantity);
-  return (
-    `<p class="statistic__rank">
+    const rank = calculateRank(quantity);
+    return (
+      `<p class="statistic__rank">
       Your rank
       <img class="statistic__img" src="images/bitmap@2x.png" alt="Avatar" width="${AVATAR_SIZE}" height="${AVATAR_SIZE}">
       <span class="statistic__rank-label">${rank}</span>
-    </p>`
-  );
+      </p>`
+    );
   } else {
     return ``;
   }
@@ -177,15 +177,16 @@ export default class Charts extends AbstractSmartComponent {
   getTemplate() {
     return makeFullStatsMarkup(this._moviesModel.getMoviesAll(), this._currentStatsFilterType);
   }
+
   _renderCharts(movies, period) {
     const element = this.getElement();
     const filmsCtx = element.querySelector(`.statistic__chart`);
     this._filmsChart = createCharts(movies, filmsCtx, period);
-    hideElement(element);
+    // hideElement(element);
     // this.hide();
   }
 
-  show() {
+  /* show() {
     super.show();
     this.rerender();
   }
@@ -193,7 +194,7 @@ export default class Charts extends AbstractSmartComponent {
   hide() {
     super.hide();
     this.rerender();
-  }
+  } */
 
   getFilterType() {
     return this._currentStatsFilterType;
@@ -214,18 +215,15 @@ export default class Charts extends AbstractSmartComponent {
       if (evt.target.tagName !== `INPUT`) {
         return;
       }
-
       const filterType = evt.target.value;
       if (this._currentStatsFilterType === filterType) {
         return;
       }
 
       this._currentStatsFilterType = filterType;
-
       this.rerender();
       this._renderCharts(this._moviesModel.getMoviesAll(), this._currentStatsFilterType);
     });
-
   }
 
-}
+};

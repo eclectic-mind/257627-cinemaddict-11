@@ -1,7 +1,7 @@
-import MenuComponent from "../components/menu.js";
-import {FilterType, Mode} from "../constants.js";
-import {render, replace, RenderPosition} from "../utils/render.js";
-import {doFiltration, generateFilters, modeSwitcher} from "../utils/common.js";
+import MenuComponent from '../components/menu.js';
+import {FilterType} from '../constants.js';
+import {render, replace, RenderPosition} from '../utils/render.js';
+import {doFiltration, modeSwitcher} from '../utils/common.js';
 
 export default class FilterController {
   constructor(container, moviesModel) {

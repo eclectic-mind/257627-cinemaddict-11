@@ -1,4 +1,3 @@
-// import {STATS_ALL} from '../constants.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
 import {countAllMovies} from "../utils/common.js";
 
@@ -19,4 +18,4 @@ export default class Stats extends AbstractSmartComponent {
   getTemplate() {
     return makeStats(this._movies);
   }
-}
+};

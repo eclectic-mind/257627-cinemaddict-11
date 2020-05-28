@@ -1,7 +1,7 @@
 import {EMOTIONS} from '../constants.js';
-import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, makeControlLinkPopup, formatDate, formatDateForComment, formatDuration, sortCommentsByDate} from '../utils/common.js';
+import {formatDate, formatDateForComment, formatDuration, sortCommentsByDate} from '../utils/common.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
-import {encode} from "he";
+import {encode} from 'he';
 
 export const makeComment = (comment) => {
   const {id, text, emotion, author, dateComment} = comment;
@@ -47,7 +47,6 @@ export const makeComments = (comments, emotion, newComment = ``) => {
   const emotions = makeEmotionsList();
   const currentEmotion = emotion !== null && emotion !== undefined ? `<img src="images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">` : ``;
   const commentsByDate = sortCommentsByDate(comments);
-  console.log(comments, commentsByDate);
   const commentsMarkup = commentsByDate.map(item => makeComment(item)).join(``);
   const newCommentEncoded = encode(newComment);
 
@@ -111,9 +110,7 @@ export default class Comments extends AbstractSmartComponent {
 
       if (evt.key === `Enter` && (evt.ctrlKey || evt.metaKey) && this._emotion) {
         let dateComment = new Date();
-        // console.log(this._newComment);
         const newCommentEncoded = encode(this._newComment);
-        // console.log(this._newComment, newCommentEncoded);
         handler({date: dateComment, comment: newCommentEncoded, emotion: this._emotion});
         this._emotion = null;
         this._newComment = ``;
@@ -134,7 +131,6 @@ export default class Comments extends AbstractSmartComponent {
     commentField.addEventListener(`change`, () => {
       const commentText = commentField.value;
       this._newComment = commentText;
-
     });
   }
 

@@ -1,5 +1,5 @@
-import {doFiltration} from "../utils/common.js";
-import {FilterType} from "../constants.js";
+import {doFiltration} from '../utils/common.js';
+import {FilterType} from '../constants.js';
 
 export default class Movies {
   constructor() {
@@ -50,4 +50,4 @@ export default class Movies {
   _callHandlers(handlers) {
     handlers.forEach((handler) => handler());
   }
-}
+};

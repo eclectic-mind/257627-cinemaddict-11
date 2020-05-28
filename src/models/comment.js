@@ -28,4 +28,4 @@ export default class Comment {
   static clone(data) {
     return new Comment(data.toRAW());
   }
-}
+};

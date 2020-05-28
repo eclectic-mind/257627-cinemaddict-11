@@ -22,9 +22,11 @@ export default class Sorting extends AbstractSmartComponent {
     super();
     this._currentSortType = SortType.DEFAULT;
   }
+
   getTemplate() {
     return makeSortMarkup(this._currentSortType);
   }
+
   getSortType() {
     return this._currentSortType;
   }
@@ -38,14 +40,12 @@ export default class Sorting extends AbstractSmartComponent {
   }
 
   setSortTypeChangeHandler(handler) {
-
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
 
       if (evt.target.tagName !== `A`) {
         return;
       }
-
       const sortType = evt.target.dataset.sortType;
       if (this._currentSortType === sortType) {
         return;
@@ -55,6 +55,7 @@ export default class Sorting extends AbstractSmartComponent {
       handler(this._currentSortType);
       this.rerender();
     });
+
     this._sortTypeChangeHandler = handler;
   }
-}
+};

@@ -35,7 +35,6 @@ export default class Movie {
         "writers": this.writers,
         "actors": this.cast,
         "release": {
-          //"date": this.date.toISOString(),
           "date": this.date,
           "release_country": this.country
         },
@@ -46,7 +45,6 @@ export default class Movie {
       "user_details": {
         "watchlist": this.inWatchlist,
         "already_watched": this.isWatched,
-        // "watching_date": this.watchingDate ? this.watchingDate.toISOString() : null,
         "watching_date": this.watchingDate ? this.watchingDate : null,
         "favorite": this.isFavorite
       }
@@ -64,4 +62,4 @@ export default class Movie {
   static clone(data) {
     return new Movie(data.toRAW());
   }
-}
+};

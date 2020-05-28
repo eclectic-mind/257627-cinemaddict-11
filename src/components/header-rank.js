@@ -1,6 +1,6 @@
-import {USER_RANKS, AVATAR_SIZE} from '../constants.js';
+import {AVATAR_SIZE} from '../constants.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
-import {countAllMovies, getWatched, calculateRank} from "../utils/common.js";
+import {getWatched, calculateRank} from '../utils/common.js';
 
 export const makeUserRank = (movies) => {
   const quantity = getWatched(movies).length;
@@ -40,6 +40,5 @@ export default class Rank extends AbstractSmartComponent {
   }
 
   recoveryListeners() {
-
   }
-}
+};

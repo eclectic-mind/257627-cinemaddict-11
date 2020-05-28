@@ -1,8 +1,8 @@
 import {EMOTIONS} from '../constants.js';
-import CommentsComponent from "../components/comments.js";
-import CommentModel from "../models/comment.js";
+import CommentsComponent from '../components/comments.js';
+import CommentModel from '../models/comment.js';
 import MovieModel from '../models/movie.js';
-import {render, replace, remove, RenderPosition} from "../utils/render.js";
+import {render, RenderPosition} from '../utils/render.js';
 
 export default class CommentsController {
   constructor(commentsModel, onDataChange, movieId, api) {
@@ -21,23 +21,17 @@ export default class CommentsController {
     this._commentsComponent.setDeleteCommentHandler((id) => {
       this._api.deleteComment(id).then(() => {
         this._commentsModel.deleteComment(id);
-        console.log(this._commentsModel.getCommentsIds());
         this._onDataChange(this._commentsModel.getCommentsIds());
         this._commentsComponent.updateComments(this._commentsModel.getComments());
       })
-
     });
 
     this._commentsComponent.onSubmit((newComment) => {
-    this._api.createComment(newComment, this._movieId).then((response) => {
-    console.log(response);
-    this._commentsModel.setComments(CommentModel.parseComments(response.comments));
-    this._onDataChange(MovieModel.parseMovie(response.movie).comments);
-    this._commentsComponent.updateComments(this._commentsModel.getComments());
-    })
-// console.log(newComment);
-
+      this._api.createComment(newComment, this._movieId).then((response) => {
+        this._commentsModel.setComments(CommentModel.parseComments(response.comments));
+        this._onDataChange(MovieModel.parseMovie(response.movie).comments);
+        this._commentsComponent.updateComments(this._commentsModel.getComments());
+      })
     });
   }
-}
-
+};

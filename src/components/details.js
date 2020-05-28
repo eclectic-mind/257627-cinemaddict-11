@@ -1,12 +1,7 @@
 import {CONTROLS_DETAILS} from '../constants.js';
-import {getRandomNumber, getRandomArrayItem, getRandomFloat, getRandomTime, getRandomBoolean, createFishText, makeControlLinkPopup, formatDate, formatDuration} from '../utils/common.js';
+import {makeControlLinkPopup, formatDate, formatDuration} from '../utils/common.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
-import {encode} from "he";
-
-/* const DefaultData = {
-  deleteButtonText: `Delete`,
-  saveButtonText: `Save`,
-}; */
+import {encode} from 'he';
 
 const makeControl = (name, condition = true) => {
   const short = makeControlLinkPopup(name);
@@ -36,7 +31,6 @@ const makeCloseButton = () => {
 }
 
 export const makeDetails = (movie, options = {}) => {
-  // const {title, original, description, poster, genres, duration, date, country, producer, writers, cast, rating, age, inWatchlist, isWatched, isFavorite, watchingDate} = movie;
   const {title, original, description, poster, genres, duration, date, country, producer, writers, cast, rating, age} = movie;
   const {inWatchlist, isWatched, isFavorite, watchingDate, comments} = options;
   const durationFormatted = formatDuration(duration);
@@ -116,7 +110,6 @@ export const makeDetails = (movie, options = {}) => {
       </section>
     </div>
     <div class="form-details__bottom-container">
-
     </div>
   </form>
 </section>`
@@ -132,8 +125,6 @@ export default class Details extends AbstractSmartComponent {
     this._isWatched = !!movie.isWatched;
     this._isFavorite = !!movie.isFavorite;
     this._watchingDate = movie.watchingDate;
-
-    // this._externalData = DefaultData;
   }
 
   getTemplate() {
@@ -142,8 +133,6 @@ export default class Details extends AbstractSmartComponent {
       isWatched: this._isWatched,
       isFavorite: this._isFavorite,
       watchingDate: this._watchingDate,
-
-      // externalData: this._externalData,
     });
   }
 
@@ -159,7 +148,7 @@ export default class Details extends AbstractSmartComponent {
   }
 
   setData(data) {
-    this._externalData = Object.assign({}, /* DefaultData, */ data);
+    this._externalData = Object.assign({}, data);
     this.rerender();
   }
 
@@ -187,4 +176,4 @@ export default class Details extends AbstractSmartComponent {
     this._popupCloserClickHandler = handler;
   }
 
-}
+};

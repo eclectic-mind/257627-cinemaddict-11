@@ -1,12 +1,6 @@
-import Movie from "./models/movie.js";
-import Comment from "./models/comment.js";
-
-const Method = {
-  GET: `GET`,
-  POST: `POST`,
-  PUT: `PUT`,
-  DELETE: `DELETE`
-};
+import Movie from './models/movie.js';
+import Comment from './models/comment.js';
+import {Method} from './constants.js';
 
 const checkStatus = (response) => {
   if (response.status >= 200 && response.status < 300) {
@@ -23,14 +17,12 @@ export default class API {
   }
 
   getMovies() {
-    // return fetch(`https://11.ecmascript.pages.academy/cinemaddict`);
     return this._load({url: `movies`})
       .then((response) => response.json())
       .then(Movie.parseMovies);
   }
 
   getComments(id) {
-    // return fetch(`https://11.ecmascript.pages.academy/cinemaddict`);
     return this._load({url: `comments/${id}`})
       .then((response) => response.json())
       .then(Movie.parseComments);
@@ -40,11 +32,10 @@ export default class API {
     return this._load({
       url: `comments/${movieId}`,
       method: Method.POST,
-      body: JSON.stringify(comment/* .toRAW()*/),
+      body: JSON.stringify(comment),
       headers: new Headers({"Content-Type": `application/json`})
     })
       .then((response) => response.json())
-      // .then(Comment.parseComment);
   }
 
   deleteComment(id) {

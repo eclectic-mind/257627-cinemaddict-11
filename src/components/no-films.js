@@ -1,8 +1,9 @@
 import AbstractComponent from './abstract-component.js';
+import {NO_MOVIES_TEXT} from '../constants.js';
 
 const createNoFilmsTemplate = () => {
   return (
-    `<h2 class="films-list__title">There are no movies in our database</h2>`
+    `<h2 class="films-list__title">${NO_MOVIES_TEXT}</h2>`
   );
 };
 

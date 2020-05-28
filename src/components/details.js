@@ -40,6 +40,7 @@ export const makeDetails = (movie, options = {}) => {
   const {title, original, description, poster, genres, duration, date, country, producer, writers, cast, rating, age} = movie;
   const {inWatchlist, isWatched, isFavorite, watchingDate, comments} = options;
   const durationFormatted = formatDuration(duration);
+  const genresTitle = genres.length > 1 ? `Genres` : `Genre`;
   const genresAll = genres.join(`, `);
   const dateFull = formatDate(date);
   const controls = makeControlsDetails(movie);
@@ -103,7 +104,7 @@ export const makeDetails = (movie, options = {}) => {
               <td class="film-details__cell">${countryEncoded}</td>
             </tr>
             <tr class="film-details__row">
-              <td class="film-details__term">Genres</td>
+              <td class="film-details__term">${genresTitle}</td>
               <td class="film-details__cell">${genresAll}</td>
             </tr>
           </table>

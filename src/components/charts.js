@@ -50,12 +50,10 @@ const makeStatsBlock = (movies, period) => {
   );
 };
 
-export const makeStatsFilterLink = (name, period, condition = true) => {
+export const makeStatsFilterLink = (name, period) => {
   const short = name.toLowerCase().split(` `).join(`-`);
-  // const active = period === name ? `checked` : ``;
-  const active = !!condition ? `checked` : ``;
   return (
-    `<input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-${short}" value="${short}" ${active}>
+    `<input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-${short}" value="${short}">
     <label for="statistic-${short}" class="statistic__filters-label">${name}</label>`
   );
 };
@@ -183,7 +181,7 @@ export default class Charts extends AbstractSmartComponent {
     const element = this.getElement();
     const filmsCtx = element.querySelector(`.statistic__chart`);
     this._filmsChart = createCharts(movies, filmsCtx, period);
-    // hideElement(element);
+    hideElement(element);
     // this.hide();
   }
 
@@ -223,6 +221,7 @@ export default class Charts extends AbstractSmartComponent {
       }
 
       this._currentStatsFilterType = filterType;
+
       this.rerender();
       this._renderCharts(this._moviesModel.getMoviesAll(), this._currentStatsFilterType);
     });

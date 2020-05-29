@@ -33,4 +33,5 @@ export default class AbstractComponent {
   hide() {
     this.getElement().classList.add(HIDDEN_CLASS);
   }
-};
+
+}

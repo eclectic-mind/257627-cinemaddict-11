@@ -153,4 +153,4 @@ export default class Comments extends AbstractSmartComponent {
     });
   }
 
-};
+}

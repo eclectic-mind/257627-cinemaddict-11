@@ -58,4 +58,5 @@ export default class Sorting extends AbstractSmartComponent {
 
     this._sortTypeChangeHandler = handler;
   }
-};
+
+}

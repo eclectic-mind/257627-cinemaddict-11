@@ -176,4 +176,4 @@ export default class Details extends AbstractSmartComponent {
     this._popupCloserClickHandler = handler;
   }
 
-};
+}

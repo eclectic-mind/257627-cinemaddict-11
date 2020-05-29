@@ -100,4 +100,4 @@ export default class Card extends AbstractSmartComponent {
       .addEventListener(`click`, handler);
   }
 
-};
+}

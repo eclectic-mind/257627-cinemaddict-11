@@ -10,4 +10,4 @@ export default class FilmsContainer extends AbstractComponent {
   getTemplate() {
     return makeFilmsContainer();
   }
-};
+}

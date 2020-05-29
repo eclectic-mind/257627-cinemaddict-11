@@ -52,4 +52,4 @@ export default class CommentsController {
     }, SHAKE_ANIMATION_TIMEOUT);
   }
 
-};
+}

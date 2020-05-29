@@ -41,4 +41,5 @@ export default class Rank extends AbstractSmartComponent {
 
   recoveryListeners() {
   }
-};
+
+}

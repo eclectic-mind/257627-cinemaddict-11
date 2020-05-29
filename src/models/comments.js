@@ -45,4 +45,4 @@ export default class Comments {
     this._comments = [].concat(newComment, this._comments);
     this._callHandlers(this._dataChangeHandlers);
   }
-};
+}

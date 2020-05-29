@@ -1,4 +1,3 @@
-import {createElement} from '../utils/common.js';
 import AbstractComponent from './abstract-component.js';
 
 export const makeSpecialFilms = (subtitle) => {

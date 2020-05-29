@@ -1,4 +1,4 @@
-import {EMOTIONS, SHAKE_ANIMATION_TIMEOUT} from '../constants.js';
+import {SHAKE_ANIMATION_TIMEOUT} from '../constants.js';
 import CommentsComponent from '../components/comments.js';
 import CommentModel from '../models/comment.js';
 import MovieModel from '../models/movie.js';
@@ -26,7 +26,7 @@ export default class CommentsController {
         this._commentsModel.deleteComment(id);
         this._onDataChange(this._commentsModel.getCommentsIds());
         this._commentsComponent.updateComments(this._commentsModel.getComments());
-      })
+      });
     });
 
     this._commentsComponent.onSubmit((newComment) => {
@@ -38,7 +38,7 @@ export default class CommentsController {
       .catch(() => {
         const commentForm = document.querySelector(`.film-details__new-comment`);
         this.shake(commentForm);
-        });
+      });
     });
   }
 

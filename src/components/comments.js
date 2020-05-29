@@ -1,5 +1,5 @@
 import {EMOTIONS, DefaultData} from '../constants.js';
-import {formatDate, formatDateForComment, formatDuration, sortCommentsByDate} from '../utils/common.js';
+import {formatDateForComment, sortCommentsByDate} from '../utils/common.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
 import {encode} from 'he';
 
@@ -8,7 +8,7 @@ export const makeComment = (comment, externalData) => {
   const dateFormatted = formatDateForComment(dateComment);
   const deleteButtonText = externalData.deleteButtonText;
   return (
-  `<li class="film-details__comment">
+    `<li class="film-details__comment">
     <span class="film-details__comment-emoji">
     <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">
     </span>
@@ -35,7 +35,7 @@ export const makeEmotion = (name) => {
 
 export const makeEmotionsList = () => {
   const items = EMOTIONS;
-  const markup = items.map(item => makeEmotion(item)).join(``);
+  const markup = items.map((item) => makeEmotion(item)).join(``);
   return (
     `<div class="film-details__emoji-list">
     ${markup}
@@ -48,7 +48,7 @@ export const makeComments = (comments, emotion, newComment = ``, externalData) =
   const emotions = makeEmotionsList();
   const currentEmotion = emotion !== null && emotion !== undefined ? `<img src="images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">` : ``;
   const commentsByDate = sortCommentsByDate(comments);
-  const commentsMarkup = commentsByDate.map(item => makeComment(item, externalData)).join(``);
+  const commentsMarkup = commentsByDate.map((item) => makeComment(item, externalData)).join(``);
   const newCommentEncoded = encode(newComment);
 
   return (`<section class="film-details__comments-wrap"><h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">
@@ -70,7 +70,7 @@ export const makeComments = (comments, emotion, newComment = ``, externalData) =
 };
 
 export default class Comments extends AbstractSmartComponent {
-  constructor(comments, emotion = null, externalData) {
+  constructor(comments, emotion = null) {
     super();
     this._comments = comments;
     this._emotion = emotion;
@@ -105,7 +105,7 @@ export default class Comments extends AbstractSmartComponent {
     this.setCommentFieldChangeHandler();
   }
 
-  setData(data) {
+  setData() {
     this._externalData = DefaultData;
     this.rerender();
   }

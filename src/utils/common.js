@@ -39,7 +39,7 @@ export const formatDateForComment = (date) => {
   } else if (differenceSec > startDays && differenceSec <= endDays) {
     result = `${differenceDay} days ago`;
   } else if (differenceSec > endDays) {
-    result = moment(date).format(`YYYY/MM/DD HH:mm`)
+    result = moment(date).format(`YYYY/MM/DD HH:mm`);
   }
   return result;
 };
@@ -114,7 +114,7 @@ export const doSorting = (data, param, from = 0, to = data.length) => {
 };
 
 export const getInWatchlist = (items) => {
-  return items.filter((item) => !!item.inWatchlist)
+  return items.filter((item) => !!item.inWatchlist);
 };
 
 export const getWatched = (items) => {
@@ -182,7 +182,7 @@ export const findMostPopular = (array) => {
     return ``;
   }
 
-  array.forEach((item, val) => {
+  array.forEach((item) => {
     keyCounts[item] = keyCounts[item] + 1 || 1;
     if (keyCounts[item] > maxCount) {
       maxKey = item;
@@ -191,7 +191,7 @@ export const findMostPopular = (array) => {
   });
 
   return maxKey;
-}
+};
 
 export const getTopGenre = (movies) => {
   if (movies.length === 0) {

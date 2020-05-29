@@ -48,7 +48,7 @@ export default class Movie {
         "watching_date": this.watchingDate ? this.watchingDate : null,
         "favorite": this.isFavorite
       }
-    }
+    };
   }
 
   static parseMovie(data) {

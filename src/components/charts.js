@@ -1,10 +1,8 @@
-import {AVATAR_SIZE, STATS_FILTER_BY, STATS_TITLES, StatsFilterType, HIDDEN_CLASS} from '../constants.js';
+import {AVATAR_SIZE, STATS_FILTER_BY, STATS_TITLES, StatsFilterType} from '../constants.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
 import {getWatched, getTotalDuration, getTopGenre, calculateRank, filterByWatchingDate, getUniqueGenres, countWatchedByGenres} from '../utils/common.js';
-
 import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import moment from "moment";
 
 const makeRankBlock = (movies, period) => {
   const watched = getWatched(movies);
@@ -50,7 +48,7 @@ const makeStatsBlock = (movies, period) => {
   );
 };
 
-export const makeStatsFilterLink = (name, period) => {
+export const makeStatsFilterLink = (name) => {
   const short = name.toLowerCase().split(` `).join(`-`);
   return (
     `<input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-${short}" value="${short}">
@@ -58,9 +56,9 @@ export const makeStatsFilterLink = (name, period) => {
   );
 };
 
-export const makeStatsFilters = (period) => {
+export const makeStatsFilters = () => {
   const names = STATS_FILTER_BY;
-  const links = names.map((item) => makeStatsFilterLink(item, period)).join(`\n`);
+  const links = names.map((item) => makeStatsFilterLink(item)).join(`\n`);
   return (
     `<form action="https://echo.htmlacademy.ru/" method="get" class="statistic__filters">
       <p class="statistic__filters-description">Show stats:</p>
@@ -103,10 +101,10 @@ const createCharts = (movies, statisticCtx, period) => {
         datalabels: {
           font: {
             size: 20
-            },
+          },
           color: `#ffffff`,
-          anchor: 'start',
-          align: 'start',
+          anchor: `start`,
+          align: `start`,
           offset: 40,
         }
       },
@@ -121,17 +119,17 @@ const createCharts = (movies, statisticCtx, period) => {
             display: false,
             drawBorder: false
           },
-            barThickness: 24
-          }],
+          barThickness: 24
+        }],
         xAxes: [{
           ticks: {
             display: false,
             beginAtZero: true
           },
-            gridLines: {
-              display: false,
-              drawBorder: false
-            },
+          gridLines: {
+            display: false,
+            drawBorder: false
+          },
         }],
       },
       legend: {
@@ -147,7 +145,7 @@ const createCharts = (movies, statisticCtx, period) => {
 const makeFullStatsMarkup = (movies, period) => {
 
   const rank = makeRankBlock(movies, period);
-  const filters = makeStatsFilters(period);
+  const filters = makeStatsFilters();
   const stats = makeStatsBlock(movies, period);
   const charts = makeChartsBlock();
 

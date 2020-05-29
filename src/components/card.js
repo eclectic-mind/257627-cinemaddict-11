@@ -1,13 +1,12 @@
-import {cutText, makeControlLink, formatDuration, getOnlyYear} from '../utils/common.js'
+import {cutText, makeControlLink, formatDuration, getOnlyYear} from '../utils/common.js';
 import {BRIEF_MAX, CONTROLS_CARD} from '../constants.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
-import MovieModel from '../models/movies.js';
 import {encode} from 'he';
 
 const makeControlButton = (name, condition = true) => {
   const short = makeControlLink(name);
   return (
-    `<button class="film-card__controls-item button film-card__controls-item--${short} ${!!condition ? `film-card__controls-item--active` : ``}">${name}</button>`
+    `<button class="film-card__controls-item button film-card__controls-item--${short} ${condition ? `film-card__controls-item--active` : ``}">${name}</button>`
   );
 };
 
@@ -23,8 +22,8 @@ const makeControlsCard = (movie) => {
   );
 };
 
-  const makeCard = (movie) => {
-  const {title, original, description, poster, genres, duration, date, country, producer, writers, cast, rating, age, inWatchlist, isWatched, isFavorite, comments, watchingDate} = movie;
+const makeCard = (movie) => {
+  const {title, description, poster, genres, duration, date, rating, comments} = movie;
   const titleEncoded = encode(title);
   const descriptionEncoded = encode(description);
   const brief = descriptionEncoded > BRIEF_MAX ? cutText(descriptionEncoded, BRIEF_MAX) : descriptionEncoded;

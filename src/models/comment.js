@@ -14,7 +14,7 @@ export default class Comment {
       "comment": this.text,
       "date": this.dateComment,
       "emotion": this.emotion
-    }
+    };
   }
 
   static parseComment(data) {

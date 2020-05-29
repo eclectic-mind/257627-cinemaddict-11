@@ -18,4 +18,5 @@ export default class Stats extends AbstractSmartComponent {
   getTemplate() {
     return makeStats(this._movies);
   }
-};
+
+}

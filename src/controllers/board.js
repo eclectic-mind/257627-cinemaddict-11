@@ -162,4 +162,4 @@ export default class BoardController {
     this._renderButton(movies);
   }
 
-};
+}

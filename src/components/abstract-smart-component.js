@@ -15,4 +15,5 @@ export default class AbstractSmartComponent extends AbstractComponent {
     newElement.scrollTop = scrollPosition;
     this.recoveryListeners();
   }
-};
+
+}

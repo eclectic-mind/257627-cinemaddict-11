@@ -1,5 +1,4 @@
 import Movie from './models/movie.js';
-import Comment from './models/comment.js';
 import {Method} from './constants.js';
 
 const checkStatus = (response) => {
@@ -35,7 +34,7 @@ export default class API {
       body: JSON.stringify(comment),
       headers: new Headers({"Content-Type": `application/json`})
     })
-      .then((response) => response.json())
+      .then((response) => response.json());
   }
 
   deleteComment(id) {
@@ -62,5 +61,5 @@ export default class API {
       });
   }
 
-};
+}
 

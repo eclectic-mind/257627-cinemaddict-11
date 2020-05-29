@@ -20,4 +20,5 @@ export default class SpecialFilms extends AbstractComponent {
   getTemplate() {
     return makeSpecialFilms(this._subtitle);
   }
-};
+
+}

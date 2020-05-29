@@ -2,7 +2,7 @@ import {USER_RANKS, Mode, HIDDEN_CLASS} from '../constants.js';
 import moment from 'moment';
 
 export const cutText = (text, max) => {
-  let result = text.split(``).slice(0, max).join(``);
+  const result = text.split(``).slice(0, max).join(``);
   return `${result}...`;
 };
 
@@ -26,26 +26,19 @@ export const formatDateForComment = (date) => {
 
   if (differenceSec <= startMinutes) {
     result = `Now`;
-  }
-  else if (differenceSec <= startHours) {
+  } else if (differenceSec <= startHours) {
     result = `A few minutes ago`;
-  }
-  else if (differenceSec <= startToday && differenceHour === 1) {
+  } else if (differenceSec <= startToday && differenceHour === 1) {
     result = `${differenceHour} hour ago`;
-  }
-  else if (differenceSec <= startToday) {
+  } else if (differenceSec <= startToday) {
     result = `${differenceHour} hours ago`;
-  }
-  else if (differenceSec > startToday && differenceSec <= startDays) {
+  } else if (differenceSec > startToday && differenceSec <= startDays) {
     result = `Today`;
-  }
-  else if (differenceSec > startDays && differenceDay === 1) {
+  } else if (differenceSec > startDays && differenceDay === 1) {
     result = `Yesterday`;
-  }
-  else if (differenceSec > startDays && differenceSec <= endDays) {
+  } else if (differenceSec > startDays && differenceSec <= endDays) {
     result = `${differenceDay} days ago`;
-  }
-  else if (differenceSec > endDays) {
+  } else if (differenceSec > endDays) {
     result = moment(date).format(`YYYY/MM/DD HH:mm`)
   }
   return result;
@@ -54,15 +47,15 @@ export const formatDateForComment = (date) => {
 export const formatDuration = (time) => {
   const hours = Math.floor(time / 60);
   const minutes = time % 60;
-  const text = hours != 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
+  const text = hours !== 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
   return text;
 };
 
 export const formatDurationStats = (time) => {
   const hours = Math.floor(time / 60);
   const minutes = time % 60;
-  const text = hours != 0 ? `${hours} <span class="statistic__item-description">h</span> ${minutes}<span class="statistic__item-description">m</span>`
-  : `0 <span class="statistic__item-description">h</span> ${minutes}<span class="statistic__item-description">m</span>`;
+  const text = hours !== 0 ? `${hours} <span class="statistic__item-description">h</span> ${minutes}<span class="statistic__item-description">m</span>`
+    : `0 <span class="statistic__item-description">h</span> ${minutes}<span class="statistic__item-description">m</span>`;
   return text;
 };
 
@@ -100,7 +93,7 @@ export const generateFilters = (items) => {
 
 export const doSorting = (data, param, from = 0, to = data.length) => {
   let sorted = [];
-  let copy = data.slice();
+  const copy = data.slice();
   switch (param) {
     case `date`:
       sorted = copy.sort((prev, next) => new Date(next.date) - new Date(prev.date));
@@ -133,7 +126,7 @@ export const getFavorites = (items) => {
 };
 
 export const doFiltration = (data, param) => {
-  let copy = data.slice();
+  const copy = data.slice();
   switch (param) {
     case `Watchlist`:
       return getInWatchlist(copy);
@@ -149,7 +142,7 @@ export const doFiltration = (data, param) => {
 };
 
 export const sortCommentsByDate = (comments) => {
-  let result = comments.sort((prev, next) => new Date(next.dateComment) - new Date(prev.dateComment));
+  const result = comments.sort((prev, next) => new Date(next.dateComment) - new Date(prev.dateComment));
   return result;
 };
 
@@ -168,7 +161,7 @@ export const getTotalDuration = (movies) => {
 
 export const getWatchedGenres = (movies) => {
   const watched = getWatched(movies);
-  let allGenres = [];
+  const allGenres = [];
   watched.forEach((item) => allGenres.push(item.genres));
   const merged = [].concat.apply([], allGenres);
   return merged;
@@ -181,7 +174,7 @@ export const getUniqueGenres = (movies) => {
 };
 
 export const findMostPopular = (array) => {
-  let keyCounts = {};
+  const keyCounts = {};
   let maxCount = 0;
   let maxKey = null;
 
@@ -254,7 +247,7 @@ export const filterByWatchingYear = (data) => {
 };
 
 export const filterByWatchingDate = (data, period) => {
-  let copy = data.slice();
+  const copy = data.slice();
   switch (period) {
     case `all-time`:
       return copy;

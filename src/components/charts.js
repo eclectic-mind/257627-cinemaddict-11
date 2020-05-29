@@ -219,4 +219,4 @@ export default class Charts extends AbstractSmartComponent {
     });
   }
 
-};
+}

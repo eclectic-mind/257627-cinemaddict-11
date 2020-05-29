@@ -18,7 +18,7 @@ export default class Movie {
     this.isWatched = Boolean(data.user_details.already_watched);
     this.isFavorite = Boolean(data.user_details.favorite);
     this.comments = data.comments;
-    this.watchingDate = data.user_details.watching_date
+    this.watchingDate = data.user_details.watching_date;
   }
 
   toRAW() {
@@ -62,4 +62,4 @@ export default class Movie {
   static clone(data) {
     return new Movie(data.toRAW());
   }
-};
+}

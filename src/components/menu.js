@@ -86,4 +86,4 @@ export default class Menu extends AbstractSmartComponent {
     this.setToggleMode(this._toggleModehandler);
   }
 
-};
+}

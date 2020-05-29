@@ -50,4 +50,4 @@ export default class Movies {
   _callHandlers(handlers) {
     handlers.forEach((handler) => handler());
   }
-};
+}

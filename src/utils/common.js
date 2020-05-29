@@ -214,15 +214,17 @@ export const countWatchedByGenres = (movies) => {
 };
 
 export const calculateRank = (quantity) => {
+  let result = ``;
   if (quantity >= 1 && quantity <= 10) {
-    return USER_RANKS[0];
+    result = USER_RANKS[0];
   }
   if (quantity >= 11 && quantity <= 20) {
-    return USER_RANKS[1];
+    result = USER_RANKS[1];
   }
   if (quantity >= 21) {
-    return USER_RANKS[2];
+    result = USER_RANKS[2];
   }
+  return result;
 };
 
 export const filterByWatchingDay = (data) => {

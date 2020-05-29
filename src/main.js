@@ -1,5 +1,5 @@
 import API from './api.js';
-import {hideElement, showElement} from './utils/common.js';
+import {modeSwitcher} from './utils/common.js';
 import {render, RenderPosition} from './utils/render.js';
 import MoviesModel from './models/movies.js';
 import FilterController from './controllers/filter.js';
@@ -30,18 +30,18 @@ render(pageMain, board, RenderPosition.BEFOREEND);
 api.getMovies()
   .then((movies) => {
     moviesModel.setMovies(movies);
+
     boardController.render();
+
     const charts = new ChartsComponent(moviesModel);
     render(pageMain, charts, RenderPosition.BEFOREEND);
-// moviesModel.setDataChangeHandler(charts.rerender);
-//hideElement(charts.getElement());
-// charts.hide();
+    moviesModel.setDataChangeHandler(charts.rerender);
+    modeSwitcher(`board`);
 
     const userRank = new RankComponent(moviesModel);
     moviesModel.setDataChangeHandler(userRank.rerender);
+    render(header, userRank, RenderPosition.BEFOREEND);
 
     const stats = new StatsComponent(moviesModel);
-
-    render(header, userRank, RenderPosition.BEFOREEND);
     render(statsContainer, stats, RenderPosition.AFTERBEGIN);
   });

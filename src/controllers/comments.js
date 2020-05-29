@@ -1,4 +1,4 @@
-import {EMOTIONS} from '../constants.js';
+import {EMOTIONS, SHAKE_ANIMATION_TIMEOUT} from '../constants.js';
 import CommentsComponent from '../components/comments.js';
 import CommentModel from '../models/comment.js';
 import MovieModel from '../models/movie.js';
@@ -20,6 +20,9 @@ export default class CommentsController {
 
     this._commentsComponent.setDeleteCommentHandler((id) => {
       this._api.deleteComment(id).then(() => {
+        this._commentsComponent.setData({
+          deleteButtonText: `Deleting...`,
+        });
         this._commentsModel.deleteComment(id);
         this._onDataChange(this._commentsModel.getCommentsIds());
         this._commentsComponent.updateComments(this._commentsModel.getComments());
@@ -32,6 +35,21 @@ export default class CommentsController {
         this._onDataChange(MovieModel.parseMovie(response.movie).comments);
         this._commentsComponent.updateComments(this._commentsModel.getComments());
       })
+      .catch(() => {
+        const commentForm = document.querySelector(`.film-details__new-comment`);
+        this.shake(commentForm);
+        });
     });
   }
+
+  shake(element) {
+    element.style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
+    setTimeout(() => {
+      element.style.animation = ``;
+      this._commentsComponent.setData({
+        deleteButtonText: `Delete`,
+      });
+    }, SHAKE_ANIMATION_TIMEOUT);
+  }
+
 };

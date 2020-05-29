@@ -103,7 +103,7 @@ export const doSorting = (data, param, from = 0, to = data.length) => {
   let copy = data.slice();
   switch (param) {
     case `date`:
-      sorted = copy.sort((prev, next) => next.date - prev.date);
+      sorted = copy.sort((prev, next) => new Date(next.date) - new Date(prev.date));
       break;
     case `rating`:
       sorted = copy.sort((prev, next) => next.rating - prev.rating);
@@ -272,18 +272,22 @@ export const filterByWatchingDate = (data, period) => {
 };
 
 export const hideElement = (element) => {
-  if (element) {
+  if (element && !element.classList.contains(HIDDEN_CLASS)) {
     element.classList.add(HIDDEN_CLASS);
   }
 };
 
 export const showElement = (element) => {
-  if (element) {
+  if (element && element.classList.contains(HIDDEN_CLASS)) {
     element.classList.remove(HIDDEN_CLASS);
   }
 };
 
-export const modeSwitcher = (value, charts, board, sort) => {
+export const modeSwitcher = (value) => {
+  const charts = document.querySelector(`.statistic`);
+  const board = document.querySelector(`.films`);
+  const sort = document.querySelector(`.sort`);
+
   switch (value) {
     case Mode.BOARD:
       hideElement(charts);
@@ -298,18 +302,12 @@ export const modeSwitcher = (value, charts, board, sort) => {
   }
 };
 
-/* export const modeSwitcher = (value, charts, board, sort) => {
-  console.log(value, charts, board, sort);
-  switch (value) {
-    case Mode.BOARD:
-      charts.hide();
-      board.show();
-      sort.show();
-      break;
-    case Mode.CHARTS:
-      board.hide();
-      sort.hide();
-      charts.show();
-      break;
-  }
-}; */
+export const checkNoRatings = (data) => {
+  const ratings = data.filter((item) => item.rating > 0);
+  return ratings.length === 0 ? true : false;
+};
+
+export const checkNoComments = (data) => {
+  const commented = data.filter((item) => item.comments.length > 0);
+  return commented.length === 0 ? true : false;
+};

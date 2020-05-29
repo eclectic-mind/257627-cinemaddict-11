@@ -15,13 +15,4 @@ export default class Board extends AbstractSmartComponent {
     return makeBoard();
   }
 
-  /* show() {
-    super.show();
-    this.rerender();
-  }
-
-  hide() {
-    super.hide();
-    this.rerender();
-  } */
 };

@@ -19,6 +19,10 @@ export const DESCR_MAX = 5;
 export const DESCR_MIN = 1;
 export const BRIEF_MAX = 140;
 export const EMOTIONS = [`smile`, `sleeping`, `puke`, `angry`];
+export const SHAKE_ANIMATION_TIMEOUT = 600;
+export const DefaultData = {
+  deleteButtonText: `Delete`,
+};
 export const Mode = {
   BOARD: `board`,
   CHARTS: `charts`,

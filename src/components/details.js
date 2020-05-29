@@ -5,7 +5,7 @@ import {encode} from 'he';
 
 const makeControl = (name, condition = true) => {
   const short = makeControlLinkPopup(name);
-  const active = !!condition ? `checked` : ``;
+  const active = condition ? `checked` : ``;
   return (
     `<input type="checkbox" class="film-details__control-input visually-hidden" id="${short}" name="${short}" ${active}>
      <label for="${short}" class="film-details__control-label film-details__control-label--${short}">${name}</label>`
@@ -26,13 +26,13 @@ const makeControlsDetails = (movie) => {
 
 const makeCloseButton = () => {
   return (
-  `<button class="film-details__close-btn" type="button">close</button>`
+    `<button class="film-details__close-btn" type="button">close</button>`
   );
-}
+};
 
 export const makeDetails = (movie, options = {}) => {
   const {title, original, description, poster, genres, duration, date, country, producer, writers, cast, rating, age} = movie;
-  const {inWatchlist, isWatched, isFavorite, watchingDate, comments} = options;
+  const {} = options;
   const durationFormatted = formatDuration(duration);
   const genresTitle = genres.length > 1 ? `Genres` : `Genre`;
   const genresAll = genres.join(`, `);

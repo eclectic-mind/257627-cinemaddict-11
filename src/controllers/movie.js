@@ -1,24 +1,10 @@
 import {render, replace, remove, RenderPosition} from '../utils/render.js';
-import CommentsComponent from '../components/comments.js';
 import CommentsModel from '../models/comments.js';
 import CommentModel from '../models/comment.js';
 import CommentsController from '../controllers/comments.js';
 import CardComponent from '../components/card.js';
 import DetailsComponent from '../components/details.js';
 import MovieModel from '../models/movie.js';
-import API from '../api.js';
-
-const parseFormData = (formData) => {
-  return new MovieModel({
-    "comments": formData.get(`comments`),
-    "user_details": {
-      "watchlist": false,
-      "already_watched": false,
-      "watching_date": formData.get(`watchingDate`),
-      "favorite": false
-    }
-  });
-};
 
 export default class MovieController {
 
@@ -40,13 +26,12 @@ export default class MovieController {
     this._card = new CardComponent(movie);
     this._emotion = null;
     const body = this._body;
-    const card = this._card.getElement();
 
     const onCommentsUpdate = (comments) => {
       const newMovie = MovieModel.clone(movie);
       newMovie.comments = comments;
       this._onDataChange(this, movie, newMovie);
-    }
+    };
 
     const setPopupHandlers = () => {
       this._popup.setPopupCloserClickHandler((evt) => {
@@ -102,7 +87,6 @@ export default class MovieController {
     this._card.setPopupOpenerClickHandler((evt) => {
       evt.preventDefault();
       this._popup = new DetailsComponent(movie);
-      const popup = this._popup.getElement();
       document.addEventListener(`keydown`, this._onEscKeyDown);
 
       if (!body.querySelector(`.film-details`)) {

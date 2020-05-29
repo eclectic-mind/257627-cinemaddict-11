@@ -7,9 +7,7 @@ export const makeUserRank = (movies) => {
   const rank = calculateRank(quantity);
   if (quantity < 1) {
     return ` `;
-  }
-
-  else {
+  } else {
     return (
       `<section class="header__profile profile">
       <p class="profile__rating">${rank}</p>

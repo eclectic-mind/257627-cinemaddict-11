@@ -103,7 +103,7 @@ export const doSorting = (data, param, from = 0, to = data.length) => {
   let copy = data.slice();
   switch (param) {
     case `date`:
-      sorted = copy.sort((prev, next) => next.date - prev.date);
+      sorted = copy.sort((prev, next) => new Date(next.date) - new Date(prev.date));
       break;
     case `rating`:
       sorted = copy.sort((prev, next) => next.rating - prev.rating);

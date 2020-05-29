@@ -54,8 +54,8 @@ export default class BoardController {
       return;
     }
 
-    render(this._pageMain, sorting, RenderPosition.AFTERBEGIN);
     render(list, this._films, RenderPosition.BEFOREEND);
+    render(container, sorting, RenderPosition.BEFOREBEGIN);
 
     const moviesSorted = doSorting(movies, this._sorting.getSortType());
 
@@ -136,6 +136,7 @@ export default class BoardController {
     const list = this._films.getElement();
     list.innerHTML = ``;
     const firstMovies = moviesSorted.slice(0, showingMoviesCount);
+    // const firstMovies = moviesSorted.slice();
     const newFilmCards = renderFilms(list, firstMovies, this._api, this._onDataChange);
     this._showedMovieControllers = newFilmCards;
     remove(this._button);

@@ -1,4 +1,4 @@
-import {USER_RANKS, Mode, HIDDEN_CLASS} from '../constants.js';
+import {USER_RANKS, Mode, HIDDEN_CLASS, USER_NOVICE, USER_FAN, USER_BUFF} from '../constants.js';
 import moment from 'moment';
 
 export const cutText = (text, max) => {
@@ -78,17 +78,8 @@ export const makeControlLinkPopup = (name) => {
   return name === `Add to favorites` ? `favorite` : array[array.length - 1].toLowerCase();
 };
 
-export const generateFilters = (items) => {
-  const allCount = items.length;
-  const watchlistCount = getInWatchlist(items).length;
-  const historyCount = getWatched(items).length;
-  const favoritesCount = getFavorites(items).length;
-  return [
-    {title: `All`, count: allCount},
-    {title: `Watchlist`, count: watchlistCount},
-    {title: `History`, count: historyCount},
-    {title: `Favorites`, count: favoritesCount}
-  ];
+export const makeStatsLinkTitle = (name) => {
+  return name.charAt(0).toUpperCase() + name.slice(1);
 };
 
 export const doSorting = (data, param, from = 0, to = data.length) => {
@@ -215,13 +206,13 @@ export const countWatchedByGenres = (movies) => {
 
 export const calculateRank = (quantity) => {
   let result = ``;
-  if (quantity >= 1 && quantity <= 10) {
+  if (quantity >= USER_NOVICE && quantity <= USER_FAN) {
     result = USER_RANKS[0];
   }
-  if (quantity >= 11 && quantity <= 20) {
+  if (quantity > USER_FAN && quantity <= USER_BUFF) {
     result = USER_RANKS[1];
   }
-  if (quantity >= 21) {
+  if (quantity > USER_BUFF) {
     result = USER_RANKS[2];
   }
   return result;

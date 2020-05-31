@@ -1,11 +1,13 @@
 import API from './api.js';
 import {modeSwitcher} from './utils/common.js';
-import {render, RenderPosition} from './utils/render.js';
+import {render, remove, RenderPosition} from './utils/render.js';
 import MoviesModel from './models/movies.js';
 import FilterController from './controllers/filter.js';
-import StatsComponent from './components/footer-stats.js';
+import LoadingComponent from './components/loading.js';
+import SortingComponent from './components/sorting.js';
+import FooterStatsComponent from './components/footer-stats.js';
 import ChartsComponent from './components/charts.js';
-import RankComponent from './components/header-rank.js';
+import HeaderRankComponent from './components/header-rank.js';
 import BoardComponent from './components/board.js';
 import BoardController from './controllers/board.js';
 
@@ -22,26 +24,36 @@ const moviesModel = new MoviesModel();
 const menu = new FilterController(pageMain, moviesModel);
 menu.render();
 
-const board = new BoardComponent();
-const boardController = new BoardController(board, moviesModel, api);
-
-render(pageMain, board, RenderPosition.BEFOREEND);
+const sorting = new SortingComponent();
+render(pageMain, sorting, RenderPosition.BEFOREEND);
+const loading = new LoadingComponent();
+render(pageMain, loading, RenderPosition.BEFOREEND);
+let stats = new FooterStatsComponent(moviesModel);
+render(statsContainer, stats, RenderPosition.AFTERBEGIN);
 
 api.getMovies()
   .then((movies) => {
     moviesModel.setMovies(movies);
+    const userRank = new HeaderRankComponent(moviesModel);
+    moviesModel.setDataChangeHandler(userRank.rerender);
+    render(header, userRank, RenderPosition.BEFOREEND);
+})
+  .finally(() => {
 
+    remove(loading);
+    remove(sorting);
+    remove(stats);
+
+    stats = new FooterStatsComponent(moviesModel);
+    render(statsContainer, stats, RenderPosition.AFTERBEGIN);
+
+    const board = new BoardComponent();
+    const boardController = new BoardController(board, moviesModel, api);
+    render(pageMain, board, RenderPosition.BEFOREEND);
     boardController.render();
 
     const charts = new ChartsComponent(moviesModel);
     render(pageMain, charts, RenderPosition.BEFOREEND);
     moviesModel.setDataChangeHandler(charts.rerender);
     modeSwitcher(`board`);
-
-    const userRank = new RankComponent(moviesModel);
-    moviesModel.setDataChangeHandler(userRank.rerender);
-    render(header, userRank, RenderPosition.BEFOREEND);
-
-    const stats = new StatsComponent(moviesModel);
-    render(statsContainer, stats, RenderPosition.AFTERBEGIN);
   });

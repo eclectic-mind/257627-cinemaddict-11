@@ -17,7 +17,7 @@ export const makeUserRank = (movies) => {
   }
 };
 
-export default class Rank extends AbstractSmartComponent {
+export default class HeaderRank extends AbstractSmartComponent {
   constructor(moviesModel) {
     super();
     this._moviesModel = moviesModel;

@@ -1,7 +1,11 @@
+export const RESPONSE_STATUS_MIN = 200;
+export const RESPONSE_STATUS_MAX = 300;
 export const CARDS_QUANTITY_ON_START = 5;
 export const CARDS_QUANTITY_MORE = 5;
 export const CARDS_QUANTITY_RATINGS = 2;
+export const ALL_MOVIES_TEXT = `All movies. Upcoming`;
 export const NO_MOVIES_TEXT = `There are no movies in our database`;
+export const LOADING_TEXT = `Loading...`;
 export const HIDDEN_CLASS = `visually-hidden`;
 export const BUTTON_NAME = `Show more`;
 export const ACTIVE_MENU_CLASS = `main-navigation__item--active`;
@@ -20,6 +24,10 @@ export const DESCR_MIN = 1;
 export const BRIEF_MAX = 140;
 export const EMOTIONS = [`smile`, `sleeping`, `puke`, `angry`];
 export const SHAKE_ANIMATION_TIMEOUT = 600;
+export const USER_NOVICE = 1;
+export const USER_FAN = 10;
+export const USER_BUFF = 20;
+export const BAR_HEIGHT = 50;
 export const DefaultData = {
   deleteButtonText: `Delete`,
 };
@@ -37,6 +45,7 @@ export const FilterType = {
   WATCHLIST: `Watchlist`,
   HISTORY: `History`,
   FAVORITES: `Favorites`,
+  STATS: `Stats`,
 };
 export const StatsFilterType = {
   ALL: `all-time`,

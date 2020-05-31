@@ -1,8 +1,8 @@
 import Movie from './models/movie.js';
-import {Method} from './constants.js';
+import {Method, RESPONSE_STATUS_MIN, RESPONSE_STATUS_MAX} from './constants.js';
 
 const checkStatus = (response) => {
-  if (response.status >= 200 && response.status < 300) {
+  if (response.status >= RESPONSE_STATUS_MIN && response.status < RESPONSE_STATUS_MAX) {
     return response;
   } else {
     throw new Error(`${response.status}: ${response.statusText}`);

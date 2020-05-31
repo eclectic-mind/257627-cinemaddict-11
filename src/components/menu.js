@@ -13,8 +13,8 @@ export const makeFilter = (filter) => {
 
 export const makeMenuMarkup = (filters) => {
   const filterAll = `<a href="#${menuLinks[0]}" class="main-navigation__item ${filters[0].checked ? ACTIVE_MENU_CLASS : ``}">${MENU_ITEMS[0]}</a>`;
-  const aloneLink = `<a href="#${menuLinks[4]}" class="main-navigation__additional">${MENU_ITEMS[4]}</a>`;
-  const filtersVisible = filters.slice(1);
+  const aloneLink = `<a href="#${menuLinks[4]}" class="main-navigation__additional ${filters[4].checked ? ACTIVE_MENU_CLASS : ``}">${MENU_ITEMS[4]}</a>`;
+  const filtersVisible = filters.slice(1, 4);
   const menuMarkup = filtersVisible.map((item) => makeFilter(item)).join(`\n`);
   return (
     `<nav class="main-navigation">
@@ -45,17 +45,14 @@ export default class Menu extends AbstractSmartComponent {
     this._filterChangeHandler = handlerFiltering;
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
-
-      if (evt.target.tagName !== `A`) {
+      const element = evt.target;
+      if (element.tagName !== `A`) {
         return;
       }
 
-      const filterName = evt.target.innerHTML;
+      const filterName = element.innerHTML;
       const filterType = filterName.split(` `)[0];
 
-      if (filterType === `Stats`) {
-        return;
-      }
       if (this._currentFilterType === filterType) {
         return;
       }
@@ -71,10 +68,11 @@ export default class Menu extends AbstractSmartComponent {
 
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
-      if (evt.target.tagName !== `A`) {
+      const element = evt.target;
+      if (element.tagName !== `A`) {
         return;
       }
-      const clicked = evt.target.href;
+      const clicked = element.href;
       const link = clicked.toLowerCase().split(`#`)[1];
       const value = link === `stats` ? Mode.CHARTS : Mode.BOARD;
       this._toggleModehandler(value);

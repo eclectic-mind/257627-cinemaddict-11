@@ -164,16 +164,36 @@ export default class BoardController {
     this._renderButton(moviesSorted);
   } */
 
-  _onSortTypeChange(sortType) {
+  /* _onSortTypeChange(sortType) {
     const showingMoviesCount = CARDS_QUANTITY_ON_START;
     const moviesSorted = doSorting(this._moviesModel.getMovies(), sortType);
     const list = this._filmsList.getElement();
-    list.innerHTML = ``;
+    // list.innerHTML = ``;
+    const films = this._filmsContainer;
+    films.innerHTML = ``;
+    render(list, films, RenderPosition.BEFOREEND);
+
+console.log(list);
+
+
     const firstMovies = moviesSorted.slice(0, showingMoviesCount);
-    const newFilmCards = renderFilms(list, firstMovies, this._api, this._onDataChange);
-    this._showedMovieControllers = newFilmCards;
+    const newFilmCards = renderFilms(films.getElement(), firstMovies, this._api, this._onDataChange);
+    // const newFilmCards = renderFilms(list, firstMovies, this._api, this._onDataChange);
+    // this._showedMovieControllers = newFilmCards;
     remove(this._button);
     this._button.removeElement();
+    this._renderMovies(moviesSorted);
+    this._renderButton(moviesSorted);
+  } */
+
+  _onSortTypeChange(sortType) {
+    this._removeMovies();
+    remove(this._button);
+    this._button.removeElement();
+
+    const moviesSorted = doSorting(this._moviesModel.getMovies(), sortType);
+    this._renderMovies(moviesSorted);
+    this._renderButton(moviesSorted);
   }
 
   _onFilterTypeChange() {

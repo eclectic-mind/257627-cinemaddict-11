@@ -75,7 +75,6 @@ export default class Menu extends AbstractSmartComponent {
       const clicked = element.href;
       const link = clicked.toLowerCase().split(`#`)[1];
       const value = link === `stats` ? Mode.CHARTS : Mode.BOARD;
-      // element.checked: !element.checked;
       this._toggleModehandler(value);
     });
   }

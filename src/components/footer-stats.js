@@ -8,7 +8,7 @@ export const makeStats = (movies) => {
   );
 };
 
-export default class Stats extends AbstractSmartComponent {
+export default class FooterStats extends AbstractSmartComponent {
   constructor(moviesModel) {
     super();
     this._moviesModel = moviesModel;

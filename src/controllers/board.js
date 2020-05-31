@@ -1,11 +1,11 @@
 import {CARDS_QUANTITY_ON_START, CARDS_QUANTITY_RATINGS, CARDS_QUANTITY_MORE, SUBTITLES} from '../constants.js';
 import {doSorting, checkNoRatings, checkNoComments} from '../utils/common.js';
 import {render, remove, RenderPosition} from '../utils/render.js';
-import LoadMoreButtonComponent from '../components/button.js';
-import FilmsContainerComponent from '../components/films.js';
-import SortingComponent from '../components/sort.js';
+import ButtonComponent from '../components/button.js';
+import FilmsContainerComponent from '../components/films-container.js';
+import SortingComponent from '../components/sorting.js';
 import MovieController from './movie.js';
-import SpecialFilmsComponent from '../components/special.js';
+import SpecialFilmsContainerComponent from '../components/special-films-container.js';
 import NoFilmsComponent from '../components/no-films.js';
 
 const renderFilms = (filmsListContainer, items, api, onDataChange) => {
@@ -25,13 +25,11 @@ export default class BoardController {
     this._noFilms = new NoFilmsComponent();
     this._sorting = new SortingComponent();
     this._films = new FilmsContainerComponent();
-    this._button = new LoadMoreButtonComponent();
+    this._button = new ButtonComponent();
     this._showedMovieControllers = [];
     this._showingMoviesCount = CARDS_QUANTITY_ON_START;
     this._onDataChange = this._onDataChange.bind(this);
     this._onSortTypeChange = this._onSortTypeChange.bind(this);
-    this._films = new FilmsContainerComponent();
-    this._button = new LoadMoreButtonComponent();
     this._onFilterTypeChange = this._onFilterTypeChange.bind(this);
     this._sorting.setSortTypeChangeHandler(this._onSortTypeChange);
     this._moviesModel.setFilterChangeHandler(this._onFilterTypeChange);
@@ -75,7 +73,7 @@ export default class BoardController {
   _renderTopMovies(movies = this._moviesModel.getMovies()) {
     const container = this._container.getElement();
     if (!checkNoRatings(movies)) {
-      this._top = new SpecialFilmsComponent(SUBTITLES[0]);
+      this._top = new SpecialFilmsContainerComponent(SUBTITLES[0]);
       const boxTop = this._top.getElement().querySelector(`.films-list__container`);
       const topMovies = doSorting(movies, `rating`);
       renderFilms(boxTop, topMovies.slice(0, CARDS_QUANTITY_RATINGS), this._api, this._onDataChange);
@@ -86,7 +84,7 @@ export default class BoardController {
   _renderMostMovies(movies = this._moviesModel.getMovies()) {
     const container = this._container.getElement();
     if (!checkNoComments(movies)) {
-      this._most = new SpecialFilmsComponent(SUBTITLES[1]);
+      this._most = new SpecialFilmsContainerComponent(SUBTITLES[1]);
       const boxMost = this._most.getElement().querySelector(`.films-list__container`);
       const mostMovies = doSorting(movies, `comments`);
       renderFilms(boxMost, mostMovies.slice(0, CARDS_QUANTITY_RATINGS), this._api, this._onDataChange);

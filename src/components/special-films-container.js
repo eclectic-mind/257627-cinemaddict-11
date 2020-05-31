@@ -10,7 +10,7 @@ export const makeSpecialFilms = (subtitle) => {
   );
 };
 
-export default class SpecialFilms extends AbstractComponent {
+export default class SpecialFilmsContainer extends AbstractComponent {
   constructor(subtitle) {
     super();
     this._subtitle = subtitle;

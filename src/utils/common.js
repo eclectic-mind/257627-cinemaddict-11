@@ -78,6 +78,10 @@ export const makeControlLinkPopup = (name) => {
   return name === `Add to favorites` ? `favorite` : array[array.length - 1].toLowerCase();
 };
 
+export const makeStatsLinkTitle = (name) => {
+  return name.charAt(0).toUpperCase() + name.slice(1);
+};
+
 export const generateFilters = (items) => {
   const allCount = items.length;
   const watchlistCount = getInWatchlist(items).length;

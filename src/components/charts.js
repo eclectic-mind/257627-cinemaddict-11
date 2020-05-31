@@ -1,6 +1,6 @@
-import {AVATAR_SIZE, STATS_FILTER_BY, STATS_TITLES, StatsFilterType} from '../constants.js';
+import {AVATAR_SIZE, STATS_FILTER_BY, STATS_TITLES, BAR_HEIGHT, HIDDEN_CLASS, StatsFilterType} from '../constants.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
-import {getWatched, getTotalDuration, getTopGenre, calculateRank, filterByWatchingDate, getUniqueGenres, countWatchedByGenres} from '../utils/common.js';
+import {getWatched, getTotalDuration, getTopGenre, calculateRank, filterByWatchingDate, getUniqueGenres, countWatchedByGenres, makeStatsLinkTitle} from '../utils/common.js';
 import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
@@ -48,21 +48,31 @@ const makeStatsBlock = (movies, period) => {
   );
 };
 
-export const makeStatsFilterLink = (name) => {
-  const short = name.toLowerCase().split(` `).join(`-`);
+const makeStatsFilter = (filter) => {
+  const {name, checked} = filter;
+  const isChecked = checked ? `checked` : ``;
+  const title = makeStatsLinkTitle(name.split(`-`).join(` `));
   return (
-    `<input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-${short}" value="${short}">
-    <label for="statistic-${short}" class="statistic__filters-label">${name}</label>`
+    `<input type="radio" class="statistic__filters-input ${HIDDEN_CLASS}" name="statistic-filter" id="statistic-${name}"
+    value="${name}" ${isChecked}>
+    <label for="statistic-${name}" class="statistic__filters-label">${title}</label>`
   );
 };
 
-export const makeStatsFilters = () => {
-  const names = STATS_FILTER_BY;
-  const links = names.map((item) => makeStatsFilterLink(item)).join(`\n`);
+export const makeStatsFiltersMarkup = (currentStatsFilterType) => {
+  const filters = Object.values(StatsFilterType).map((item) => {
+    return {
+      name: item,
+      checked: item === currentStatsFilterType,
+    };
+  });
+
+  const filtersMarkup = filters.map((item) => makeStatsFilter(item)).join(``);
+
   return (
-    `<form action="https://echo.htmlacademy.ru/" method="get" class="statistic__filters">
+  `<form action="https://echo.htmlacademy.ru/" method="get" class="statistic__filters">
       <p class="statistic__filters-description">Show stats:</p>
-      ${links}
+      ${filtersMarkup}
     </form>`
   );
 };
@@ -77,7 +87,6 @@ const makeChartsBlock = () => {
 };
 
 const createCharts = (movies, statisticCtx, period) => {
-  const BAR_HEIGHT = 50;
   statisticCtx.height = BAR_HEIGHT * 5;
   const watched = getWatched(movies);
   const moviesFiltered = filterByWatchingDate(watched, period);
@@ -145,7 +154,7 @@ const createCharts = (movies, statisticCtx, period) => {
 const makeFullStatsMarkup = (movies, period) => {
 
   const rank = makeRankBlock(movies, period);
-  const filters = makeStatsFilters();
+  const filters = makeStatsFiltersMarkup(period);
   const stats = makeStatsBlock(movies, period);
   const charts = makeChartsBlock();
 
@@ -168,13 +177,13 @@ export default class Charts extends AbstractSmartComponent {
     this._filmsChart = null;
     this._moviesFiltered = filterByWatchingDate(this._movies, this._currentStatsFilterType);
     this._renderCharts(this._moviesFiltered, this._currentStatsFilterType);
+    this._statsFilterTypeChangeHandler = null;
     this.setStatsFilterTypeChangeHandler();
     this.rerender = this.rerender.bind(this);
   }
 
   getTemplate() {
     return makeFullStatsMarkup(this._moviesModel.getMoviesAll(), this._currentStatsFilterType);
-
   }
 
   _renderCharts(movies, period) {
@@ -189,6 +198,7 @@ export default class Charts extends AbstractSmartComponent {
 
   rerender() {
     super.rerender();
+    this.recoveryListeners();
   }
 
   recoveryListeners() {
@@ -199,19 +209,22 @@ export default class Charts extends AbstractSmartComponent {
     this.rerender();
   }
 
-  setStatsFilterTypeChangeHandler() {
-    this.getElement().querySelector(`.statistic__filters`).addEventListener(`input`, (evt) => {
+  setStatsFilterTypeChangeHandler(handler) {
+    this._statsFilterTypeChangeHandler = handler;
+    this.getElement().querySelector(`.statistic__filters`).addEventListener(`change`, (evt) => {
       evt.preventDefault();
+      const element = evt.target;
 
-      if (evt.target.tagName !== `INPUT`) {
+      if (element.tagName !== `INPUT`) {
         return;
       }
-      const filterType = evt.target.value;
+      const filterType = element.value;
       if (this._currentStatsFilterType === filterType) {
         return;
       }
 
       this._currentStatsFilterType = filterType;
+      element.isChecked = true;
       this.rerender();
       this._renderCharts(this._moviesModel.getMoviesAll(), this._currentStatsFilterType);
     });

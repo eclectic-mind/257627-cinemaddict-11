@@ -27,6 +27,7 @@ export const SHAKE_ANIMATION_TIMEOUT = 600;
 export const USER_NOVICE = 1;
 export const USER_FAN = 10;
 export const USER_BUFF = 20;
+export const BAR_HEIGHT = 50;
 export const DefaultData = {
   deleteButtonText: `Delete`,
 };

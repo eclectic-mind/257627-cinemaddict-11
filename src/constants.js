@@ -5,6 +5,7 @@ export const CARDS_QUANTITY_MORE = 5;
 export const CARDS_QUANTITY_RATINGS = 2;
 export const ALL_MOVIES_TEXT = `All movies. Upcoming`;
 export const NO_MOVIES_TEXT = `There are no movies in our database`;
+export const LOADING_TEXT = `Loading...`;
 export const HIDDEN_CLASS = `visually-hidden`;
 export const BUTTON_NAME = `Show more`;
 export const ACTIVE_MENU_CLASS = `main-navigation__item--active`;

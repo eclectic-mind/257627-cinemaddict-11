@@ -82,19 +82,6 @@ export const makeStatsLinkTitle = (name) => {
   return name.charAt(0).toUpperCase() + name.slice(1);
 };
 
-export const generateFilters = (items) => {
-  const allCount = items.length;
-  const watchlistCount = getInWatchlist(items).length;
-  const historyCount = getWatched(items).length;
-  const favoritesCount = getFavorites(items).length;
-  return [
-    {title: `All`, count: allCount},
-    {title: `Watchlist`, count: watchlistCount},
-    {title: `History`, count: historyCount},
-    {title: `Favorites`, count: favoritesCount}
-  ];
-};
-
 export const doSorting = (data, param, from = 0, to = data.length) => {
   let sorted = [];
   const copy = data.slice();

@@ -45,6 +45,7 @@ export const FilterType = {
   WATCHLIST: `Watchlist`,
   HISTORY: `History`,
   FAVORITES: `Favorites`,
+  STATS: `Stats`,
 };
 export const StatsFilterType = {
   ALL: `all-time`,

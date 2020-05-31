@@ -1,7 +1,7 @@
 import AbstractSmartComponent from './abstract-smart-component.js';
 import {countAllMovies} from "../utils/common.js";
 
-export const makeStats = (movies) => {
+export const makeStats = (movies = null) => {
   const all = countAllMovies(movies);
   return (
     `<p>${all} movies inside</p>`

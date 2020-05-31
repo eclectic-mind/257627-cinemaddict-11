@@ -28,23 +28,24 @@ const sorting = new SortingComponent();
 render(pageMain, sorting, RenderPosition.BEFOREEND);
 const loading = new LoadingComponent();
 render(pageMain, loading, RenderPosition.BEFOREEND);
+let stats = new FooterStatsComponent(moviesModel);
+render(statsContainer, stats, RenderPosition.AFTERBEGIN);
 
 api.getMovies()
   .then((movies) => {
     moviesModel.setMovies(movies);
-
     const userRank = new HeaderRankComponent(moviesModel);
     moviesModel.setDataChangeHandler(userRank.rerender);
     render(header, userRank, RenderPosition.BEFOREEND);
-
-    const stats = new FooterStatsComponent(moviesModel);
-    render(statsContainer, stats, RenderPosition.AFTERBEGIN);
-
 })
   .finally(() => {
 
     remove(loading);
     remove(sorting);
+    remove(stats);
+
+    stats = new FooterStatsComponent(moviesModel);
+    render(statsContainer, stats, RenderPosition.AFTERBEGIN);
 
     const board = new BoardComponent();
     const boardController = new BoardController(board, moviesModel, api);

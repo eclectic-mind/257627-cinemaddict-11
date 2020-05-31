@@ -1,4 +1,4 @@
-import {USER_RANKS, Mode, HIDDEN_CLASS} from '../constants.js';
+import {USER_RANKS, Mode, HIDDEN_CLASS, USER_NOVICE, USER_FAN, USER_BUFF} from '../constants.js';
 import moment from 'moment';
 
 export const cutText = (text, max) => {
@@ -215,13 +215,13 @@ export const countWatchedByGenres = (movies) => {
 
 export const calculateRank = (quantity) => {
   let result = ``;
-  if (quantity >= 1 && quantity <= 10) {
+  if (quantity >= USER_NOVICE && quantity <= USER_FAN) {
     result = USER_RANKS[0];
   }
-  if (quantity >= 11 && quantity <= 20) {
+  if (quantity > USER_FAN && quantity <= USER_BUFF) {
     result = USER_RANKS[1];
   }
-  if (quantity >= 21) {
+  if (quantity > USER_BUFF) {
     result = USER_RANKS[2];
   }
   return result;

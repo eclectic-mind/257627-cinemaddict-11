@@ -1,3 +1,5 @@
+export const RESPONSE_STATUS_MIN = 200;
+export const RESPONSE_STATUS_MAX = 300;
 export const CARDS_QUANTITY_ON_START = 5;
 export const CARDS_QUANTITY_MORE = 5;
 export const CARDS_QUANTITY_RATINGS = 2;
@@ -20,6 +22,9 @@ export const DESCR_MIN = 1;
 export const BRIEF_MAX = 140;
 export const EMOTIONS = [`smile`, `sleeping`, `puke`, `angry`];
 export const SHAKE_ANIMATION_TIMEOUT = 600;
+export const USER_NOVICE = 1;
+export const USER_FAN = 10;
+export const USER_BUFF = 20;
 export const DefaultData = {
   deleteButtonText: `Delete`,
 };
